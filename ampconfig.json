@@ -1,0 +1,19 @@
+{
+  "dataServiceGeneratorVersion": "0.11.1",
+  "appInfo": {
+    "name": "Amplication Blog",
+    "description": "",
+    "version": "s5t8r7ai",
+    "id": "ckyrgxqh2135618801s6xmf6elb7",
+    "url": "https://app.amplication.com/ckyrgxqh2135618801s6xmf6elb7",
+    "settings": {
+      "dbHost": "localhost",
+      "dbName": "",
+      "dbPassword": "admin",
+      "dbPort": 5432,
+      "dbUser": "admin",
+      "appId": "ckyrgxqh2135618801s6xmf6elb7",
+      "authProvider": "Jwt"
+    }
+  }
+}

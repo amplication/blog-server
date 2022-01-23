@@ -1,0 +1,46 @@
+import * as React from "react";
+
+import {
+  Show,
+  SimpleShowLayout,
+  ShowProps,
+  DateField,
+  TextField,
+  ReferenceManyField,
+  Datagrid,
+  ReferenceField,
+} from "react-admin";
+
+import { AUTHOR_TITLE_FIELD } from "./AuthorTitle";
+
+export const AuthorShow = (props: ShowProps): React.ReactElement => {
+  return (
+    <Show {...props}>
+      <SimpleShowLayout>
+        <DateField source="createdAt" label="Created At" />
+        <TextField label="First Name" source="firstName" />
+        <TextField label="ID" source="id" />
+        <TextField label="Last Name" source="lastName" />
+        <TextField label="Profile Image" source="profileImage" />
+        <DateField source="updatedAt" label="Updated At" />
+        <ReferenceManyField reference="Post" target="AuthorId" label="Posts">
+          <Datagrid rowClick="show">
+            <ReferenceField
+              label="Author"
+              source="author.id"
+              reference="Author"
+            >
+              <TextField source={AUTHOR_TITLE_FIELD} />
+            </ReferenceField>
+            <TextField label="Content" source="content" />
+            <DateField source="createdAt" label="Created At" />
+            <TextField label="Featured Image" source="featuredImage" />
+            <TextField label="ID" source="id" />
+            <TextField label="Title" source="title" />
+            <DateField source="updatedAt" label="Updated At" />
+          </Datagrid>
+        </ReferenceManyField>
+      </SimpleShowLayout>
+    </Show>
+  );
+};
