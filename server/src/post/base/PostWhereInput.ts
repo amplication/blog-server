@@ -4,6 +4,7 @@ import { AuthorWhereUniqueInput } from "../../author/base/AuthorWhereUniqueInput
 import { ValidateNested, IsOptional } from "class-validator";
 import { Type } from "class-transformer";
 import { StringFilter } from "../../util/StringFilter";
+import { TagListRelationFilter } from "../../tag/TagListRelationFilter";
 @InputType()
 class PostWhereInput {
   @ApiProperty({
@@ -61,5 +62,17 @@ class PostWhereInput {
     nullable: true,
   })
   title?: StringFilter;
+
+  @ApiProperty({
+    required: false,
+    type: () => TagListRelationFilter,
+  })
+  @ValidateNested()
+  @Type(() => TagListRelationFilter)
+  @IsOptional()
+  @Field(() => TagListRelationFilter, {
+    nullable: true,
+  })
+  tags?: TagListRelationFilter;
 }
 export { PostWhereInput };
