@@ -27,9 +27,6 @@ export class PostResolver extends PostResolverBase {
   @graphql.Query(() => [Post])
   @Public()
   async posts(@graphql.Args() args: PostFindManyArgs): Promise<Post[]> {
-    console.log({ args });
-    console.log({ ff: args.where?.tags });
-
     return await this.service.findMany(args);
   }
 
