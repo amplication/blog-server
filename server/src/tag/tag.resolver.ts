@@ -6,6 +6,9 @@ import * as gqlACGuard from "../auth/gqlAC.guard";
 import { TagResolverBase } from "./base/tag.resolver.base";
 import { Tag } from "./base/Tag";
 import { TagService } from "./tag.service";
+import { Public } from "../decorators/public.decorator";
+import { TagFindManyArgs } from "./base/TagFindManyArgs";
+import { TagFindUniqueArgs } from "./base/TagFindUniqueArgs";
 
 @graphql.Resolver(() => Tag)
 @common.UseGuards(GqlDefaultAuthGuard, gqlACGuard.GqlACGuard)
@@ -16,5 +19,17 @@ export class TagResolver extends TagResolverBase {
     protected readonly rolesBuilder: nestAccessControl.RolesBuilder
   ) {
     super(service, rolesBuilder);
+  }
+
+  @graphql.Query(() => [Tag])
+  @Public()
+  async tags(@graphql.Args() args: TagFindManyArgs): Promise<Tag[]> {
+    return await this.service.findMany(args);
+  }
+
+  @graphql.Query(() => Tag, { nullable: true })
+  @Public()
+  async tag(@graphql.Args() args: TagFindUniqueArgs): Promise<Tag | null> {
+    return await this.service.findOne(args);
   }
 }
