@@ -114,6 +114,7 @@ input PostWhereInput {
   content: StringFilter
   featuredImage: StringFilter
   id: StringFilter
+  tags: TagListRelationFilter
   title: StringFilter
 }
 
@@ -187,6 +188,12 @@ type Tag {
 
 input TagCreateInput {
   name: String!
+}
+
+input TagListRelationFilter {
+  every: TagWhereInput
+  none: TagWhereInput
+  some: TagWhereInput
 }
 
 input TagOrderByInput {
