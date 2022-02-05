@@ -6,6 +6,9 @@ import * as gqlACGuard from "../auth/gqlAC.guard";
 import { PostResolverBase } from "./base/post.resolver.base";
 import { Post } from "./base/Post";
 import { PostService } from "./post.service";
+import { PostFindManyArgs } from "./base/PostFindManyArgs";
+import {Public} from "../decorators/public.decorator"
+import { PostFindUniqueArgs } from "./base/PostFindUniqueArgs";
 
 @graphql.Resolver(() => Post)
 @common.UseGuards(GqlDefaultAuthGuard, gqlACGuard.GqlACGuard)
@@ -16,5 +19,25 @@ export class PostResolver extends PostResolverBase {
     protected readonly rolesBuilder: nestAccessControl.RolesBuilder
   ) {
     super(service, rolesBuilder);
+  }
+
+
+  @graphql.Query(() => [Post])
+  @Public()
+  async posts(
+    @graphql.Args() args: PostFindManyArgs
+  ): Promise<Post[]> {
+    console.log("not base");
+    
+    return await this.service.findMany(args);
+  }
+
+  @graphql.Query(() => Post, { nullable: true })
+  @Public()
+  async post(
+    @graphql.Args() args: PostFindUniqueArgs
+  ): Promise<Post | null> {
+    return await this.service.findOne(args);
+    
   }
 }
