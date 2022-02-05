@@ -9,6 +9,9 @@ import { PostService } from "./post.service";
 import { PostFindManyArgs } from "./base/PostFindManyArgs";
 import { Public } from "../decorators/public.decorator";
 import { PostFindUniqueArgs } from "./base/PostFindUniqueArgs";
+import { Author } from "src/author/base/Author";
+import { Tag } from "src/tag/base/Tag";
+import { TagFindManyArgs } from "src/tag/base/TagFindManyArgs";
 
 @graphql.Resolver(() => Post)
 @common.UseGuards(GqlDefaultAuthGuard, gqlACGuard.GqlACGuard)
@@ -34,5 +37,18 @@ export class PostResolver extends PostResolverBase {
   @Public()
   async post(@graphql.Args() args: PostFindUniqueArgs): Promise<Post | null> {
     return await this.service.findOne(args);
+  }
+
+  @graphql.ResolveField(() => [Tag])
+  async tags(
+    @graphql.Parent() parent: Post,
+    @graphql.Args() args: TagFindManyArgs
+  ): Promise<Tag[]> {
+    return await this.service.findTags(parent.id, args);
+  }
+
+  @graphql.ResolveField(() => Author, { nullable: true })
+  async author(@graphql.Parent() parent: Post): Promise<Author | null> {
+    return await this.service.getAuthor(parent.id);
   }
 }
