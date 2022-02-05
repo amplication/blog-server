@@ -3,6 +3,7 @@ import { ApiProperty } from "@nestjs/swagger";
 import { AuthorWhereUniqueInput } from "../../author/base/AuthorWhereUniqueInput";
 import { ValidateNested, IsOptional, IsString } from "class-validator";
 import { Type } from "class-transformer";
+import { TagUpdateManyWithoutPostsInput } from "./TagUpdateManyWithoutPostsInput";
 @InputType()
 class PostUpdateInput {
   @ApiProperty({
@@ -49,5 +50,16 @@ class PostUpdateInput {
     nullable: true,
   })
   title?: string;
+
+  @ApiProperty({
+    required: false,
+    type: TagUpdateManyWithoutPostsInput,
+  })
+  @IsOptional()
+  @ValidateNested()
+  @Field(() => TagUpdateManyWithoutPostsInput, {
+    nullable: true,
+  })
+  tags?: TagUpdateManyWithoutPostsInput;
 }
 export { PostUpdateInput };

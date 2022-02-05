@@ -1,0 +1,271 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Author {
+  createdAt: DateTime!
+  firstName: String!
+  id: String!
+  lastName: String
+  posts(orderBy: PostOrderByInput, skip: Float, take: Float, where: PostWhereInput): [Post!]!
+  profileImage: String
+  updatedAt: DateTime!
+}
+
+input AuthorCreateInput {
+  firstName: String!
+  lastName: String
+  profileImage: String
+}
+
+input AuthorOrderByInput {
+  createdAt: SortOrder
+  firstName: SortOrder
+  id: SortOrder
+  lastName: SortOrder
+  profileImage: SortOrder
+  updatedAt: SortOrder
+}
+
+input AuthorUpdateInput {
+  firstName: String
+  lastName: String
+  profileImage: String
+}
+
+input AuthorWhereInput {
+  firstName: StringFilter
+  id: StringFilter
+  lastName: StringNullableFilter
+  profileImage: StringNullableFilter
+}
+
+input AuthorWhereUniqueInput {
+  id: String!
+}
+
+input Credentials {
+  password: String!
+  username: String!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type MetaQueryPayload {
+  count: String!
+}
+
+type Mutation {
+  createAuthor(data: AuthorCreateInput!): Author!
+  createPost(data: PostCreateInput!): Post!
+  createTag(data: TagCreateInput!): Tag!
+  createUser(data: UserCreateInput!): User!
+  deleteAuthor(where: AuthorWhereUniqueInput!): Author!
+  deletePost(where: PostWhereUniqueInput!): Post!
+  deleteTag(where: TagWhereUniqueInput!): Tag!
+  deleteUser(where: UserWhereUniqueInput!): User!
+  login(credentials: Credentials!): UserInfo!
+  updateAuthor(data: AuthorUpdateInput!, where: AuthorWhereUniqueInput!): Author!
+  updatePost(data: PostUpdateInput!, where: PostWhereUniqueInput!): Post!
+  updateTag(data: TagUpdateInput!, where: TagWhereUniqueInput!): Tag!
+  updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User!
+}
+
+type Post {
+  author: Author
+  content: String!
+  createdAt: DateTime!
+  featuredImage: String!
+  id: String!
+  tags(orderBy: TagOrderByInput, skip: Float, take: Float, where: TagWhereInput): [Tag!]!
+  title: String!
+  updatedAt: DateTime!
+}
+
+input PostCreateInput {
+  author: AuthorWhereUniqueInput!
+  content: String!
+  featuredImage: String!
+  title: String!
+}
+
+input PostOrderByInput {
+  authorId: SortOrder
+  content: SortOrder
+  createdAt: SortOrder
+  featuredImage: SortOrder
+  id: SortOrder
+  title: SortOrder
+  updatedAt: SortOrder
+}
+
+input PostUpdateInput {
+  author: AuthorWhereUniqueInput
+  content: String
+  featuredImage: String
+  title: String
+}
+
+input PostWhereInput {
+  author: AuthorWhereUniqueInput
+  content: StringFilter
+  featuredImage: StringFilter
+  id: StringFilter
+  tags: TagListRelationFilter
+  title: StringFilter
+}
+
+input PostWhereUniqueInput {
+  id: String!
+}
+
+type Query {
+  _authorsMeta(orderBy: AuthorOrderByInput, skip: Float, take: Float, where: AuthorWhereInput): MetaQueryPayload!
+  _postsMeta(orderBy: PostOrderByInput, skip: Float, take: Float, where: PostWhereInput): MetaQueryPayload!
+  _tagsMeta(orderBy: TagOrderByInput, skip: Float, take: Float, where: TagWhereInput): MetaQueryPayload!
+  _usersMeta(orderBy: UserOrderByInput, skip: Float, take: Float, where: UserWhereInput): MetaQueryPayload!
+  author(where: AuthorWhereUniqueInput!): Author
+  authors(orderBy: AuthorOrderByInput, skip: Float, take: Float, where: AuthorWhereInput): [Author!]!
+  post(where: PostWhereUniqueInput!): Post
+  posts(orderBy: PostOrderByInput, skip: Float, take: Float, where: PostWhereInput): [Post!]!
+  tag(where: TagWhereUniqueInput!): Tag
+  tags(orderBy: TagOrderByInput, skip: Float, take: Float, where: TagWhereInput): [Tag!]!
+  user(where: UserWhereUniqueInput!): User
+  userInfo: UserInfo!
+  users(orderBy: UserOrderByInput, skip: Float, take: Float, where: UserWhereInput): [User!]!
+}
+
+enum QueryMode {
+  Default
+  Insensitive
+}
+
+enum SortOrder {
+  Asc
+  Desc
+}
+
+input StringFilter {
+  contains: String
+  endsWith: String
+  equals: String
+  gt: String
+  gte: String
+  in: [String!]
+  lt: String
+  lte: String
+  mode: QueryMode
+  not: String
+  notIn: [String!]
+  startsWith: String
+}
+
+input StringNullableFilter {
+  contains: String
+  endsWith: String
+  equals: String
+  gt: String
+  gte: String
+  in: [String!]
+  lt: String
+  lte: String
+  mode: QueryMode
+  not: String
+  notIn: [String!]
+  startsWith: String
+}
+
+type Tag {
+  createdAt: DateTime!
+  id: String!
+  name: String!
+  posts(orderBy: PostOrderByInput, skip: Float, take: Float, where: PostWhereInput): [Post!]!
+  updatedAt: DateTime!
+}
+
+input TagCreateInput {
+  name: String!
+}
+
+input TagListRelationFilter {
+  every: TagWhereInput
+  none: TagWhereInput
+  some: TagWhereInput
+}
+
+input TagOrderByInput {
+  createdAt: SortOrder
+  id: SortOrder
+  name: SortOrder
+  updatedAt: SortOrder
+}
+
+input TagUpdateInput {
+  name: String
+}
+
+input TagWhereInput {
+  id: StringFilter
+  name: StringFilter
+}
+
+input TagWhereUniqueInput {
+  id: String!
+}
+
+type User {
+  createdAt: DateTime!
+  firstName: String
+  id: String!
+  lastName: String
+  roles: [String!]!
+  updatedAt: DateTime!
+  username: String!
+}
+
+input UserCreateInput {
+  firstName: String
+  lastName: String
+  password: String!
+  roles: [String!]!
+  username: String!
+}
+
+type UserInfo {
+  accessToken: String!
+  roles: [String!]!
+  username: String!
+}
+
+input UserOrderByInput {
+  createdAt: SortOrder
+  firstName: SortOrder
+  id: SortOrder
+  lastName: SortOrder
+  password: SortOrder
+  roles: SortOrder
+  updatedAt: SortOrder
+  username: SortOrder
+}
+
+input UserUpdateInput {
+  firstName: String
+  lastName: String
+  password: String
+  roles: [String!]
+  username: String
+}
+
+input UserWhereInput {
+  firstName: StringNullableFilter
+  id: StringFilter
+  lastName: StringNullableFilter
+  username: StringFilter
+}
+
+input UserWhereUniqueInput {
+  id: String!
+}
