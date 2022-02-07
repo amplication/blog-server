@@ -6,3 +6,4 @@ cloud_run_min_replica   = 0
 cloud_run_max_replica   = 1
 db_user                 = "amplication"
 db_name                 = "blog"
+host                    = "staging-blog-api.amplication.com"
