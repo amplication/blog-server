@@ -89,6 +89,7 @@ input PostCreateInput {
   author: AuthorWhereUniqueInput!
   content: String!
   featuredImage: String!
+  tags: TagCreateNestedManyWithoutPostsInput
   title: String!
 }
 
@@ -106,6 +107,7 @@ input PostUpdateInput {
   author: AuthorWhereUniqueInput
   content: String
   featuredImage: String
+  tags: TagUpdateManyWithoutPostsInput
   title: String
 }
 
@@ -190,6 +192,10 @@ input TagCreateInput {
   name: String!
 }
 
+input TagCreateNestedManyWithoutPostsInput {
+  connect: [TagWhereUniqueInput!]!
+}
+
 input TagListRelationFilter {
   every: TagWhereInput
   none: TagWhereInput
@@ -205,6 +211,10 @@ input TagOrderByInput {
 
 input TagUpdateInput {
   name: String
+}
+
+input TagUpdateManyWithoutPostsInput {
+  connect: [TagWhereUniqueInput!]!
 }
 
 input TagWhereInput {
