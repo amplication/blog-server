@@ -9,6 +9,8 @@ import { TagService } from "./tag.service";
 import { Public } from "../decorators/public.decorator";
 import { TagFindManyArgs } from "./base/TagFindManyArgs";
 import { TagFindUniqueArgs } from "./base/TagFindUniqueArgs";
+import { Post } from "src/post/base/Post";
+import { PostFindManyArgs } from "src/post/base/PostFindManyArgs";
 
 @graphql.Resolver(() => Tag)
 @common.UseGuards(GqlDefaultAuthGuard, gqlACGuard.GqlACGuard)
@@ -31,5 +33,13 @@ export class TagResolver extends TagResolverBase {
   @Public()
   async tag(@graphql.Args() args: TagFindUniqueArgs): Promise<Tag | null> {
     return await this.service.findOne(args);
+  }
+
+  @graphql.ResolveField(() => [Post])
+  async posts(
+    @graphql.Parent() parent: Tag,
+    @graphql.Args() args: PostFindManyArgs
+  ): Promise<Post[]> {
+    return await this.service.findPosts(parent.id, args);
   }
 }
