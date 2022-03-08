@@ -3,9 +3,9 @@ import { UserModule } from "./user/user.module";
 import { PostModule } from "./post/post.module";
 import { AuthorModule } from "./author/author.module";
 import { TagModule } from "./tag/tag.module";
-import { HealthModule } from "./health/health.module";
 import { ACLModule } from "./auth/acl.module";
 import { AuthModule } from "./auth/auth.module";
+import { HealthModule } from "./health/health.module";
 import { SecretsManagerModule } from "./providers/secrets/secretsManager.module";
 import { MorganModule } from "nest-morgan";
 import { ConfigModule, ConfigService } from "@nestjs/config";
@@ -20,9 +20,9 @@ import { GraphQLModule } from "@nestjs/graphql";
     PostModule,
     AuthorModule,
     TagModule,
-    HealthModule,
     ACLModule,
     AuthModule,
+    HealthModule,
     SecretsManagerModule,
     MorganModule,
     ConfigModule.forRoot({ isGlobal: true }),
