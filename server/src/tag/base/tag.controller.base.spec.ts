@@ -121,9 +121,9 @@ describe("Tag", () => {
   test("GET /tags/:id non existing", async () => {
     await request(app.getHttpServer())
       .get(`${"/tags"}/${nonExistingId}`)
-      .expect(404)
+      .expect(HttpStatus.NOT_FOUND)
       .expect({
-        statusCode: 404,
+        statusCode: HttpStatus.NOT_FOUND,
         message: `No resource was found for {"${"id"}":"${nonExistingId}"}`,
         error: "Not Found",
       });

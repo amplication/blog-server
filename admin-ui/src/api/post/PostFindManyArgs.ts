@@ -3,7 +3,7 @@ import { PostOrderByInput } from "./PostOrderByInput";
 
 export type PostFindManyArgs = {
   where?: PostWhereInput;
-  orderBy?: PostOrderByInput;
+  orderBy?: Array<PostOrderByInput>;
   skip?: number;
   take?: number;
 };
