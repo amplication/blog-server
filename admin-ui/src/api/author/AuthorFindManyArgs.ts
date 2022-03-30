@@ -3,7 +3,7 @@ import { AuthorOrderByInput } from "./AuthorOrderByInput";
 
 export type AuthorFindManyArgs = {
   where?: AuthorWhereInput;
-  orderBy?: AuthorOrderByInput;
+  orderBy?: Array<AuthorOrderByInput>;
   skip?: number;
   take?: number;
 };

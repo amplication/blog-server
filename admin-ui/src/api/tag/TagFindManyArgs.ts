@@ -3,7 +3,7 @@ import { TagOrderByInput } from "./TagOrderByInput";
 
 export type TagFindManyArgs = {
   where?: TagWhereInput;
-  orderBy?: TagOrderByInput;
+  orderBy?: Array<TagOrderByInput>;
   skip?: number;
   take?: number;
 };

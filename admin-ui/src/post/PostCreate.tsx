@@ -1,4 +1,5 @@
 import * as React from "react";
+
 import {
   Create,
   SimpleForm,
@@ -6,8 +7,12 @@ import {
   ReferenceInput,
   SelectInput,
   TextInput,
+  ReferenceArrayInput,
+  SelectArrayInput,
 } from "react-admin";
+
 import { AuthorTitle } from "../author/AuthorTitle";
+import { TagTitle } from "../tag/TagTitle";
 
 export const PostCreate = (props: CreateProps): React.ReactElement => {
   return (
@@ -18,6 +23,14 @@ export const PostCreate = (props: CreateProps): React.ReactElement => {
         </ReferenceInput>
         <TextInput label="Content" multiline source="content" />
         <TextInput label="Featured Image" source="featuredImage" />
+        <ReferenceArrayInput
+          source="tag"
+          reference="Tag"
+          parse={(value: any) => value && value.map((v: any) => ({ id: v }))}
+          format={(value: any) => value && value.map((v: any) => v.id)}
+        >
+          <SelectArrayInput optionText={TagTitle} />
+        </ReferenceArrayInput>
         <TextInput label="Title" multiline source="title" />
       </SimpleForm>
     </Create>
