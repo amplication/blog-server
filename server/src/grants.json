@@ -3,7 +3,7 @@
     "role": "user",
     "resource": "User",
     "action": "read:own",
-    "attributes": "*,!firstName"
+    "attributes": "*"
   },
   {
     "role": "user",
