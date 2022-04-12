@@ -3,6 +3,7 @@ import { PostCreateNestedManyWithoutAuthorsInput } from "./PostCreateNestedManyW
 export type AuthorCreateInput = {
   firstName: string;
   lastName?: string | null;
+  phone?: string | null;
   posts?: PostCreateNestedManyWithoutAuthorsInput;
   profileImage?: string | null;
 };

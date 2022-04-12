@@ -24,7 +24,7 @@ export const PostCreate = (props: CreateProps): React.ReactElement => {
         <TextInput label="Content" multiline source="content" />
         <TextInput label="Featured Image" source="featuredImage" />
         <ReferenceArrayInput
-          source="tag"
+          source="tags"
           reference="Tag"
           parse={(value: any) => value && value.map((v: any) => ({ id: v }))}
           format={(value: any) => value && value.map((v: any) => v.id)}

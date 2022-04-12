@@ -6,6 +6,7 @@ export type AuthorWhereInput = {
   firstName?: StringFilter;
   id?: StringFilter;
   lastName?: StringNullableFilter;
+  phone?: StringNullableFilter;
   posts?: PostListRelationFilter;
   profileImage?: StringNullableFilter;
 };
