@@ -9,3 +9,4 @@ db_name                 = "blog"
 container_concurrency    = 100
 cpu                      = "4"
 memory                   = "4Gi"
+cpu_allocation           = "allways"

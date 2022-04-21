@@ -53,3 +53,8 @@ variable "memory" {
   type  = string
   default = "512Mi"
 }
+
+variable "cpu_allocation" {
+  type  = string
+  default = "request"
+}
