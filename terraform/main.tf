@@ -39,6 +39,7 @@ resource "google_cloud_run_service" "service" {
 
   template {
     spec {
+      container_concurrency  = var.container_concurrency
       containers {
         image = var.image
         env {
@@ -57,6 +58,15 @@ resource "google_cloud_run_service" "service" {
           name  = "JWT_EXPIRATION"
           value = "2d"
         }
+        resources {
+          limits   = {
+            cpu    = var.cpu
+            memory = var.memory
+          }
+          requests = {
+            cpu    = var.cpu
+            memory = var.memory
+          }
       }
     }
 
