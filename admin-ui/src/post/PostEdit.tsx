@@ -18,10 +18,11 @@ export const PostEdit = (props: EditProps): React.ReactElement => {
   return (
     <Edit {...props}>
       <SimpleForm>
+        <TextInput label="Title" multiline source="title" />
         <ReferenceInput source="author.id" reference="Author" label="Author">
           <SelectInput optionText={AuthorTitle} />
         </ReferenceInput>
-        <TextInput label="Content" multiline source="content" />
+
         <TextInput label="Featured Image" source="featuredImage" />
         <ReferenceArrayInput
           source="tags"
@@ -31,7 +32,12 @@ export const PostEdit = (props: EditProps): React.ReactElement => {
         >
           <SelectArrayInput optionText={TagTitle} />
         </ReferenceArrayInput>
-        <TextInput label="Title" multiline source="title" />
+        <TextInput
+          label="Content"
+          multiline
+          source="content"
+          style={{ width: 1000, minHeight: 400 }}
+        />
       </SimpleForm>
     </Edit>
   );
