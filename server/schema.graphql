@@ -7,7 +7,7 @@ type Author {
   firstName: String!
   id: String!
   lastName: String
-  posts(orderBy: PostOrderByInput, skip: Float, take: Float, where: PostWhereInput): [Post!]!
+  posts(orderBy: [PostOrderByInput!], skip: Float, take: Float, where: PostWhereInput): [Post!]!
   profileImage: String
   updatedAt: DateTime!
 }
@@ -15,6 +15,7 @@ type Author {
 input AuthorCreateInput {
   firstName: String!
   lastName: String
+  posts: PostCreateNestedManyWithoutAuthorsInput
   profileImage: String
 }
 
@@ -30,6 +31,7 @@ input AuthorOrderByInput {
 input AuthorUpdateInput {
   firstName: String
   lastName: String
+  posts: PostUpdateManyWithoutAuthorsInput
   profileImage: String
 }
 
@@ -37,6 +39,7 @@ input AuthorWhereInput {
   firstName: StringFilter
   id: StringFilter
   lastName: StringNullableFilter
+  posts: PostListRelationFilter
   profileImage: StringNullableFilter
 }
 
@@ -80,7 +83,7 @@ type Post {
   createdAt: DateTime!
   featuredImage: String!
   id: String!
-  tags(orderBy: TagOrderByInput, skip: Float, take: Float, where: TagWhereInput): [Tag!]!
+  tags(orderBy: [TagOrderByInput!], skip: Float, take: Float, where: TagWhereInput): [Tag!]!
   title: String!
   updatedAt: DateTime!
 }
@@ -91,6 +94,20 @@ input PostCreateInput {
   featuredImage: String!
   tags: TagCreateNestedManyWithoutPostsInput
   title: String!
+}
+
+input PostCreateNestedManyWithoutAuthorsInput {
+  connect: [PostWhereUniqueInput!]
+}
+
+input PostCreateNestedManyWithoutTagsInput {
+  connect: [PostWhereUniqueInput!]
+}
+
+input PostListRelationFilter {
+  every: PostWhereInput
+  none: PostWhereInput
+  some: PostWhereInput
 }
 
 input PostOrderByInput {
@@ -111,6 +128,18 @@ input PostUpdateInput {
   title: String
 }
 
+input PostUpdateManyWithoutAuthorsInput {
+  connect: [PostWhereUniqueInput!]
+  disconnect: [PostWhereUniqueInput!]
+  set: [PostWhereUniqueInput!]
+}
+
+input PostUpdateManyWithoutTagsInput {
+  connect: [PostWhereUniqueInput!]
+  disconnect: [PostWhereUniqueInput!]
+  set: [PostWhereUniqueInput!]
+}
+
 input PostWhereInput {
   author: AuthorWhereUniqueInput
   content: StringFilter
@@ -125,19 +154,19 @@ input PostWhereUniqueInput {
 }
 
 type Query {
-  _authorsMeta(orderBy: AuthorOrderByInput, skip: Float, take: Float, where: AuthorWhereInput): MetaQueryPayload!
-  _postsMeta(orderBy: PostOrderByInput, skip: Float, take: Float, where: PostWhereInput): MetaQueryPayload!
-  _tagsMeta(orderBy: TagOrderByInput, skip: Float, take: Float, where: TagWhereInput): MetaQueryPayload!
-  _usersMeta(orderBy: UserOrderByInput, skip: Float, take: Float, where: UserWhereInput): MetaQueryPayload!
+  _authorsMeta(orderBy: [AuthorOrderByInput!], skip: Float, take: Float, where: AuthorWhereInput): MetaQueryPayload!
+  _postsMeta(orderBy: [PostOrderByInput!], skip: Float, take: Float, where: PostWhereInput): MetaQueryPayload!
+  _tagsMeta(orderBy: [TagOrderByInput!], skip: Float, take: Float, where: TagWhereInput): MetaQueryPayload!
+  _usersMeta(orderBy: [UserOrderByInput!], skip: Float, take: Float, where: UserWhereInput): MetaQueryPayload!
   author(where: AuthorWhereUniqueInput!): Author
-  authors(orderBy: AuthorOrderByInput, skip: Float, take: Float, where: AuthorWhereInput): [Author!]!
+  authors(orderBy: [AuthorOrderByInput!], skip: Float, take: Float, where: AuthorWhereInput): [Author!]!
   post(where: PostWhereUniqueInput!): Post
-  posts(orderBy: PostOrderByInput, skip: Float, take: Float, where: PostWhereInput): [Post!]!
+  posts(orderBy: [PostOrderByInput!], skip: Float, take: Float, where: PostWhereInput): [Post!]!
   tag(where: TagWhereUniqueInput!): Tag
-  tags(orderBy: TagOrderByInput, skip: Float, take: Float, where: TagWhereInput): [Tag!]!
+  tags(orderBy: [TagOrderByInput!], skip: Float, take: Float, where: TagWhereInput): [Tag!]!
   user(where: UserWhereUniqueInput!): User
   userInfo: UserInfo!
-  users(orderBy: UserOrderByInput, skip: Float, take: Float, where: UserWhereInput): [User!]!
+  users(orderBy: [UserOrderByInput!], skip: Float, take: Float, where: UserWhereInput): [User!]!
 }
 
 enum QueryMode {
@@ -184,16 +213,17 @@ type Tag {
   createdAt: DateTime!
   id: String!
   name: String!
-  posts(orderBy: PostOrderByInput, skip: Float, take: Float, where: PostWhereInput): [Post!]!
+  posts(orderBy: [PostOrderByInput!], skip: Float, take: Float, where: PostWhereInput): [Post!]!
   updatedAt: DateTime!
 }
 
 input TagCreateInput {
   name: String!
+  posts: PostCreateNestedManyWithoutTagsInput
 }
 
 input TagCreateNestedManyWithoutPostsInput {
-  connect: [TagWhereUniqueInput!]!
+  connect: [TagWhereUniqueInput!]
 }
 
 input TagListRelationFilter {
@@ -211,15 +241,19 @@ input TagOrderByInput {
 
 input TagUpdateInput {
   name: String
+  posts: PostUpdateManyWithoutTagsInput
 }
 
 input TagUpdateManyWithoutPostsInput {
-  connect: [TagWhereUniqueInput!]!
+  connect: [TagWhereUniqueInput!]
+  disconnect: [TagWhereUniqueInput!]
+  set: [TagWhereUniqueInput!]
 }
 
 input TagWhereInput {
   id: StringFilter
   name: StringFilter
+  posts: PostListRelationFilter
 }
 
 input TagWhereUniqueInput {
@@ -245,7 +279,7 @@ input UserCreateInput {
 }
 
 type UserInfo {
-  accessToken: String!
+  accessToken: String
   roles: [String!]!
   username: String!
 }
