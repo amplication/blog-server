@@ -17,7 +17,7 @@ export const TagCreate = (props: CreateProps): React.ReactElement => {
       <SimpleForm>
         <TextInput label="Name" source="name" />
         <ReferenceArrayInput
-          source="post"
+          source="posts"
           reference="Post"
           parse={(value: any) => value && value.map((v: any) => ({ id: v }))}
           format={(value: any) => value && value.map((v: any) => v.id)}
