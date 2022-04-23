@@ -18,7 +18,7 @@ export const AuthorEdit = (props: EditProps): React.ReactElement => {
         <TextInput label="First Name" source="firstName" />
         <TextInput label="Last Name" source="lastName" />
         <ReferenceArrayInput
-          source="post"
+          source="posts"
           reference="Post"
           parse={(value: any) => value && value.map((v: any) => ({ id: v }))}
           format={(value: any) => value && value.map((v: any) => v.id)}
