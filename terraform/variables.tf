@@ -38,3 +38,23 @@ variable "db_password" {
   type  = string
   sensitive = true
 }
+
+variable "container_concurrency" {
+  type    = number
+  default = 0
+}
+
+variable "cpu" {
+  type  = string
+  default = "1"
+}
+
+variable "memory" {
+  type  = string
+  default = "512Mi"
+}
+
+variable "cpu_allocation" {
+  type  = string
+  default = "request"
+}
