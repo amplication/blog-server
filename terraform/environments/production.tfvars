@@ -1,7 +1,7 @@
 environment             = "production"
 project_id              = "amplication"
 region                  = "us-east1"
-database_tier           = "db-custom-4-4096"
+database_tier           = "db-custom-2-4096"
 cloud_run_min_replica   = 1
 cloud_run_max_replica   = 5
 db_user                 = "amplication"
