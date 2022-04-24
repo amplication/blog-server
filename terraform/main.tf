@@ -39,6 +39,7 @@ resource "google_cloud_run_service" "service" {
 
   template {
     spec {
+      container_concurrency  = var.container_concurrency
       containers {
         image = var.image
         env {
@@ -57,6 +58,16 @@ resource "google_cloud_run_service" "service" {
           name  = "JWT_EXPIRATION"
           value = "2d"
         }
+        resources {
+          limits   = {
+            cpu    = var.cpu
+            memory = var.memory
+          }
+          requests = {
+            cpu    = var.cpu
+            memory = var.memory
+          }
+        }
       }
     }
 
@@ -65,6 +76,7 @@ resource "google_cloud_run_service" "service" {
         "autoscaling.knative.dev/minScale"      = var.cloud_run_min_replica
         "autoscaling.knative.dev/maxScale"      = var.cloud_run_max_replica
         "run.googleapis.com/cloudsql-instances" = "${var.project_id}:${var.region}:${google_sql_database_instance.instance.name}"
+        "run.googleapis.com/cpu-throttling" =  var.cpu_allocation == "request" ? "true" : "false"
       }
     }
   }
@@ -73,6 +85,7 @@ resource "google_cloud_run_service" "service" {
     percent         = 100
     latest_revision = true
   }
+  autogenerate_revision_name = true
 }
 
 resource "google_cloud_run_service_iam_member" "run_all_users" {
