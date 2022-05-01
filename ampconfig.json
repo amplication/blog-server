@@ -1,9 +1,9 @@
 {
-  "dataServiceGeneratorVersion": "0.12.4",
+  "dataServiceGeneratorVersion": "0.12.6",
   "appInfo": {
     "name": "Amplication Blog",
     "description": "This is the project to generate the server code for Amplication blog | \n\nThe code of this app is synced with https://github.com/amplication/blog-server |\n\nThe client for this server is available on https://github.com/amplication/blog",
-    "version": "jt9pmzq0",
+    "version": "rknlx7a2",
     "id": "ckyrgxqh2135618801s6xmf6elb7",
     "url": "https://app.amplication.com/ckyrgxqh2135618801s6xmf6elb7",
     "settings": {

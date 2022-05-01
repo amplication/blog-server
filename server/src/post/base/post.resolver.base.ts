@@ -19,6 +19,8 @@ import * as gqlUserRoles from "../../auth/gqlUserRoles.decorator";
 import * as abacUtil from "../../auth/abac.util";
 import { isRecordNotFoundError } from "../../prisma.util";
 import { MetaQueryPayload } from "../../util/MetaQueryPayload";
+import { AclValidateRequestInterceptor } from "../../interceptors/aclValidateRequest.interceptor";
+import { AclFilterResponseInterceptor } from "../../interceptors/aclFilterResponse.interceptor";
 import { CreatePostArgs } from "./CreatePostArgs";
 import { UpdatePostArgs } from "./UpdatePostArgs";
 import { DeletePostArgs } from "./DeletePostArgs";
@@ -57,80 +59,40 @@ export class PostResolverBase {
     };
   }
 
+  @common.UseInterceptors(AclFilterResponseInterceptor)
   @graphql.Query(() => [Post])
   @nestAccessControl.UseRoles({
     resource: "Post",
     action: "read",
     possession: "any",
   })
-  async posts(
-    @graphql.Args() args: PostFindManyArgs,
-    @gqlUserRoles.UserRoles() userRoles: string[]
-  ): Promise<Post[]> {
-    const permission = this.rolesBuilder.permission({
-      role: userRoles,
-      action: "read",
-      possession: "any",
-      resource: "Post",
-    });
-    const results = await this.service.findMany(args);
-    return results.map((result) => permission.filter(result));
+  async posts(@graphql.Args() args: PostFindManyArgs): Promise<Post[]> {
+    return this.service.findMany(args);
   }
 
+  @common.UseInterceptors(AclFilterResponseInterceptor)
   @graphql.Query(() => Post, { nullable: true })
   @nestAccessControl.UseRoles({
     resource: "Post",
     action: "read",
     possession: "own",
   })
-  async post(
-    @graphql.Args() args: PostFindUniqueArgs,
-    @gqlUserRoles.UserRoles() userRoles: string[]
-  ): Promise<Post | null> {
-    const permission = this.rolesBuilder.permission({
-      role: userRoles,
-      action: "read",
-      possession: "own",
-      resource: "Post",
-    });
+  async post(@graphql.Args() args: PostFindUniqueArgs): Promise<Post | null> {
     const result = await this.service.findOne(args);
     if (result === null) {
       return null;
     }
-    return permission.filter(result);
+    return result;
   }
 
+  @common.UseInterceptors(AclValidateRequestInterceptor)
   @graphql.Mutation(() => Post)
   @nestAccessControl.UseRoles({
     resource: "Post",
     action: "create",
     possession: "any",
   })
-  async createPost(
-    @graphql.Args() args: CreatePostArgs,
-    @gqlUserRoles.UserRoles() userRoles: string[]
-  ): Promise<Post> {
-    const permission = this.rolesBuilder.permission({
-      role: userRoles,
-      action: "create",
-      possession: "any",
-      resource: "Post",
-    });
-    const invalidAttributes = abacUtil.getInvalidAttributes(
-      permission,
-      args.data
-    );
-    if (invalidAttributes.length) {
-      const properties = invalidAttributes
-        .map((attribute: string) => JSON.stringify(attribute))
-        .join(", ");
-      const roles = userRoles
-        .map((role: string) => JSON.stringify(role))
-        .join(",");
-      throw new apollo.ApolloError(
-        `providing the properties: ${properties} on ${"Post"} creation is forbidden for roles: ${roles}`
-      );
-    }
+  async createPost(@graphql.Args() args: CreatePostArgs): Promise<Post> {
     // @ts-ignore
     return await this.service.create({
       ...args,
@@ -144,6 +106,7 @@ export class PostResolverBase {
     });
   }
 
+  @common.UseInterceptors(AclValidateRequestInterceptor)
   @graphql.Mutation(() => Post)
   @nestAccessControl.UseRoles({
     resource: "Post",
@@ -154,27 +117,6 @@ export class PostResolverBase {
     @graphql.Args() args: UpdatePostArgs,
     @gqlUserRoles.UserRoles() userRoles: string[]
   ): Promise<Post | null> {
-    const permission = this.rolesBuilder.permission({
-      role: userRoles,
-      action: "update",
-      possession: "any",
-      resource: "Post",
-    });
-    const invalidAttributes = abacUtil.getInvalidAttributes(
-      permission,
-      args.data
-    );
-    if (invalidAttributes.length) {
-      const properties = invalidAttributes
-        .map((attribute: string) => JSON.stringify(attribute))
-        .join(", ");
-      const roles = userRoles
-        .map((role: string) => JSON.stringify(role))
-        .join(",");
-      throw new apollo.ApolloError(
-        `providing the properties: ${properties} on ${"Post"} update is forbidden for roles: ${roles}`
-      );
-    }
     try {
       // @ts-ignore
       return await this.service.update({
@@ -217,53 +159,39 @@ export class PostResolverBase {
     }
   }
 
+  @common.UseInterceptors(AclFilterResponseInterceptor)
   @graphql.ResolveField(() => [Tag])
   @nestAccessControl.UseRoles({
-    resource: "Post",
+    resource: "Tag",
     action: "read",
     possession: "any",
   })
   async tags(
     @graphql.Parent() parent: Post,
-    @graphql.Args() args: TagFindManyArgs,
-    @gqlUserRoles.UserRoles() userRoles: string[]
+    @graphql.Args() args: TagFindManyArgs
   ): Promise<Tag[]> {
-    const permission = this.rolesBuilder.permission({
-      role: userRoles,
-      action: "read",
-      possession: "any",
-      resource: "Tag",
-    });
     const results = await this.service.findTags(parent.id, args);
 
     if (!results) {
       return [];
     }
 
-    return results.map((result) => permission.filter(result));
+    return results;
   }
 
+  @common.UseInterceptors(AclFilterResponseInterceptor)
   @graphql.ResolveField(() => Author, { nullable: true })
   @nestAccessControl.UseRoles({
-    resource: "Post",
+    resource: "Author",
     action: "read",
     possession: "any",
   })
-  async author(
-    @graphql.Parent() parent: Post,
-    @gqlUserRoles.UserRoles() userRoles: string[]
-  ): Promise<Author | null> {
-    const permission = this.rolesBuilder.permission({
-      role: userRoles,
-      action: "read",
-      possession: "any",
-      resource: "Author",
-    });
+  async author(@graphql.Parent() parent: Post): Promise<Author | null> {
     const result = await this.service.getAuthor(parent.id);
 
     if (!result) {
       return null;
     }
-    return permission.filter(result);
+    return result;
   }
 }

@@ -35,6 +35,7 @@ model Author {
   firstName    String
   id           String   @id @default(cuid())
   lastName     String?
+  phone        String?
   posts        Post[]
   profileImage String?
   updatedAt    DateTime @updatedAt
