@@ -5,6 +5,7 @@ export type AuthorOrderByInput = {
   firstName?: SortOrder;
   id?: SortOrder;
   lastName?: SortOrder;
+  phone?: SortOrder;
   profileImage?: SortOrder;
   updatedAt?: SortOrder;
 };
