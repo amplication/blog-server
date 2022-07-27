@@ -2,7 +2,7 @@
   "name": "@amplication-blog/admin",
   "private": true,
   "dependencies": {
-    "@apollo/client": "3.3.18",
+    "@apollo/client": "3.6.9",
     "@material-ui/core": "4.12.1",
     "gql": "1.1.2",
     "graphql": "15.6.1",
@@ -13,7 +13,7 @@
     "react": "16.14.0",
     "react-admin": "3.17.0",
     "react-dom": "16.14.0",
-    "react-scripts": "4.0.3",
+    "react-scripts": "5.0.0",
     "sass": "^1.39.0",
     "typescript": "4.2.4",
     "web-vitals": "1.1.2"
@@ -22,7 +22,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "docker:build": "docker build ."
   },
   "eslintConfig": {
     "extends": [
@@ -42,7 +43,6 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://localhost:3000",
   "devDependencies": {
     "@testing-library/jest-dom": "5.14.1",
     "@testing-library/react": "11.2.7",
