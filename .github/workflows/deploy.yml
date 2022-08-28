@@ -28,6 +28,7 @@ jobs:
           push: true
           tags: |
             gcr.io/amplication/blog-server:${{ github.sha }}
+        working-directory: server
       - uses: hashicorp/setup-terraform@v1
         with:
           terraform_wrapper: false
