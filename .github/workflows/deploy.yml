@@ -22,7 +22,7 @@ jobs:
           username: _json_key
           password: ${{ secrets.GOOGLE_CREDENTIALS }}
       - name: Build and push amplication/blog-server Docker image
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v3.1.1
         with:
           pull: true
           push: true
