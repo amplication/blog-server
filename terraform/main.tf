@@ -32,7 +32,7 @@ resource "random_password" "jwt_secret_key" {
   special          = true
   override_special = "_%@"
 }
-
+## Cloud Run Server
 resource "google_cloud_run_service" "service" {
   name = "amplication-blog-server-${var.environment}"
   location = var.region
@@ -91,6 +91,56 @@ resource "google_cloud_run_service" "service" {
 resource "google_cloud_run_service_iam_member" "run_all_users" {
   service  = google_cloud_run_service.service.name
   location = google_cloud_run_service.service.location
+  role     = "roles/run.invoker"
+  member   = "allUsers"
+}
+
+## Cloud Run Client
+resource "google_cloud_run_service" "client-service" {
+  name = "amplication-blog-server-client-${var.environment}"
+  location = var.region
+
+  template {
+    spec {
+      container_concurrency  = var.container_concurrency
+      containers {
+        image = var.image_client
+        env {
+          name  = "REACT_APP_SERVER_URL"
+          value = var.app_server_url
+        }
+        resources {
+          limits   = {
+            cpu    = var.cpu
+            memory = var.memory
+          }
+          requests = {
+            cpu    = var.cpu
+            memory = var.memory
+          }
+        }
+      }
+    }
+
+    metadata {
+      annotations = {
+        "autoscaling.knative.dev/minScale"      = var.cloud_run_min_replica
+        "autoscaling.knative.dev/maxScale"      = var.cloud_run_max_replica
+        "run.googleapis.com/cpu-throttling" =  var.cpu_allocation == "request" ? "true" : "false"
+      }
+    }
+  }
+
+  traffic {
+    percent         = 100
+    latest_revision = true
+  }
+  autogenerate_revision_name = true
+}
+
+resource "google_cloud_run_service_iam_member" "run_all_users" {
+  service  = google_cloud_run_service.client-service.name
+  location = google_cloud_run_service.client-service.location
   role     = "roles/run.invoker"
   member   = "allUsers"
 }
