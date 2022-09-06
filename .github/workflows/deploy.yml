@@ -22,21 +22,21 @@ jobs:
           username: _json_key
           password: ${{ secrets.GOOGLE_CREDENTIALS }}
       - name: Build and push amplication/blog-server Docker image
-        working-directory: server
         uses: docker/build-push-action@v2
         with:
           pull: true
           push: true
           tags: |
             gcr.io/amplication/blog-server:${{ github.sha }}
+          file: server/Dockerfile
       - name: Build and push amplication/blog-server-client Docker image
-        working-directory: admin-ui
         uses: docker/build-push-action@v2
         with:
           pull: true
           push: true
           tags: |
             gcr.io/amplication/blog-server-client:${{ github.sha }}
+          file: admin-ui/Dockerfile
       # - uses: hashicorp/setup-terraform@v1
       #   with:
       #     terraform_wrapper: false
