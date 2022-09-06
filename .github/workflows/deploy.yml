@@ -38,7 +38,7 @@ jobs:
           push: true
           tags: |
             gcr.io/amplication/blog-server-client:${{ github.sha }}
-          working-directory: admin-ui
+          context: admin-ui/
       
       # - uses: hashicorp/setup-terraform@v1
       #   with:
