@@ -22,69 +22,78 @@ jobs:
           username: _json_key
           password: ${{ secrets.GOOGLE_CREDENTIALS }}
       - name: Build and push amplication/blog-server Docker image
+        working-directory: server
         uses: docker/build-push-action@v2
         with:
           pull: true
           push: true
           tags: |
             gcr.io/amplication/blog-server:${{ github.sha }}
-      - uses: hashicorp/setup-terraform@v1
+      - name: Build and push amplication/blog-server-client Docker image
+        working-directory: admin-ui
+        uses: docker/build-push-action@v2
         with:
-          terraform_wrapper: false
-      - name: Terraform Init
-        run: terraform init -backend-config="prefix=amplication-blog-server/${{ github.event.inputs.environment }}"
-        env:
-          GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
-        working-directory: terraform
-        # Run Terraform apply if environment = production
-      - name: Terraform Apply
-        if: ${{ github.event.inputs.environment == 'production' }}
-        run: terraform apply -auto-approve -lock-timeout=1200s --var-file=environments/${{ github.event.inputs.environment }}.tfvars
-        env:
-          GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
-          TF_VAR_image: gcr.io/amplication/blog-server:${{ github.sha }}
-          TF_VAR_db_password: ${{ secrets.PRODUCTION_DB_PASSWORD }}
-        working-directory: terraform
-        # Run Terraform apply if environment = staging
-      - name: Terraform Apply
-        if: ${{ github.event.inputs.environment == 'staging' }}
-        run: terraform apply -auto-approve -lock-timeout=1200s --var-file=environments/${{ github.event.inputs.environment }}.tfvars
-        env:
-          GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
-          TF_VAR_image: gcr.io/amplication/blog-server:${{ github.sha }}
-          TF_VAR_db_password: ${{ secrets.STAGING_DB_PASSWORD }}
-        working-directory: terraform
-      - name: Set Environment Variables from Terraform Outputs
-        run: |
-          echo "CLOUD_SQL_INSTANCE_CONNECTION_NAME=$(terraform output -raw cloud_sql_instance_connection_name)" >> $GITHUB_ENV
-          echo "CLOUD_SQL_INSTANCE_DATABASE_USER=$(terraform output -raw cloud_sql_instance_user)" >> $GITHUB_ENV
-          echo "CLOUD_SQL_INSTANCE_DATABASE_NAME=$(terraform output -raw cloud_sql_instance_database)" >> $GITHUB_ENV
-        env:
-          GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
-        working-directory: terraform
-      - uses: mattes/gce-cloudsql-proxy-action@v1
-        with:
-          creds: ${{ secrets.GOOGLE_CREDENTIALS }}
-          instance: ${{ env.CLOUD_SQL_INSTANCE_CONNECTION_NAME }}
-       # Run migrations if environment = production
-      - name: Database Migrations
-        if: ${{ github.event.inputs.environment == 'production' }}
-        run: |
-          set -e;
-          docker run \
-            --workdir="/app/server" \
-            --network host \
-            --env POSTGRESQL_URL="postgresql://${{ env.CLOUD_SQL_INSTANCE_DATABASE_USER }}:${{ secrets.PRODUCTION_DB_PASSWORD }}@127.0.0.1:5432/${{ env.CLOUD_SQL_INSTANCE_DATABASE_NAME }}" \
-            gcr.io/amplication/blog-server:${{ github.sha }} \
-            npm run db:migrate-up
-       # Run migrations if environment = staging
-      - name: Database Migrations
-        if: ${{ github.event.inputs.environment == 'staging' }}
-        run: |
-          set -e;
-          docker run \
-            --workdir="/app/server" \
-            --network host \
-            --env POSTGRESQL_URL="postgresql://${{ env.CLOUD_SQL_INSTANCE_DATABASE_USER }}:${{ secrets.STAGING_DB_PASSWORD }}@127.0.0.1:5432/${{ env.CLOUD_SQL_INSTANCE_DATABASE_NAME }}" \
-            gcr.io/amplication/blog-server:${{ github.sha }} \
-            npm run db:migrate-up
+          pull: true
+          push: true
+          tags: |
+            gcr.io/amplication/blog-server-client:${{ github.sha }}
+      # - uses: hashicorp/setup-terraform@v1
+      #   with:
+      #     terraform_wrapper: false
+      # - name: Terraform Init
+      #   run: terraform init -backend-config="prefix=amplication-blog-server/${{ github.event.inputs.environment }}"
+      #   env:
+      #     GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
+      #   working-directory: terraform
+      #   # Run Terraform apply if environment = production
+      # - name: Terraform Apply
+      #   if: ${{ github.event.inputs.environment == 'production' }}
+      #   run: terraform apply -auto-approve -lock-timeout=1200s --var-file=environments/${{ github.event.inputs.environment }}.tfvars
+      #   env:
+      #     GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
+      #     TF_VAR_image: gcr.io/amplication/blog-server:${{ github.sha }}
+      #     TF_VAR_db_password: ${{ secrets.PRODUCTION_DB_PASSWORD }}
+      #   working-directory: terraform
+      #   # Run Terraform apply if environment = staging
+      # - name: Terraform Apply
+      #   if: ${{ github.event.inputs.environment == 'staging' }}
+      #   run: terraform apply -auto-approve -lock-timeout=1200s --var-file=environments/${{ github.event.inputs.environment }}.tfvars
+      #   env:
+      #     GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
+      #     TF_VAR_image: gcr.io/amplication/blog-server:${{ github.sha }}
+      #     TF_VAR_db_password: ${{ secrets.STAGING_DB_PASSWORD }}
+      #   working-directory: terraform
+      # - name: Set Environment Variables from Terraform Outputs
+      #   run: |
+      #     echo "CLOUD_SQL_INSTANCE_CONNECTION_NAME=$(terraform output -raw cloud_sql_instance_connection_name)" >> $GITHUB_ENV
+      #     echo "CLOUD_SQL_INSTANCE_DATABASE_USER=$(terraform output -raw cloud_sql_instance_user)" >> $GITHUB_ENV
+      #     echo "CLOUD_SQL_INSTANCE_DATABASE_NAME=$(terraform output -raw cloud_sql_instance_database)" >> $GITHUB_ENV
+      #   env:
+      #     GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
+      #   working-directory: terraform
+      # - uses: mattes/gce-cloudsql-proxy-action@v1
+      #   with:
+      #     creds: ${{ secrets.GOOGLE_CREDENTIALS }}
+      #     instance: ${{ env.CLOUD_SQL_INSTANCE_CONNECTION_NAME }}
+      #  # Run migrations if environment = production
+      # - name: Database Migrations
+      #   if: ${{ github.event.inputs.environment == 'production' }}
+      #   run: |
+      #     set -e;
+      #     docker run \
+      #       --workdir="/app/server" \
+      #       --network host \
+      #       --env POSTGRESQL_URL="postgresql://${{ env.CLOUD_SQL_INSTANCE_DATABASE_USER }}:${{ secrets.PRODUCTION_DB_PASSWORD }}@127.0.0.1:5432/${{ env.CLOUD_SQL_INSTANCE_DATABASE_NAME }}" \
+      #       gcr.io/amplication/blog-server:${{ github.sha }} \
+      #       npm run db:migrate-up
+      #  # Run migrations if environment = staging
+      # - name: Database Migrations
+      #   if: ${{ github.event.inputs.environment == 'staging' }}
+      #   run: |
+      #     set -e;
+      #     docker run \
+      #       --workdir="/app/server" \
+      #       --network host \
+      #       --env POSTGRESQL_URL="postgresql://${{ env.CLOUD_SQL_INSTANCE_DATABASE_USER }}:${{ secrets.STAGING_DB_PASSWORD }}@127.0.0.1:5432/${{ env.CLOUD_SQL_INSTANCE_DATABASE_NAME }}" \
+      #       gcr.io/amplication/blog-server:${{ github.sha }} \
+      #       npm run db:migrate-up
