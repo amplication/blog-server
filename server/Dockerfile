@@ -28,7 +28,7 @@ COPY server/prisma/schema.prisma ./prisma/
 RUN npm run prisma:generate;
 
 # Copy all the files
- COPY . .
+ COPY server/ .
 
 # Build code
 RUN npm run build

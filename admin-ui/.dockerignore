@@ -1,5 +1,5 @@
-docker-compose.yml
-build/
-node_modules
-.env
-.gitignore
+admin-ui/docker-compose.yml
+admin-ui/build/
+admin-ui/node_modules/
+admin-ui/.env
+admin-ui/.gitignore
