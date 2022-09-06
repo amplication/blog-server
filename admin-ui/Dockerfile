@@ -7,6 +7,8 @@ ENV NPM_CONFIG_AUDIT=false
 # Hide NPM funding message from install logs
 ENV NPM_CONFIG_FUND=false
 
+ARG NPM_LOG_LEVEL=silent
+
 # Update npm to version 7
 RUN npm i -g npm@8.1.2
 
@@ -14,7 +16,7 @@ RUN npm i -g npm@8.1.2
 WORKDIR /app/admin-ui
 
 # Copy files specifying dependencies
-COPY package.json package-lock.json ./
+COPY admin-ui/package.json admin-ui/package-lock.json ./
 
 # Install dependencies
 RUN npm ci --loglevel=$NPM_LOG_LEVEL;
