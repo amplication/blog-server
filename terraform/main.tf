@@ -144,3 +144,16 @@ resource "google_cloud_run_service_iam_member" "run_all_client_users" {
   role     = "roles/run.invoker"
   member   = "allUsers"
 }
+
+resource "google_cloud_run_domain_mapping" "client_mapping" {
+  location = var.region
+  name     = var.blog_server_client_domain
+
+  metadata {
+    namespace = var.project_id
+  }
+
+  spec {
+    route_name = google_cloud_run_service.client-service.name
+  }
+}

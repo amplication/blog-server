@@ -65,3 +65,6 @@ variable "cpu_allocation" {
 variable "app_server_url" {
   type  = string
 }
+variable "blog_server_client_domain" {
+  type  = string
+}
