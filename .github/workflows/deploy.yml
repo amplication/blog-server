@@ -33,13 +33,13 @@ jobs:
 
       - name: Build and push amplication/blog-server-client Docker image
         uses: docker/build-push-action@v2
+        working-directory: admin-ui
         with:
           pull: true
           push: true
           tags: |
             gcr.io/amplication/blog-server-client:${{ github.sha }}
           # file: admin-ui/Dockerfile
-        working-directory: admin-ui
       
       # - uses: hashicorp/setup-terraform@v1
       #   with:
