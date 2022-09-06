@@ -138,7 +138,7 @@ resource "google_cloud_run_service" "client-service" {
   autogenerate_revision_name = true
 }
 
-resource "google_cloud_run_service_iam_member" "run_all_users" {
+resource "google_cloud_run_service_iam_member" "run_all_client_users" {
   service  = google_cloud_run_service.client-service.name
   location = google_cloud_run_service.client-service.location
   role     = "roles/run.invoker"
