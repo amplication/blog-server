@@ -7,8 +7,6 @@ ENV NPM_CONFIG_AUDIT=false
 # Hide NPM funding message from install logs
 ENV NPM_CONFIG_FUND=false
 
-ARG NPM_LOG_LEVEL=silent
-
 # Update npm to version 7
 RUN npm i -g npm@8.1.2
 
@@ -16,19 +14,19 @@ RUN npm i -g npm@8.1.2
 WORKDIR /app/server
 
 # Copy files specifying dependencies
-COPY server/package.json server/package-lock.json ./
+COPY package.json package-lock.json ./
 
 # Install dependencies
 RUN npm ci --loglevel=$NPM_LOG_LEVEL;
 
 # Copy Prisma schema
-COPY server/prisma/schema.prisma ./prisma/
+COPY prisma/schema.prisma ./prisma/
 
 # Generate Prisma client
 RUN npm run prisma:generate;
 
 # Copy all the files
- COPY server/ .
+ COPY . .
 
 # Build code
 RUN npm run build

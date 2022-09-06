@@ -1,6 +1,8 @@
-server/docker-compose.yml
-server/dist/
-server/node_modules/
-server/.env
-server/.gitignore
-server/.prettierignore
+.dockerignore
+docker-compose.yml
+Dockerfile
+dist/
+node_modules
+.env
+.gitignore
+.prettierignore
