@@ -22,7 +22,7 @@ COPY admin-ui/package.json admin-ui/package-lock.json ./
 RUN npm ci --loglevel=$NPM_LOG_LEVEL;
 
 # Copy all the files
-COPY . .
+COPY admin-ui/ .
 
 # Build code
 RUN npm run build
