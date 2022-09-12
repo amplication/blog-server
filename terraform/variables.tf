@@ -62,9 +62,9 @@ variable "cpu_allocation" {
   default = "request"
 }
 
-variable "app_server_url" {
-  type  = string
-}
+# variable "app_server_url" {
+#   type  = string
+# }
 variable "blog_server_client_domain" {
   type  = string
 }

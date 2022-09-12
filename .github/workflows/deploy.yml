@@ -31,7 +31,6 @@ jobs:
           context: server/
 
       - name: Build and push amplication/blog-server-client Docker image
-        if: ${{ github.event.inputs.environment == 'staging' }}
         uses: docker/build-push-action@v3.1.1
         with:
           pull: true
@@ -39,8 +38,8 @@ jobs:
           tags: |
             gcr.io/amplication/blog-server-client:${{ github.sha }}
           context: admin-ui/
-          build-args: |
-            REACT_APP_SERVER_URL=https://staging-blog-api.amplication.com
+          # build-args: |
+          #   REACT_APP_SERVER_URL=https://staging-blog-api.amplication.com
       
       - uses: hashicorp/setup-terraform@v1
         with:
