@@ -109,6 +109,10 @@ resource "google_cloud_run_service" "client-service" {
           name  = "REACT_APP_SERVER_URL"
           value = var.app_server_url
         }
+        ports {
+          name = "http1"
+          container_port = 80
+        }
         resources {
           limits   = {
             cpu    = var.cpu
