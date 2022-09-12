@@ -68,3 +68,6 @@ variable "app_server_url" {
 variable "blog_server_client_domain" {
   type  = string
 }
+variable "blog_server_domain" {
+  type  = string
+}
