@@ -14,6 +14,4 @@ FROM nginx:stable-alpine as prod
 
 COPY --from=base /app/admin-ui/build /usr/share/nginx/html
 
-EXPOSE 80
-
 ENTRYPOINT ["nginx", "-g", "daemon off;"]
