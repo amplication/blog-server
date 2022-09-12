@@ -39,7 +39,9 @@ jobs:
           tags: |
             gcr.io/amplication/blog-server-client:${{ github.sha }}
           context: admin-ui/
-            
+          build-args: |
+            REACT_APP_SERVER_URL=https://staging-blog-api.amplication.com
+      
       - uses: hashicorp/setup-terraform@v1
         with:
           terraform_wrapper: false
