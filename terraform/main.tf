@@ -105,10 +105,10 @@ resource "google_cloud_run_service" "client-service" {
       container_concurrency  = var.container_concurrency
       containers {
         image = var.image_client
-        # env {
-        #   name  = "REACT_APP_SERVER_URL"
-        #   value = var.app_server_url
-        # }
+        env {
+          name  = "REACT_APP_SERVER_URL"
+          value = var.app_server_url
+        }
         resources {
           limits   = {
             cpu    = var.cpu
