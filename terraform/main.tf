@@ -34,7 +34,7 @@ resource "random_password" "jwt_secret_key" {
 }
 ## Cloud Run Server
 resource "google_cloud_run_service" "service" {
-  name = "amplication-blog-server-${var.environment}"
+  name = "amplication-blog-server-v1-${var.environment}"
   location = var.region
 
   template {
@@ -147,6 +147,19 @@ resource "google_cloud_run_service_iam_member" "run_all_client_users" {
   location = google_cloud_run_service.client-service.location
   role     = "roles/run.invoker"
   member   = "allUsers"
+}
+
+resource "google_cloud_run_domain_mapping" "server_mapping" {
+  location = var.region
+  name     = var.blog_server_domain
+
+  metadata {
+    namespace = var.project_id
+  }
+
+  spec {
+    route_name = google_cloud_run_service.service.name
+  }
 }
 
 ## Create Load Balancer
