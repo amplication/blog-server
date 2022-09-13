@@ -236,9 +236,10 @@ resource "google_compute_url_map" "urlmap" {
     default_service = module.lb-http.backend_services[keys(module.lb-http.backend_services)[0]].self_link
 
     path_rule {
-      paths = ["/graghql"]
+      paths = ["/graphql"]
       url_redirect {
-        host_redirect          = "${var.blog_server_domain}/graghql"
+        host_redirect          = "${var.blog_server_domain}"
+        path_redirect          = "/graphql"
         https_redirect         = true
         redirect_response_code = "MOVED_PERMANENTLY_DEFAULT"
         strip_query            = true
@@ -247,7 +248,8 @@ resource "google_compute_url_map" "urlmap" {
     path_rule {
       paths = ["/api"]
       url_redirect {
-        host_redirect          = "${var.blog_server_domain}/api"
+        host_redirect          = "${var.blog_server_domain}"
+        path_redirect          = "/api"
         https_redirect         = true
         redirect_response_code = "MOVED_PERMANENTLY_DEFAULT"
         strip_query            = true
