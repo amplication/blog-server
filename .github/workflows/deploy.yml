@@ -13,6 +13,7 @@ on:
         type: boolean
         description: Seed the database
         default: false
+        required: false
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -123,7 +124,7 @@ jobs:
             npm run db:migrate-up
       # Seed database
       - name: Database Seed
-        if: ${{ github.events.inputs.seed == 'true' }}
+        if: ${{ github.event.inputs.seed == 'true' }}
         working-directory: server
         run: |
           npm run seed
