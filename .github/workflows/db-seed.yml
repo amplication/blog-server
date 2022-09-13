@@ -1,0 +1,25 @@
+name: Seed Database
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        type: choice
+        description: Select the environment
+        options:
+        - staging
+        - production
+
+jobs:
+  seed:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v2
+      - uses: mattes/gce-cloudsql-proxy-action@v1
+        with:
+          creds: ${{ secrets.GOOGLE_CREDENTIALS }}
+          instance: ${{ env.CLOUD_SQL_INSTANCE_CONNECTION_NAME }}
+      - name: seed
+        working-directory: server
+        run: npm run seed
