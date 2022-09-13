@@ -9,6 +9,10 @@ on:
         options:
         - staging
         - production
+      terraform_only:
+        type: boolean
+        description: deploy only terraform steps
+        default: false
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -21,7 +25,9 @@ jobs:
           registry: gcr.io
           username: _json_key
           password: ${{ secrets.GOOGLE_CREDENTIALS }}
+
       - name: Build and push amplication/blog-server Docker image
+        if: ${{ github.event.inputs.terraform_only == 'false' }}
         uses: docker/build-push-action@v3.1.1
         with:
           pull: true
@@ -31,7 +37,7 @@ jobs:
           context: server/
 
       - name: Build and push amplication/blog-server-client Docker image
-        if: ${{ github.event.inputs.environment == 'staging' }}
+        if: ${{ github.event.inputs.environment == 'staging' && github.event.inputs.terraform_only == 'false' }}
         uses: docker/build-push-action@v3.1.1
         with:
           pull: true
