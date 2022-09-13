@@ -20,14 +20,15 @@ export const PostList = (props: ListProps): React.ReactElement => {
       pagination={<Pagination />}
     >
       <Datagrid rowClick="show">
-        <TextField label="ID" source="id" />
-        <TextField label="Title" source="title" />
         <ReferenceField label="Author" source="author.id" reference="Author">
           <TextField source={AUTHOR_TITLE_FIELD} />
         </ReferenceField>
+        <TextField label="Content" source="content" />
         <DateField source="createdAt" label="Created At" />
-        <DateField source="updatedAt" label="Updated At" />
         <TextField label="Featured Image" source="featuredImage" />
+        <TextField label="ID" source="id" />
+        <TextField label="Title" source="title" />
+        <DateField source="updatedAt" label="Updated At" />
       </Datagrid>
     </List>
   );
