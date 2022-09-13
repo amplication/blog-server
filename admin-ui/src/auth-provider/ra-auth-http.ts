@@ -18,7 +18,7 @@ const LOGIN = gql`
 export const httpAuthProvider: AuthProvider = {
   login: async (credentials: Credentials) => {
     const apolloClient = new ApolloClient({
-      uri: "/graphql",
+      uri: process.env.REACT_APP_SERVER_URL + '/graphql',
       cache: new InMemoryCache(),
     });
 
