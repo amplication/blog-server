@@ -70,11 +70,3 @@ variable "blog_server_client_domain" {
 variable "blog_server_domain" {
   type  = string
 }
-
-## Load Balancer
-variable "neg_name" {
-  type  = string
-}
-variable "lb_name" {
-  type  = string
-}
