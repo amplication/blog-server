@@ -127,5 +127,4 @@ jobs:
         if: ${{ github.event.inputs.seed == 'true' }}
         working-directory: server
         run: |
-          npm install
-          npm run seed
+          npx ts-node scripts/seed.ts
