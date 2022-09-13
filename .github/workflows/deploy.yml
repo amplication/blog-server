@@ -9,6 +9,10 @@ on:
         options:
         - staging
         - production
+      seed:
+        type: boolean
+        description: Seed the database
+        default: false
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -117,4 +121,9 @@ jobs:
             --env POSTGRESQL_URL="postgresql://${{ env.CLOUD_SQL_INSTANCE_DATABASE_USER }}:${{ secrets.STAGING_DB_PASSWORD }}@127.0.0.1:5432/${{ env.CLOUD_SQL_INSTANCE_DATABASE_NAME }}" \
             gcr.io/amplication/blog-server:${{ github.sha }} \
             npm run db:migrate-up
-            npm run seed
+      # Seed database
+      - name: Database Seed
+        if: ${{ github.events.inputs.seed == 'true' }}
+        working-directory: server
+        run: |
+          npm run seed
