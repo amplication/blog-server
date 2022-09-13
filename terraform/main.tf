@@ -26,6 +26,18 @@ resource "google_sql_user" "user" {
   password = var.db_password
 }
 
+resource "google_project_service" "sqladmin" {
+  service = "sqladmin.googleapis.com"
+
+  timeouts {
+    create = "5m"
+    update = "5m"
+  }
+
+  disable_dependent_services = true
+  disable_on_destroy = true
+}
+
 # Cloud Run
 resource "random_password" "jwt_secret_key" {
   length           = 16
