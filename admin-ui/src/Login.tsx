@@ -38,7 +38,7 @@ const Login = ({ theme }: { theme?: object }) => {
               type="button"
               variant="contained"
               color="primary"
-              href="/graphql"
+              href={process.env.REACT_APP_SERVER_URL + '/graphql'}
             >
               Continue
             </Button>
