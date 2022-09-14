@@ -4,7 +4,7 @@ import { setContext } from "@apollo/client/link/context";
 import { CREDENTIALS_LOCAL_STORAGE_ITEM } from "../constants";
 
 const httpLink = createHttpLink({
-  uri: "/graphql",
+  uri: process.env.REACT_APP_SERVER_URL + '/graphql',
 });
 
 const authLink = setContext((_, { headers }) => {

@@ -14,6 +14,9 @@ variable "image" {
   type  = string
 }
 
+variable "image_client" {
+  type  = string
+}
 variable "database_tier" {
   type  = string
 }
@@ -57,4 +60,13 @@ variable "memory" {
 variable "cpu_allocation" {
   type  = string
   default = "request"
+}
+variable "app_server_url" {
+  type  = string
+}
+variable "blog_server_client_domain" {
+  type  = string
+}
+variable "blog_server_domain" {
+  type  = string
 }
