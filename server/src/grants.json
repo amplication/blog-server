@@ -32,12 +32,6 @@
   {
     "role": "user",
     "resource": "Post",
-    "action": "read:own",
-    "attributes": "*"
-  },
-  {
-    "role": "user",
-    "resource": "Post",
     "action": "create:any",
     "attributes": "*"
   },
@@ -51,12 +45,6 @@
     "role": "user",
     "resource": "Post",
     "action": "delete:any",
-    "attributes": "*"
-  },
-  {
-    "role": "user",
-    "resource": "Post",
-    "action": "read:any",
     "attributes": "*"
   },
   {
