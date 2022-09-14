@@ -46,7 +46,7 @@ resource "random_password" "jwt_secret_key" {
 }
 ## Cloud Run Server
 resource "google_cloud_run_service" "service" {
-  name = "amplication-blog-server-v1-${var.environment}"
+  name = "amplication-blog-server-${var.environment}"
   location = var.region
 
   template {
