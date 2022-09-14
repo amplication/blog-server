@@ -174,6 +174,7 @@ resource "google_cloud_run_domain_mapping" "client_mapping" {
   }
 
   spec {
+    force_override = true
     route_name = google_cloud_run_service.client-service.name
   }
 }
@@ -187,6 +188,7 @@ resource "google_cloud_run_domain_mapping" "server_mapping" {
   }
 
   spec {
+    force_override = true
     route_name = google_cloud_run_service.service.name
   }
 }
