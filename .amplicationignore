@@ -2,3 +2,5 @@ admin-ui/src/post/PostEdit.tsx
 admin-ui/src/post/PostList.tsx
 admin-ui/Dockerfile
 server/Dockerfile
+admin-ui/package-lock.json
+server/package-lock.json
