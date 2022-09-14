@@ -9,6 +9,10 @@ on:
         options:
         - staging
         - production
+      apply: 
+        type: boolean
+        description: Apply Terraform
+        default: false
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -23,6 +27,7 @@ jobs:
           password: ${{ secrets.GOOGLE_CREDENTIALS }}
 
       - name: Build and push amplication/blog-server Docker image
+        if: ${{ github.event.inputs.apply == 'true' }}
         uses: docker/build-push-action@v3.1.1
         with:
           pull: true
@@ -32,7 +37,7 @@ jobs:
           context: server/
 
       - name: Build and push amplication/blog-server-client Docker image
-        if: ${{ github.event.inputs.environment == 'staging' }}
+        if: ${{ github.event.inputs.environment == 'staging' && github.event.inputs.apply == 'true' }}
         uses: docker/build-push-action@v3.1.1
         with:
           pull: true
@@ -43,7 +48,7 @@ jobs:
           build-args: |
             REACT_APP_SERVER_URL=https://staging-blog-api.amplication.com
       - name: Build and push amplication/blog-server-client Docker image
-        if: ${{ github.event.inputs.environment == 'production' }}
+        if: ${{ github.event.inputs.environment == 'production' && github.event.inputs.apply == 'true' }}
         uses: docker/build-push-action@v3.1.1
         with:
           pull: true
@@ -63,9 +68,17 @@ jobs:
         env:
           GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
         working-directory: terraform
+      
+      - name: Terraform plan
+        if: ${{ github.event.inputs.apply == 'false' }}
+        run: terraform plan -no-color -input=false -var-file=environments/${{ github.event.inputs.environment }}.tfvars
+        env:
+          GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
+        working-directory: terraform
+
         # Run Terraform apply if environment = production
       - name: Terraform Apply
-        if: ${{ github.event.inputs.environment == 'production' }}
+        if: ${{ github.event.inputs.environment == 'production' && github.event.inputs.apply == 'true' }}
         run: terraform apply -auto-approve -lock-timeout=1200s --var-file=environments/${{ github.event.inputs.environment }}.tfvars
         env:
           GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
@@ -75,7 +88,7 @@ jobs:
         working-directory: terraform
         # Run Terraform apply if environment = staging
       - name: Terraform Apply
-        if: ${{ github.event.inputs.environment == 'staging' }}
+        if: ${{ github.event.inputs.environment == 'staging' && github.event.inputs.apply == 'true' }}
         run: terraform apply -auto-approve -lock-timeout=1200s --var-file=environments/${{ github.event.inputs.environment }}.tfvars
         env:
           GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
@@ -84,6 +97,7 @@ jobs:
           TF_VAR_db_password: ${{ secrets.STAGING_DB_PASSWORD }}
         working-directory: terraform
       - name: Set Environment Variables from Terraform Outputs
+        if: ${{ github.event.inputs.apply == 'true' }}
         run: |
           echo "CLOUD_SQL_INSTANCE_CONNECTION_NAME=$(terraform output -raw cloud_sql_instance_connection_name)" >> $GITHUB_ENV
           echo "CLOUD_SQL_INSTANCE_DATABASE_USER=$(terraform output -raw cloud_sql_instance_user)" >> $GITHUB_ENV
@@ -92,12 +106,13 @@ jobs:
           GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
         working-directory: terraform
       - uses: mattes/gce-cloudsql-proxy-action@v1
+        if: ${{ github.event.inputs.apply == 'true' }}
         with:
           creds: ${{ secrets.GOOGLE_CREDENTIALS }}
           instance: ${{ env.CLOUD_SQL_INSTANCE_CONNECTION_NAME }}
        # Run migrations if environment = production
       - name: Database Migrations
-        if: ${{ github.event.inputs.environment == 'production' }}
+        if: ${{ github.event.inputs.environment == 'production' && github.event.inputs.apply == 'true' }}
         run: |
           set -e;
           docker run \
@@ -108,7 +123,7 @@ jobs:
             npm run db:migrate-up
        # Run migrations if environment = staging
       - name: Database Migrations
-        if: ${{ github.event.inputs.environment == 'staging' }}
+        if: ${{ github.event.inputs.environment == 'staging' && github.event.inputs.apply == 'true' }}
         run: |
           set -e;
           docker run \
