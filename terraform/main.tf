@@ -70,6 +70,10 @@ resource "google_cloud_run_service" "service" {
           name  = "JWT_EXPIRATION"
           value = "2d"
         }
+        ports {
+          name = "http1"
+          container_port = 3000
+        }
         resources {
           limits   = {
             cpu    = var.cpu
