@@ -27,7 +27,6 @@ jobs:
           password: ${{ secrets.GOOGLE_CREDENTIALS }}
 
       - name: Build and push amplication/blog-server Docker image
-        if: ${{ github.event.inputs.apply == 'true' }}
         uses: docker/build-push-action@v3.1.1
         with:
           pull: true
@@ -37,7 +36,7 @@ jobs:
           context: server/
 
       - name: Build and push amplication/blog-server-client Docker image
-        if: ${{ github.event.inputs.environment == 'staging' && github.event.inputs.apply == 'true' }}
+        if: ${{ github.event.inputs.environment == 'staging' }}
         uses: docker/build-push-action@v3.1.1
         with:
           pull: true
@@ -48,7 +47,7 @@ jobs:
           build-args: |
             REACT_APP_SERVER_URL=https://staging-blog-api.amplication.com
       - name: Build and push amplication/blog-server-client Docker image
-        if: ${{ github.event.inputs.environment == 'production' && github.event.inputs.apply == 'true' }}
+        if: ${{ github.event.inputs.environment == 'production' }}
         uses: docker/build-push-action@v3.1.1
         with:
           pull: true
@@ -74,6 +73,9 @@ jobs:
         run: terraform plan -no-color -input=false -var-file=environments/${{ github.event.inputs.environment }}.tfvars
         env:
           GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
+          TF_VAR_image: gcr.io/amplication/blog-server:${{ github.sha }}
+          TF_VAR_image_client: gcr.io/amplication/blog-server-client:${{ github.sha }}
+          TF_VAR_db_password: ${{ secrets.PRODUCTION_DB_PASSWORD }}
         working-directory: terraform
 
         # Run Terraform apply if environment = production
