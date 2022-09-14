@@ -23,10 +23,15 @@ RUN npm run build
 
 FROM node:16.16-alpine AS prod
 
-COPY --from=base /app/dist /app/dist
+WORKDIR /app
+
+COPY --from=base /app/node_modules/ ./node_modules
+COPY --from=base /app/package.json ./package.json
+COPY --from=base /app/dist ./dist
+COPY --from=base /app/prisma ./prisma
 
 # Expose the port the server listens to
 EXPOSE 3000
 
 # Run server
-CMD [ "node", "/app/dist/main"]
+CMD [ "node", "./dist/main"]
