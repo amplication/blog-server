@@ -13,7 +13,7 @@ RUN npm ci
 COPY prisma/schema.prisma ./prisma/
 
 # Generate Prisma client
-RUN npm run prisma:generate;
+RUN npm run prisma:generate
 
 # Copy all the files
 COPY . .
@@ -21,7 +21,7 @@ COPY . .
 # Build code
 RUN npm run build
 
-FROM node:16.16-alpine AS prod
+FROM node:16.16 AS prod
 
 WORKDIR /app
 
