@@ -35,5 +35,16 @@ class TagCreateInput {
     nullable: true,
   })
   posts?: PostCreateNestedManyWithoutTagsInput;
+
+  @ApiProperty({
+    required: false,
+    type: String,
+  })
+  @IsString()
+  @IsOptional()
+  @Field(() => String, {
+    nullable: true,
+  })
+  slug?: string | null;
 }
 export { TagCreateInput };

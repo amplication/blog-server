@@ -55,6 +55,7 @@ export class TagControllerBase {
         createdAt: true,
         id: true,
         name: true,
+        slug: true,
         updatedAt: true,
       },
     });
@@ -78,6 +79,7 @@ export class TagControllerBase {
         createdAt: true,
         id: true,
         name: true,
+        slug: true,
         updatedAt: true,
       },
     });
@@ -102,6 +104,7 @@ export class TagControllerBase {
         createdAt: true,
         id: true,
         name: true,
+        slug: true,
         updatedAt: true,
       },
     });
@@ -135,6 +138,7 @@ export class TagControllerBase {
           createdAt: true,
           id: true,
           name: true,
+          slug: true,
           updatedAt: true,
         },
       });
@@ -167,6 +171,7 @@ export class TagControllerBase {
           createdAt: true,
           id: true,
           name: true,
+          slug: true,
           updatedAt: true,
         },
       });
@@ -201,6 +206,9 @@ export class TagControllerBase {
         createdAt: true,
         featuredImage: true,
         id: true,
+        metaDescription: true,
+        metaTitle: true,
+        slug: true,
         title: true,
         updatedAt: true,
       },

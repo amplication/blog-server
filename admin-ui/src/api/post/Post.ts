@@ -7,6 +7,9 @@ export type Post = {
   createdAt: Date;
   featuredImage: string;
   id: string;
+  metaDescription: string | null;
+  metaTitle: string | null;
+  slug: string | null;
   tags?: Array<Tag>;
   title: string;
   updatedAt: Date;

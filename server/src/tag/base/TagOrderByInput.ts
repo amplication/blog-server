@@ -52,6 +52,15 @@ class TagOrderByInput {
   @Field(() => SortOrder, {
     nullable: true,
   })
+  slug?: SortOrder;
+
+  @ApiProperty({
+    required: false,
+    enum: ["asc", "desc"],
+  })
+  @Field(() => SortOrder, {
+    nullable: true,
+  })
   updatedAt?: SortOrder;
 }
 

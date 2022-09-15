@@ -23,6 +23,9 @@ export const PostCreate = (props: CreateProps): React.ReactElement => {
         </ReferenceInput>
         <TextInput label="Content" multiline source="content" />
         <TextInput label="Featured Image" source="featuredImage" />
+        <TextInput label="Meta Description" source="metaDescription" />
+        <TextInput label="Meta Title" source="metaTitle" />
+        <TextInput label="Slug" source="slug" />
         <ReferenceArrayInput
           source="tags"
           reference="Tag"

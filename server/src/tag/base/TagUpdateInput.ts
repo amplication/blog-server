@@ -38,5 +38,16 @@ class TagUpdateInput {
     nullable: true,
   })
   posts?: PostUpdateManyWithoutTagsInput;
+
+  @ApiProperty({
+    required: false,
+    type: String,
+  })
+  @IsString()
+  @IsOptional()
+  @Field(() => String, {
+    nullable: true,
+  })
+  slug?: string | null;
 }
 export { TagUpdateInput };

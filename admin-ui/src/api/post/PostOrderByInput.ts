@@ -6,6 +6,9 @@ export type PostOrderByInput = {
   createdAt?: SortOrder;
   featuredImage?: SortOrder;
   id?: SortOrder;
+  metaDescription?: SortOrder;
+  metaTitle?: SortOrder;
+  slug?: SortOrder;
   title?: SortOrder;
   updatedAt?: SortOrder;
 };

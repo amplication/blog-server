@@ -5,5 +5,6 @@ export type Tag = {
   id: string;
   name: string;
   posts?: Array<Post>;
+  slug: string | null;
   updatedAt: Date;
 };

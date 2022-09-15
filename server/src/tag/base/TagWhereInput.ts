@@ -15,6 +15,7 @@ import { StringFilter } from "../../util/StringFilter";
 import { Type } from "class-transformer";
 import { IsOptional, ValidateNested } from "class-validator";
 import { PostListRelationFilter } from "../../post/base/PostListRelationFilter";
+import { StringNullableFilter } from "../../util/StringNullableFilter";
 @InputType()
 class TagWhereInput {
   @ApiProperty({
@@ -50,5 +51,16 @@ class TagWhereInput {
     nullable: true,
   })
   posts?: PostListRelationFilter;
+
+  @ApiProperty({
+    required: false,
+    type: StringNullableFilter,
+  })
+  @Type(() => StringNullableFilter)
+  @IsOptional()
+  @Field(() => StringNullableFilter, {
+    nullable: true,
+  })
+  slug?: StringNullableFilter;
 }
 export { TagWhereInput };
