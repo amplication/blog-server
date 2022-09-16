@@ -34,4 +34,4 @@ COPY --from=base /app/prisma ./prisma
 EXPOSE 3000
 
 # Run server
-CMD [ "node", "./dist/main"]
+ENTRYPOINT ["node", "./dist/main"]
