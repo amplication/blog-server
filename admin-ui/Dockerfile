@@ -18,6 +18,12 @@ FROM nginx:stable-alpine AS prod
 
 COPY --from=base /app/build /usr/share/nginx/html
 
+RUN apk add --update nodejs npm
+RUN npm install -g runtime-env-cra
+
 EXPOSE 80
 
-ENTRYPOINT ["nginx", "-g", "daemon off;"]
+CMD ["sh", "-c", "NODE_ENV=${NODE_ENV} PORT=80 REACT_APP_SERVER_URL=${REACT_APP_SERVER_URL} runtime-env-cra --config-name ./build/runtime-env.js"]
+
+# ENTRYPOINT ["/bin/sh", "-c", "NODE_ENV=${NODE_ENV} PORT=80 REACT_APP_SERVER_URL=${REACT_APP_SERVER_URL} && runtime-env-cra --config-name ./build/runtime-env.js && nginx -g \"daemon off;\"
+ENTRYPOINT ["sh", "-c", "nginx -g \"daemon off;\""]
