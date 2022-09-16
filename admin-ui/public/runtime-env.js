@@ -1,0 +1,1 @@
+window.__RUNTIME_CONFIG__ = {"PORT":"80","REACT_APP_SERVER_URL":"https://blog-admin.sandbox.amplication.com"};

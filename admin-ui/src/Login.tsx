@@ -13,7 +13,7 @@ const Login = ({ theme }: { theme?: object }) => {
   const [password, setPassword] = useState("");
   const login = useLogin();
   const notify = useNotify();
-  const BASE_URI = process.env.REACT_APP_SERVER_URL;
+  const BASE_URI = window.__RUNTIME_CONFIG__.REACT_APP_SERVER_URL;
   const submit = (e: any) => {
     e.preventDefault();
     login({ username, password }).catch(() =>

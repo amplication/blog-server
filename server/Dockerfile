@@ -6,7 +6,7 @@ COPY package.json package-lock.json ./
 
 RUN npm ci
 
-COPY prisma/schema.prisma ./prisma/
+COPY prisma ./prisma
 
 RUN npm run prisma:generate
 
