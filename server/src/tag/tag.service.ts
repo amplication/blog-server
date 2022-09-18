@@ -22,6 +22,8 @@ export class TagService extends TagServiceBase {
   ): Promise<Tag> {
     if (!args.data.slug) {
       delete args.data.slug;
+    } else if (args.data.slug) {
+      args.data.slug = slugify(args.data.slug);
     }
     return super.update(args);
   }

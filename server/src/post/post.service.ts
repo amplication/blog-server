@@ -22,6 +22,8 @@ export class PostService extends PostServiceBase {
   ): Promise<Post> {
     if (!args.data.slug) {
       delete args.data.slug;
+    } else if (args.data.slug) {
+      args.data.slug = slugify(args.data.slug);
     }
     return super.update<T>(args);
   }
