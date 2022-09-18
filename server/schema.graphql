@@ -58,7 +58,7 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 scalar DateTime
 
 type MetaQueryPayload {
-  count: String!
+  count: Float!
 }
 
 type Mutation {
@@ -83,6 +83,9 @@ type Post {
   createdAt: DateTime!
   featuredImage: String!
   id: String!
+  metaDescription: String
+  metaTitle: String
+  slug: String
   tags(orderBy: [TagOrderByInput!], skip: Float, take: Float, where: TagWhereInput): [Tag!]!
   title: String!
   updatedAt: DateTime!
@@ -92,6 +95,9 @@ input PostCreateInput {
   author: AuthorWhereUniqueInput!
   content: String!
   featuredImage: String!
+  metaDescription: String
+  metaTitle: String
+  slug: String
   tags: TagCreateNestedManyWithoutPostsInput
   title: String!
 }
@@ -116,6 +122,9 @@ input PostOrderByInput {
   createdAt: SortOrder
   featuredImage: SortOrder
   id: SortOrder
+  metaDescription: SortOrder
+  metaTitle: SortOrder
+  slug: SortOrder
   title: SortOrder
   updatedAt: SortOrder
 }
@@ -124,6 +133,9 @@ input PostUpdateInput {
   author: AuthorWhereUniqueInput
   content: String
   featuredImage: String
+  metaDescription: String
+  metaTitle: String
+  slug: String
   tags: TagUpdateManyWithoutPostsInput
   title: String
 }
@@ -145,6 +157,9 @@ input PostWhereInput {
   content: StringFilter
   featuredImage: StringFilter
   id: StringFilter
+  metaDescription: StringNullableFilter
+  metaTitle: StringNullableFilter
+  slug: StringNullableFilter
   tags: TagListRelationFilter
   title: StringFilter
 }
@@ -214,12 +229,14 @@ type Tag {
   id: String!
   name: String!
   posts(orderBy: [PostOrderByInput!], skip: Float, take: Float, where: PostWhereInput): [Post!]!
+  slug: String
   updatedAt: DateTime!
 }
 
 input TagCreateInput {
   name: String!
   posts: PostCreateNestedManyWithoutTagsInput
+  slug: String
 }
 
 input TagCreateNestedManyWithoutPostsInput {
@@ -236,12 +253,14 @@ input TagOrderByInput {
   createdAt: SortOrder
   id: SortOrder
   name: SortOrder
+  slug: SortOrder
   updatedAt: SortOrder
 }
 
 input TagUpdateInput {
   name: String
   posts: PostUpdateManyWithoutTagsInput
+  slug: String
 }
 
 input TagUpdateManyWithoutPostsInput {
@@ -254,6 +273,7 @@ input TagWhereInput {
   id: StringFilter
   name: StringFilter
   posts: PostListRelationFilter
+  slug: StringNullableFilter
 }
 
 input TagWhereUniqueInput {
