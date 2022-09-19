@@ -3,6 +3,7 @@ import { Prisma, Post } from "@prisma/client";
 import { PrismaService } from "nestjs-prisma";
 import slugify from "slugify";
 import { PostServiceBase } from "./base/post.service.base";
+import { SLUGGIFY_OPTIONS } from "../constants";
 
 @Injectable()
 export class PostService extends PostServiceBase {
@@ -13,17 +14,17 @@ export class PostService extends PostServiceBase {
   async create<T extends Prisma.PostCreateArgs>(
     args: Prisma.SelectSubset<T, Prisma.TagCreateArgs>
   ): Promise<Post> {
-    args.data.slug = slugify(args.data.title ?? '');
+    args.data.slug = slugify(args.data.title ?? '', SLUGGIFY_OPTIONS);
     return super.create<T>(args);
   }
 
   async update<T extends Prisma.PostUpdateArgs>(
     args: Prisma.SelectSubset<T, Prisma.PostUpdateArgs>
   ): Promise<Post> {
-    if (!args.data.slug) {
+    if (args.data.slug && typeof args.data.slug !== 'string') {
       delete args.data.slug;
     } else if (args.data.slug) {
-      args.data.slug = slugify(args.data.slug);
+      args.data.slug = slugify(args.data.slug, SLUGGIFY_OPTIONS);
     }
     return super.update<T>(args);
   }
