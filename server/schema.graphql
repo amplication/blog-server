@@ -47,6 +47,11 @@ input AuthorWhereUniqueInput {
   id: String!
 }
 
+input BooleanNullableFilter {
+  equals: Boolean
+  not: Boolean
+}
+
 input Credentials {
   password: String!
   username: String!
@@ -81,6 +86,7 @@ type Post {
   author: Author
   content: String!
   createdAt: DateTime!
+  draft: Boolean
   featuredImage: String!
   id: String!
   metaDescription: String
@@ -94,6 +100,7 @@ type Post {
 input PostCreateInput {
   author: AuthorWhereUniqueInput!
   content: String!
+  draft: Boolean
   featuredImage: String!
   metaDescription: String
   metaTitle: String
@@ -120,6 +127,7 @@ input PostOrderByInput {
   authorId: SortOrder
   content: SortOrder
   createdAt: SortOrder
+  draft: SortOrder
   featuredImage: SortOrder
   id: SortOrder
   metaDescription: SortOrder
@@ -132,6 +140,7 @@ input PostOrderByInput {
 input PostUpdateInput {
   author: AuthorWhereUniqueInput
   content: String
+  draft: Boolean
   featuredImage: String
   metaDescription: String
   metaTitle: String
@@ -155,6 +164,7 @@ input PostUpdateManyWithoutTagsInput {
 input PostWhereInput {
   author: AuthorWhereUniqueInput
   content: StringFilter
+  draft: BooleanNullableFilter
   featuredImage: StringFilter
   id: StringFilter
   metaDescription: StringNullableFilter
