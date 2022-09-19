@@ -6,6 +6,7 @@ import {
   ReferenceField,
   TextField,
   DateField,
+  BooleanField,
 } from "react-admin";
 import Pagination from "../Components/Pagination";
 import { AUTHOR_TITLE_FIELD } from "../author/AuthorTitle";
@@ -25,12 +26,11 @@ export const PostList = (props: ListProps): React.ReactElement => {
         <ReferenceField label="Author" source="author.id" reference="Author">
           <TextField source={AUTHOR_TITLE_FIELD} />
         </ReferenceField>
+        <TextField label="Featured Image" source="featuredImage" />
+        <BooleanField label="Draft" source="draft" />
+        <TextField label="Slug" source="slug" />
         <DateField source="createdAt" label="Created At" />
         <DateField source="updatedAt" label="Updated At" />
-        <TextField label="Featured Image" source="featuredImage" />
-        <TextField label="Meta Description" source="metaDescription" />
-        <TextField label="Meta Title" source="metaTitle" />
-        <TextField label="Slug" source="slug" />
       </Datagrid>
     </List>
   );
