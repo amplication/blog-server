@@ -1,4 +1,5 @@
 import * as React from "react";
+
 import {
   List,
   Datagrid,
@@ -6,7 +7,9 @@ import {
   ReferenceField,
   TextField,
   DateField,
+  BooleanField,
 } from "react-admin";
+
 import Pagination from "../Components/Pagination";
 import { AUTHOR_TITLE_FIELD } from "../author/AuthorTitle";
 
@@ -25,6 +28,7 @@ export const PostList = (props: ListProps): React.ReactElement => {
         </ReferenceField>
         <TextField label="Content" source="content" />
         <DateField source="createdAt" label="Created At" />
+        <BooleanField label="Draft" source="draft" />
         <TextField label="Featured Image" source="featuredImage" />
         <TextField label="ID" source="id" />
         <TextField label="Meta Description" source="metaDescription" />

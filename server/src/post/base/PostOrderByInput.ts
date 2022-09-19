@@ -52,6 +52,15 @@ class PostOrderByInput {
   @Field(() => SortOrder, {
     nullable: true,
   })
+  draft?: SortOrder;
+
+  @ApiProperty({
+    required: false,
+    enum: ["asc", "desc"],
+  })
+  @Field(() => SortOrder, {
+    nullable: true,
+  })
   featuredImage?: SortOrder;
 
   @ApiProperty({

@@ -7,6 +7,7 @@ import {
   ReferenceInput,
   SelectInput,
   TextInput,
+  BooleanInput,
   ReferenceArrayInput,
   SelectArrayInput,
 } from "react-admin";
@@ -22,9 +23,11 @@ export const PostCreate = (props: CreateProps): React.ReactElement => {
           <SelectInput optionText={AuthorTitle} />
         </ReferenceInput>
         <TextInput label="Content" multiline source="content" />
+        <BooleanInput label="Draft" source="draft" />
         <TextInput label="Featured Image" source="featuredImage" />
         <TextInput label="Meta Description" source="metaDescription" />
         <TextInput label="Meta Title" source="metaTitle" />
+        <TextInput label="Slug" source="slug" />
         <ReferenceArrayInput
           source="tags"
           reference="Tag"

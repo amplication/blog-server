@@ -12,7 +12,13 @@ https://docs.amplication.com/docs/how-to/custom-code
 import { ObjectType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
 import { Author } from "../../author/base/Author";
-import { ValidateNested, IsString, IsDate, IsOptional } from "class-validator";
+import {
+  ValidateNested,
+  IsString,
+  IsDate,
+  IsBoolean,
+  IsOptional,
+} from "class-validator";
 import { Type } from "class-transformer";
 import { Tag } from "../../tag/base/Tag";
 @ObjectType()
@@ -40,6 +46,17 @@ class Post {
   @Type(() => Date)
   @Field(() => Date)
   createdAt!: Date;
+
+  @ApiProperty({
+    required: false,
+    type: Boolean,
+  })
+  @IsBoolean()
+  @IsOptional()
+  @Field(() => Boolean, {
+    nullable: true,
+  })
+  draft!: boolean | null;
 
   @ApiProperty({
     required: true,

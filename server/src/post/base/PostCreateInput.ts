@@ -12,7 +12,12 @@ https://docs.amplication.com/docs/how-to/custom-code
 import { InputType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
 import { AuthorWhereUniqueInput } from "../../author/base/AuthorWhereUniqueInput";
-import { ValidateNested, IsString, IsOptional } from "class-validator";
+import {
+  ValidateNested,
+  IsString,
+  IsBoolean,
+  IsOptional,
+} from "class-validator";
 import { Type } from "class-transformer";
 import { TagCreateNestedManyWithoutPostsInput } from "./TagCreateNestedManyWithoutPostsInput";
 @InputType()
@@ -33,6 +38,17 @@ class PostCreateInput {
   @IsString()
   @Field(() => String)
   content!: string;
+
+  @ApiProperty({
+    required: false,
+    type: Boolean,
+  })
+  @IsBoolean()
+  @IsOptional()
+  @Field(() => Boolean, {
+    nullable: true,
+  })
+  draft?: boolean | null;
 
   @ApiProperty({
     required: true,

@@ -66,6 +66,7 @@ export class PostControllerBase {
 
         content: true,
         createdAt: true,
+        draft: true,
         featuredImage: true,
         id: true,
         metaDescription: true,
@@ -95,6 +96,7 @@ export class PostControllerBase {
 
         content: true,
         createdAt: true,
+        draft: true,
         featuredImage: true,
         id: true,
         metaDescription: true,
@@ -125,6 +127,7 @@ export class PostControllerBase {
 
         content: true,
         createdAt: true,
+        draft: true,
         featuredImage: true,
         id: true,
         metaDescription: true,
@@ -175,6 +178,7 @@ export class PostControllerBase {
 
           content: true,
           createdAt: true,
+          draft: true,
           featuredImage: true,
           id: true,
           metaDescription: true,
@@ -218,6 +222,7 @@ export class PostControllerBase {
 
           content: true,
           createdAt: true,
+          draft: true,
           featuredImage: true,
           id: true,
           metaDescription: true,

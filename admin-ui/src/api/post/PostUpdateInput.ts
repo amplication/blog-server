@@ -4,6 +4,7 @@ import { TagUpdateManyWithoutPostsInput } from "./TagUpdateManyWithoutPostsInput
 export type PostUpdateInput = {
   author?: AuthorWhereUniqueInput;
   content?: string;
+  draft?: boolean | null;
   featuredImage?: string;
   metaDescription?: string | null;
   metaTitle?: string | null;

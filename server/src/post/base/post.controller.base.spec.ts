@@ -13,6 +13,7 @@ const existingId = "existingId";
 const CREATE_INPUT = {
   content: "exampleContent",
   createdAt: new Date(),
+  draft: "true",
   featuredImage: "exampleFeaturedImage",
   id: "exampleId",
   metaDescription: "exampleMetaDescription",
@@ -24,6 +25,7 @@ const CREATE_INPUT = {
 const CREATE_RESULT = {
   content: "exampleContent",
   createdAt: new Date(),
+  draft: "true",
   featuredImage: "exampleFeaturedImage",
   id: "exampleId",
   metaDescription: "exampleMetaDescription",
@@ -36,6 +38,7 @@ const FIND_MANY_RESULT = [
   {
     content: "exampleContent",
     createdAt: new Date(),
+    draft: "true",
     featuredImage: "exampleFeaturedImage",
     id: "exampleId",
     metaDescription: "exampleMetaDescription",
@@ -48,6 +51,7 @@ const FIND_MANY_RESULT = [
 const FIND_ONE_RESULT = {
   content: "exampleContent",
   createdAt: new Date(),
+  draft: "true",
   featuredImage: "exampleFeaturedImage",
   id: "exampleId",
   metaDescription: "exampleMetaDescription",

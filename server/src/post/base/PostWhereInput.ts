@@ -15,6 +15,7 @@ import { AuthorWhereUniqueInput } from "../../author/base/AuthorWhereUniqueInput
 import { ValidateNested, IsOptional } from "class-validator";
 import { Type } from "class-transformer";
 import { StringFilter } from "../../util/StringFilter";
+import { BooleanNullableFilter } from "../../util/BooleanNullableFilter";
 import { StringNullableFilter } from "../../util/StringNullableFilter";
 import { TagListRelationFilter } from "../../tag/base/TagListRelationFilter";
 @InputType()
@@ -41,6 +42,17 @@ class PostWhereInput {
     nullable: true,
   })
   content?: StringFilter;
+
+  @ApiProperty({
+    required: false,
+    type: BooleanNullableFilter,
+  })
+  @Type(() => BooleanNullableFilter)
+  @IsOptional()
+  @Field(() => BooleanNullableFilter, {
+    nullable: true,
+  })
+  draft?: BooleanNullableFilter;
 
   @ApiProperty({
     required: false,

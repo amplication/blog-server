@@ -4,6 +4,7 @@ export type PostOrderByInput = {
   authorId?: SortOrder;
   content?: SortOrder;
   createdAt?: SortOrder;
+  draft?: SortOrder;
   featuredImage?: SortOrder;
   id?: SortOrder;
   metaDescription?: SortOrder;
