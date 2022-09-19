@@ -118,7 +118,7 @@ jobs:
         run: |
           set -e;
           docker run \
-            --workdir="/app/server" \
+            --workdir="/app" \
             --network host \
             --env POSTGRESQL_URL="postgresql://${{ env.CLOUD_SQL_INSTANCE_DATABASE_USER }}:${{ secrets.PRODUCTION_DB_PASSWORD }}@127.0.0.1:5432/${{ env.CLOUD_SQL_INSTANCE_DATABASE_NAME }}" \
             gcr.io/amplication/blog-server:${{ github.sha }} \
@@ -129,7 +129,7 @@ jobs:
         run: |
           set -e;
           docker run \
-            --workdir="/app/server" \
+            --workdir="/app" \
             --network host \
             --env POSTGRESQL_URL="postgresql://${{ env.CLOUD_SQL_INSTANCE_DATABASE_USER }}:${{ secrets.STAGING_DB_PASSWORD }}@127.0.0.1:5432/${{ env.CLOUD_SQL_INSTANCE_DATABASE_NAME }}" \
             gcr.io/amplication/blog-server:${{ github.sha }} \
