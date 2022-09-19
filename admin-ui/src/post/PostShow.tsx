@@ -1,4 +1,5 @@
 import * as React from "react";
+
 import {
   Show,
   SimpleShowLayout,
@@ -6,7 +7,9 @@ import {
   ReferenceField,
   TextField,
   DateField,
+  BooleanField,
 } from "react-admin";
+
 import { AUTHOR_TITLE_FIELD } from "../author/AuthorTitle";
 
 export const PostShow = (props: ShowProps): React.ReactElement => {
@@ -18,6 +21,7 @@ export const PostShow = (props: ShowProps): React.ReactElement => {
         </ReferenceField>
         <TextField label="Content" source="content" />
         <DateField source="createdAt" label="Created At" />
+        <BooleanField label="Draft" source="draft" />
         <TextField label="Featured Image" source="featuredImage" />
         <TextField label="ID" source="id" />
         <TextField label="Meta Description" source="metaDescription" />

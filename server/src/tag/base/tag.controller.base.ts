@@ -204,6 +204,7 @@ export class TagControllerBase {
 
         content: true,
         createdAt: true,
+        draft: true,
         featuredImage: true,
         id: true,
         metaDescription: true,

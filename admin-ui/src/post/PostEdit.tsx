@@ -7,6 +7,7 @@ import {
   ReferenceInput,
   SelectInput,
   TextInput,
+  BooleanInput,
   ReferenceArrayInput,
   SelectArrayInput,
 } from "react-admin";
@@ -19,6 +20,7 @@ export const PostEdit = (props: EditProps): React.ReactElement => {
     <Edit {...props}>
       <SimpleForm>
         <TextInput label="Title" multiline source="title" />
+        <BooleanInput label="Draft" source="draft" />
         <ReferenceInput source="author.id" reference="Author" label="Author">
           <SelectInput optionText={AuthorTitle} />
         </ReferenceInput>

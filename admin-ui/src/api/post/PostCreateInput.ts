@@ -4,6 +4,7 @@ import { TagCreateNestedManyWithoutPostsInput } from "./TagCreateNestedManyWitho
 export type PostCreateInput = {
   author: AuthorWhereUniqueInput;
   content: string;
+  draft?: boolean | null;
   featuredImage: string;
   metaDescription?: string | null;
   metaTitle?: string | null;

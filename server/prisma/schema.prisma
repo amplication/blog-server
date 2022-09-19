@@ -23,6 +23,7 @@ model Post {
   authorId        String
   content         String
   createdAt       DateTime @default(now())
+  draft           Boolean?
   featuredImage   String
   id              String   @id @default(cuid())
   metaDescription String?

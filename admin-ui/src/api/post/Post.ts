@@ -5,6 +5,7 @@ export type Post = {
   author?: Author;
   content: string;
   createdAt: Date;
+  draft: boolean | null;
   featuredImage: string;
   id: string;
   metaDescription: string | null;
