@@ -1,5 +1,6 @@
 import { AuthorWhereUniqueInput } from "../author/AuthorWhereUniqueInput";
 import { StringFilter } from "../../util/StringFilter";
+import { StringNullableFilter } from "../../util/StringNullableFilter";
 import { TagListRelationFilter } from "../tag/TagListRelationFilter";
 
 export type PostWhereInput = {
@@ -7,6 +8,9 @@ export type PostWhereInput = {
   content?: StringFilter;
   featuredImage?: StringFilter;
   id?: StringFilter;
+  metaDescription?: StringNullableFilter;
+  metaTitle?: StringNullableFilter;
+  slug?: StringNullableFilter;
   tags?: TagListRelationFilter;
   title?: StringFilter;
 };

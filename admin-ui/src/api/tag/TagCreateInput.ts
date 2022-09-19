@@ -3,4 +3,5 @@ import { PostCreateNestedManyWithoutTagsInput } from "./PostCreateNestedManyWith
 export type TagCreateInput = {
   name: string;
   posts?: PostCreateNestedManyWithoutTagsInput;
+  slug?: string | null;
 };
