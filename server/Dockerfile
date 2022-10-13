@@ -26,5 +26,5 @@ COPY --from=base /app ./
 
 EXPOSE 3000
 
-ENTRYPOINT ["node", "./dist/main"]
+CMD [ "node", "./dist/main"]
 
