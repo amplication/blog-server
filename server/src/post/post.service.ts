@@ -21,10 +21,9 @@ export class PostService extends PostServiceBase {
   async update<T extends Prisma.PostUpdateArgs>(
     args: Prisma.SelectSubset<T, Prisma.PostUpdateArgs>
   ): Promise<Post> {
-    if (args.data.slug && typeof args.data.slug !== 'string') {
-      delete args.data.slug;
-    } else if (args.data.slug) {
-      args.data.slug = slugify(args.data.slug, SLUGGIFY_OPTIONS);
+    if (args.data.draft === false) {
+      args.data.createdAt = new Date();
+      args.data.updatedAt = new Date();
     }
     return super.update<T>(args);
   }
