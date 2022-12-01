@@ -9,8 +9,8 @@ import { TagService } from "./tag.service";
 import { Public } from "../decorators/public.decorator";
 import { TagFindManyArgs } from "./base/TagFindManyArgs";
 import { TagFindUniqueArgs } from "./base/TagFindUniqueArgs";
-import { Post } from "src/post/base/Post";
-import { PostFindManyArgs } from "src/post/base/PostFindManyArgs";
+import { Post } from "../post/base/Post";
+import { PostFindManyArgs } from "../post/base/PostFindManyArgs";
 
 @graphql.Resolver(() => Tag)
 @common.UseGuards(GqlDefaultAuthGuard, gqlACGuard.GqlACGuard)

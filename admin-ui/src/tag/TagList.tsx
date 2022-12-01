@@ -1,6 +1,7 @@
 import * as React from "react";
 import { List, Datagrid, ListProps, DateField, TextField } from "react-admin";
 import Pagination from "../Components/Pagination";
+import { TagURLField } from "../util/URLField";
 
 export const TagList = (props: ListProps): React.ReactElement => {
   return (
@@ -12,11 +13,10 @@ export const TagList = (props: ListProps): React.ReactElement => {
       pagination={<Pagination />}
     >
       <Datagrid rowClick="show">
-        <DateField source="createdAt" label="Created At" />
-        <TextField label="ID" source="id" />
         <TextField label="Name" source="name" />
-        <TextField label="Slug" source="slug" />
+        <TagURLField label="URL" source="slug" />
         <DateField source="updatedAt" label="Updated At" />
+        <DateField source="createdAt" label="Created At" />
       </Datagrid>
     </List>
   );

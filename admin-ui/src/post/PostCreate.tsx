@@ -20,16 +20,15 @@ export const PostCreate = (props: CreateProps): React.ReactElement => {
   return (
     <Create {...props}>
       <SimpleForm>
+        <TextInput label="Title" multiline source="title" />
         <ReferenceInput source="author.id" reference="Author" label="Author">
           <SelectInput optionText={AuthorTitle} />
         </ReferenceInput>
-        <TextInput label="Content" multiline source="content" />
+        <DateTimeInput label="Published At" source="publishedAt" />
         <BooleanInput label="Draft" source="draft" />
         <TextInput label="Featured Image" source="featuredImage" />
-        <TextInput label="Meta Description" source="metaDescription" />
         <TextInput label="Meta Title" source="metaTitle" />
-        <DateTimeInput label="Published At" source="publishedAt" />
-        <TextInput label="Slug" source="slug" />
+        <TextInput label="Meta Description" source="metaDescription" />
         <ReferenceArrayInput
           source="tags"
           reference="Tag"
@@ -38,7 +37,12 @@ export const PostCreate = (props: CreateProps): React.ReactElement => {
         >
           <SelectArrayInput optionText={TagTitle} />
         </ReferenceArrayInput>
-        <TextInput label="Title" multiline source="title" />
+        <TextInput
+          label="Content"
+          multiline
+          source="content"
+          style={{ width: 1000, minHeight: 400 }}
+        />
       </SimpleForm>
     </Create>
   );

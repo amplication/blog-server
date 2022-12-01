@@ -14,16 +14,29 @@ export class PostService extends PostServiceBase {
   async create<T extends Prisma.PostCreateArgs>(
     args: Prisma.SelectSubset<T, Prisma.TagCreateArgs>
   ): Promise<Post> {
-    args.data.slug = slugify(args.data.title ?? '', SLUGGIFY_OPTIONS);
+    // Set Slug on creation
+    args.data.slug = slugify(args.data.title ?? "", SLUGGIFY_OPTIONS);
+    // Set Published At if not set
+    if (!args.data.publishedAt) {
+      args.data.publishedAt = new Date();
+    }
     return super.create<T>(args);
   }
 
   async update<T extends Prisma.PostUpdateArgs>(
     args: Prisma.SelectSubset<T, Prisma.PostUpdateArgs>
   ): Promise<Post> {
+    // Prevent Slugs from being removed
+    if (args.data.slug === null) {
+      delete args.data.slug;
+    }
+    // Prevent Published At from being removed
+    if (args.data.publishedAt === null) {
+      delete args.data.publishedAt;
+    }
+    // Set Published At if post undrafted
     if (args.data.draft === false) {
-      args.data.createdAt = new Date();
-      args.data.updatedAt = new Date();
+      args.data.publishedAt = new Date();
     }
     return super.update<T>(args);
   }

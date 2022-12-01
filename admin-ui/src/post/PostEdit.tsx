@@ -10,6 +10,7 @@ import {
   BooleanInput,
   ReferenceArrayInput,
   SelectArrayInput,
+  DateTimeInput,
 } from "react-admin";
 
 import { AuthorTitle } from "../author/AuthorTitle";
@@ -20,15 +21,14 @@ export const PostEdit = (props: EditProps): React.ReactElement => {
     <Edit {...props}>
       <SimpleForm>
         <TextInput label="Title" multiline source="title" />
-        <BooleanInput label="Draft" source="draft" />
         <ReferenceInput source="author.id" reference="Author" label="Author">
           <SelectInput optionText={AuthorTitle} />
         </ReferenceInput>
-
+        <DateTimeInput label="Published At" source="publishedAt" />
+        <BooleanInput label="Draft" source="draft" />
         <TextInput label="Featured Image" source="featuredImage" />
-        <TextInput label="Meta Description" source="metaDescription" />
         <TextInput label="Meta Title" source="metaTitle" />
-        <TextInput label="Slug" source="slug" />
+        <TextInput label="Meta Description" source="metaDescription" />
         <ReferenceArrayInput
           source="tags"
           reference="Tag"

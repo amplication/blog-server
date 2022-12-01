@@ -14,6 +14,7 @@ export class TagService extends TagServiceBase {
   async create<T extends Prisma.TagCreateArgs>(
     args: Prisma.SelectSubset<T, Prisma.TagCreateArgs>
   ): Promise<Tag> {
+    // Set Slug on creation
     args.data.slug = slugify(args.data.name ?? '', SLUGGIFY_OPTIONS);
     return super.create(args);
   }
@@ -21,10 +22,9 @@ export class TagService extends TagServiceBase {
   async update<T extends Prisma.TagUpdateArgs>(
     args: Prisma.SelectSubset<T, Prisma.TagUpdateArgs>
   ): Promise<Tag> {
-    if (args.data.slug && typeof args.data.slug !== 'string') {
+    // Prevent Slugs from being removed
+    if (args.data.slug === null) {
       delete args.data.slug;
-    } else if (args.data.slug) {
-      args.data.slug = slugify(args.data.slug, SLUGGIFY_OPTIONS);
     }
     return super.update(args);
   }

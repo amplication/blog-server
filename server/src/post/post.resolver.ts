@@ -9,9 +9,9 @@ import { PostService } from "./post.service";
 import { PostFindManyArgs } from "./base/PostFindManyArgs";
 import { Public } from "../decorators/public.decorator";
 import { PostFindUniqueArgs } from "./base/PostFindUniqueArgs";
-import { Author } from "src/author/base/Author";
-import { Tag } from "src/tag/base/Tag";
-import { TagFindManyArgs } from "src/tag/base/TagFindManyArgs";
+import { Author } from "../author/base/Author";
+import { Tag } from "../tag/base/Tag";
+import { TagFindManyArgs } from "../tag/base/TagFindManyArgs";
 
 @graphql.Resolver(() => Post)
 @common.UseGuards(GqlDefaultAuthGuard, gqlACGuard.GqlACGuard)
