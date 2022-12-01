@@ -9,6 +9,7 @@ export type PostOrderByInput = {
   id?: SortOrder;
   metaDescription?: SortOrder;
   metaTitle?: SortOrder;
+  publishedAt?: SortOrder;
   slug?: SortOrder;
   title?: SortOrder;
   updatedAt?: SortOrder;

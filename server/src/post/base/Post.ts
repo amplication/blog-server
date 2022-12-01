@@ -98,6 +98,17 @@ class Post {
 
   @ApiProperty({
     required: false,
+  })
+  @IsDate()
+  @Type(() => Date)
+  @IsOptional()
+  @Field(() => Date, {
+    nullable: true,
+  })
+  publishedAt!: Date | null;
+
+  @ApiProperty({
+    required: false,
     type: String,
   })
   @IsString()

@@ -1,6 +1,6 @@
 datasource postgres {
   provider = "postgresql"
-  url      = env("POSTGRESQL_URL")
+  url      = env("DB_URL")
 }
 
 generator client {
@@ -13,25 +13,26 @@ model User {
   id        String   @id @default(cuid())
   lastName  String?
   password  String
-  roles     String[]
+  roles     Json
   updatedAt DateTime @updatedAt
   username  String   @unique
 }
 
 model Post {
-  author          Author   @relation(fields: [authorId], references: [id])
+  author          Author    @relation(fields: [authorId], references: [id])
   authorId        String
   content         String
-  createdAt       DateTime @default(now())
+  createdAt       DateTime  @default(now())
   draft           Boolean?
   featuredImage   String
-  id              String   @id @default(cuid())
+  id              String    @id @default(cuid())
   metaDescription String?
   metaTitle       String?
-  slug            String?  @unique
+  publishedAt     DateTime?
+  slug            String?   @unique
   tags            Tag[]
   title           String
-  updatedAt       DateTime @updatedAt
+  updatedAt       DateTime  @updatedAt
 }
 
 model Author {
