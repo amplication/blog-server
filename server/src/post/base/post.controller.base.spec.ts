@@ -1,10 +1,18 @@
 import { Test } from "@nestjs/testing";
-import { INestApplication, HttpStatus, ExecutionContext } from "@nestjs/common";
+import {
+  INestApplication,
+  HttpStatus,
+  ExecutionContext,
+  CallHandler,
+} from "@nestjs/common";
 import request from "supertest";
 import { MorganModule } from "nest-morgan";
 import { ACGuard } from "nest-access-control";
 import { DefaultAuthGuard } from "../../auth/defaultAuth.guard";
 import { ACLModule } from "../../auth/acl.module";
+import { AclFilterResponseInterceptor } from "../../interceptors/aclFilterResponse.interceptor";
+import { AclValidateRequestInterceptor } from "../../interceptors/aclValidateRequest.interceptor";
+import { map } from "rxjs";
 import { PostController } from "../post.controller";
 import { PostService } from "../post.service";
 
@@ -18,6 +26,7 @@ const CREATE_INPUT = {
   id: "exampleId",
   metaDescription: "exampleMetaDescription",
   metaTitle: "exampleMetaTitle",
+  publishedAt: new Date(),
   slug: "exampleSlug",
   title: "exampleTitle",
   updatedAt: new Date(),
@@ -30,6 +39,7 @@ const CREATE_RESULT = {
   id: "exampleId",
   metaDescription: "exampleMetaDescription",
   metaTitle: "exampleMetaTitle",
+  publishedAt: new Date(),
   slug: "exampleSlug",
   title: "exampleTitle",
   updatedAt: new Date(),
@@ -43,6 +53,7 @@ const FIND_MANY_RESULT = [
     id: "exampleId",
     metaDescription: "exampleMetaDescription",
     metaTitle: "exampleMetaTitle",
+    publishedAt: new Date(),
     slug: "exampleSlug",
     title: "exampleTitle",
     updatedAt: new Date(),
@@ -56,6 +67,7 @@ const FIND_ONE_RESULT = {
   id: "exampleId",
   metaDescription: "exampleMetaDescription",
   metaTitle: "exampleMetaTitle",
+  publishedAt: new Date(),
   slug: "exampleSlug",
   title: "exampleTitle",
   updatedAt: new Date(),
@@ -93,6 +105,21 @@ const acGuard = {
   },
 };
 
+const aclFilterResponseInterceptor = {
+  intercept: (context: ExecutionContext, next: CallHandler) => {
+    return next.handle().pipe(
+      map((data) => {
+        return data;
+      })
+    );
+  },
+};
+const aclValidateRequestInterceptor = {
+  intercept: (context: ExecutionContext, next: CallHandler) => {
+    return next.handle();
+  },
+};
+
 describe("Post", () => {
   let app: INestApplication;
 
@@ -111,6 +138,10 @@ describe("Post", () => {
       .useValue(basicAuthGuard)
       .overrideGuard(ACGuard)
       .useValue(acGuard)
+      .overrideInterceptor(AclFilterResponseInterceptor)
+      .useValue(aclFilterResponseInterceptor)
+      .overrideInterceptor(AclValidateRequestInterceptor)
+      .useValue(aclValidateRequestInterceptor)
       .compile();
 
     app = moduleRef.createNestApplication();
@@ -125,6 +156,7 @@ describe("Post", () => {
       .expect({
         ...CREATE_RESULT,
         createdAt: CREATE_RESULT.createdAt.toISOString(),
+        publishedAt: CREATE_RESULT.publishedAt.toISOString(),
         updatedAt: CREATE_RESULT.updatedAt.toISOString(),
       });
   });
@@ -137,6 +169,7 @@ describe("Post", () => {
         {
           ...FIND_MANY_RESULT[0],
           createdAt: FIND_MANY_RESULT[0].createdAt.toISOString(),
+          publishedAt: FIND_MANY_RESULT[0].publishedAt.toISOString(),
           updatedAt: FIND_MANY_RESULT[0].updatedAt.toISOString(),
         },
       ]);
@@ -160,6 +193,7 @@ describe("Post", () => {
       .expect({
         ...FIND_ONE_RESULT,
         createdAt: FIND_ONE_RESULT.createdAt.toISOString(),
+        publishedAt: FIND_ONE_RESULT.publishedAt.toISOString(),
         updatedAt: FIND_ONE_RESULT.updatedAt.toISOString(),
       });
   });

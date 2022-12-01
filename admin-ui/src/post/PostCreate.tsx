@@ -8,6 +8,7 @@ import {
   SelectInput,
   TextInput,
   BooleanInput,
+  DateTimeInput,
   ReferenceArrayInput,
   SelectArrayInput,
 } from "react-admin";
@@ -27,6 +28,7 @@ export const PostCreate = (props: CreateProps): React.ReactElement => {
         <TextInput label="Featured Image" source="featuredImage" />
         <TextInput label="Meta Description" source="metaDescription" />
         <TextInput label="Meta Title" source="metaTitle" />
+        <DateTimeInput label="Published At" source="publishedAt" />
         <TextInput label="Slug" source="slug" />
         <ReferenceArrayInput
           source="tags"
