@@ -40,7 +40,6 @@ export const AuthorShow = (props: ShowProps): React.ReactElement => {
             <TextField label="ID" source="id" />
             <TextField label="Meta Description" source="metaDescription" />
             <TextField label="Meta Title" source="metaTitle" />
-            <TextField label="Published At" source="publishedAt" />
             <TextField label="Slug" source="slug" />
             <TextField label="Title" source="title" />
             <DateField source="updatedAt" label="Updated At" />

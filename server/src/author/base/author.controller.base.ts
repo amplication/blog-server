@@ -214,7 +214,6 @@ export class AuthorControllerBase {
         id: true,
         metaDescription: true,
         metaTitle: true,
-        publishedAt: true,
         slug: true,
         title: true,
         updatedAt: true,

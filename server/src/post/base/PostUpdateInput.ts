@@ -17,7 +17,6 @@ import {
   IsOptional,
   IsString,
   IsBoolean,
-  IsDate,
 } from "class-validator";
 import { Type } from "class-transformer";
 import { TagUpdateManyWithoutPostsInput } from "./TagUpdateManyWithoutPostsInput";
@@ -89,17 +88,6 @@ class PostUpdateInput {
     nullable: true,
   })
   metaTitle?: string | null;
-
-  @ApiProperty({
-    required: false,
-  })
-  @IsDate()
-  @Type(() => Date)
-  @IsOptional()
-  @Field(() => Date, {
-    nullable: true,
-  })
-  publishedAt?: Date | null;
 
   @ApiProperty({
     required: false,

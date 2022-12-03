@@ -10,7 +10,6 @@ export type Post = {
   id: string;
   metaDescription: string | null;
   metaTitle: string | null;
-  publishedAt: Date | null;
   slug: string | null;
   tags?: Array<Tag>;
   title: string;

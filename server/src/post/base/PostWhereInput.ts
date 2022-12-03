@@ -17,7 +17,6 @@ import { Type } from "class-transformer";
 import { StringFilter } from "../../util/StringFilter";
 import { BooleanNullableFilter } from "../../util/BooleanNullableFilter";
 import { StringNullableFilter } from "../../util/StringNullableFilter";
-import { DateTimeNullableFilter } from "../../util/DateTimeNullableFilter";
 import { TagListRelationFilter } from "../../tag/base/TagListRelationFilter";
 @InputType()
 class PostWhereInput {
@@ -98,17 +97,6 @@ class PostWhereInput {
     nullable: true,
   })
   metaTitle?: StringNullableFilter;
-
-  @ApiProperty({
-    required: false,
-    type: DateTimeNullableFilter,
-  })
-  @Type(() => DateTimeNullableFilter)
-  @IsOptional()
-  @Field(() => DateTimeNullableFilter, {
-    nullable: true,
-  })
-  publishedAt?: DateTimeNullableFilter;
 
   @ApiProperty({
     required: false,

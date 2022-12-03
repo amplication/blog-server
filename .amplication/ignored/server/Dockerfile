@@ -1,31 +1,38 @@
-FROM node:16.16 AS base
+FROM node:16-alpine AS base
 
-WORKDIR /app
+# Hide Open Collective message from install logs
+ENV OPENCOLLECTIVE_HIDE=1
+# Hiden NPM security message from install logs
+ENV NPM_CONFIG_AUDIT=false
+# Hide NPM funding message from install logs
+ENV NPM_CONFIG_FUND=false
 
-COPY package.json ./
+# Update npm to version 7
+RUN npm i -g npm@8.1.2
 
-RUN npm install
+# Set the working directory
+WORKDIR /app/server
 
+# Copy files specifying dependencies
+COPY package.json package-lock.json ./
+
+# Install dependencies
+RUN npm ci --loglevel=$NPM_LOG_LEVEL;
+
+# Copy Prisma schema
 COPY prisma/schema.prisma ./prisma/
 
-RUN npm run prisma:generate
+# Generate Prisma client
+RUN npm run prisma:generate;
 
-COPY . .
+# Copy all the files
+ COPY . .
 
+# Build code
 RUN npm run build
 
-FROM node:16.16 AS prod
-
-WORKDIR /app
-
-COPY --from=base /app/node_modules/ ./node_modules
-COPY --from=base /app/package.json ./package.json
-COPY --from=base /app/dist ./dist
-COPY --from=base /app/prisma ./prisma
-COPY --from=base /app/scripts ./scripts
-COPY --from=base /app/src ./src
-COPY --from=base /app/tsconfig* ./
-
+# Expose the port the server listens to
 EXPOSE 3000
 
-CMD [ "node", "./dist/main"]
+# Run server
+CMD [ "node", "dist/main"]
