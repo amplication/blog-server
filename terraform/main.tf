@@ -8,10 +8,14 @@ provider "google" {
 resource "google_sql_database_instance" "instance" {
   name             = "amplication-blog-server-${var.environment}"
   database_version = "POSTGRES_12"
+  
   deletion_protection = false
   settings {
     tier = var.database_tier
-
+    backup_configuration {
+      enabled = true
+      start_time = "00:00"
+    }
   }
 }
 
