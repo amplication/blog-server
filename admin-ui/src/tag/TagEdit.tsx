@@ -24,6 +24,7 @@ export const TagEdit = (props: EditProps): React.ReactElement => {
         >
           <SelectArrayInput optionText={PostTitle} />
         </ReferenceArrayInput>
+        <TextInput label="Slug" source="slug" />
       </SimpleForm>
     </Edit>
   );

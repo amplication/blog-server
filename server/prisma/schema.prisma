@@ -1,6 +1,6 @@
-datasource postgres {
-  provider = "postgresql"
-  url      = env("POSTGRESQL_URL")
+datasource mysql {
+  provider = "mysql"
+  url      = env("DB_URL")
 }
 
 generator client {

@@ -1,6 +1,7 @@
 import { ValidationPipe } from "@nestjs/common";
-import { NestFactory } from "@nestjs/core";
+import { HttpAdapterHost, NestFactory } from "@nestjs/core";
 import { OpenAPIObject, SwaggerModule } from "@nestjs/swagger";
+import { HttpExceptionFilter } from "./filters/HttpExceptions.filter";
 // @ts-ignore
 // eslint-disable-next-line
 import { AppModule } from "./app.module";
@@ -12,7 +13,7 @@ import {
   // eslint-disable-next-line
 } from "./swagger";
 
-const { SERVER_PORT = 3000 } = process.env;
+const { PORT = 3000 } = process.env;
 
 async function main() {
   const app = await NestFactory.create(AppModule, { cors: true });
@@ -40,7 +41,10 @@ async function main() {
 
   SwaggerModule.setup(swaggerPath, app, document, swaggerSetupOptions);
 
-  void app.listen(SERVER_PORT);
+  const { httpAdapter } = app.get(HttpAdapterHost);
+  app.useGlobalFilters(new HttpExceptionFilter(httpAdapter));
+
+  void app.listen(PORT);
 
   return app;
 }
