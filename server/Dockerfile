@@ -1,10 +1,10 @@
-FROM node:16.16 AS base
+FROM node:18.12.1 AS base
 
 WORKDIR /app
 
-COPY package.json package-lock.json ./
+COPY package.json ./
 
-RUN npm ci
+RUN npm install
 
 COPY prisma/schema.prisma ./prisma/
 
@@ -14,7 +14,7 @@ COPY . .
 
 RUN npm run build
 
-FROM node:16.16 AS prod
+FROM node:18.12.1 AS prod
 
 WORKDIR /app
 
@@ -22,9 +22,10 @@ COPY --from=base /app/node_modules/ ./node_modules
 COPY --from=base /app/package.json ./package.json
 COPY --from=base /app/dist ./dist
 COPY --from=base /app/prisma ./prisma
-COPY --from=base /app ./
+COPY --from=base /app/scripts ./scripts
+COPY --from=base /app/src ./src
+COPY --from=base /app/tsconfig* ./
 
 EXPOSE 3000
 
 CMD [ "node", "./dist/main"]
-

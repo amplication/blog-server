@@ -1,4 +1,5 @@
 import * as React from "react";
+
 import {
   List,
   Datagrid,
@@ -8,9 +9,9 @@ import {
   DateField,
   BooleanField,
 } from "react-admin";
+
 import Pagination from "../Components/Pagination";
 import { AUTHOR_TITLE_FIELD } from "../author/AuthorTitle";
-import { PostURLField } from "../util/URLField";
 
 export const PostList = (props: ListProps): React.ReactElement => {
   return (
@@ -22,15 +23,20 @@ export const PostList = (props: ListProps): React.ReactElement => {
       pagination={<Pagination />}
     >
       <Datagrid rowClick="show">
-        <TextField label="Title" source="title" />
         <ReferenceField label="Author" source="author.id" reference="Author">
           <TextField source={AUTHOR_TITLE_FIELD} />
         </ReferenceField>
-        <PostURLField label="URL" source="slug" />
-        <BooleanField label="Draft" source="draft" />
-        <DateField source="publishedAt" label="Published At" />
-        <DateField source="updatedAt" label="Updated At" />
+        <TextField label="Content" source="content" />
         <DateField source="createdAt" label="Created At" />
+        <BooleanField label="Draft" source="draft" />
+        <TextField label="Featured Image" source="featuredImage" />
+        <TextField label="ID" source="id" />
+        <TextField label="Meta Description" source="metaDescription" />
+        <TextField label="Meta Title" source="metaTitle" />
+        <TextField label="Published At" source="publishedAt" />
+        <TextField label="Slug" source="slug" />
+        <TextField label="Title" source="title" />
+        <DateField source="updatedAt" label="Updated At" />
       </Datagrid>
     </List>
   );
