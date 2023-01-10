@@ -8,5 +8,8 @@
 ALTER TABLE "Post" ADD COLUMN     "publishedAt" TIMESTAMP(3);
 
 -- AlterTable
-ALTER TABLE "User" DROP COLUMN "roles",
-ADD COLUMN     "roles" JSONB NOT NULL;
+/*
+  Commented out as it breaks deploy, this migration was manually applied.
+*/
+-- ALTER TABLE "User" DROP COLUMN "roles",
+-- ADD COLUMN     "roles" JSONB NOT NULL;
