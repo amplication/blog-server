@@ -34,10 +34,6 @@ export class PostService extends PostServiceBase {
     if (args.data.publishedAt === null) {
       delete args.data.publishedAt;
     }
-    // Set Published At if post undrafted
-    if (args.data.draft === false) {
-      args.data.publishedAt = new Date();
-    }
     return super.update<T>(args);
   }
 }
