@@ -8,4 +8,5 @@ export type AuthorWhereInput = {
   lastName?: StringNullableFilter;
   posts?: PostListRelationFilter;
   profileImage?: StringNullableFilter;
+  slug?: StringNullableFilter;
 };

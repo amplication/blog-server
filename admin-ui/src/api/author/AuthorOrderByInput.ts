@@ -6,5 +6,6 @@ export type AuthorOrderByInput = {
   id?: SortOrder;
   lastName?: SortOrder;
   profileImage?: SortOrder;
+  slug?: SortOrder;
   updatedAt?: SortOrder;
 };

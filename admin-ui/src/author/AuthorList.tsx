@@ -17,6 +17,7 @@ export const AuthorList = (props: ListProps): React.ReactElement => {
         <TextField label="ID" source="id" />
         <TextField label="Last Name" source="lastName" />
         <TextField label="Profile Image" source="profileImage" />
+        <TextField label="Slug" source="slug" />
         <DateField source="updatedAt" label="Updated At" />
       </Datagrid>
     </List>

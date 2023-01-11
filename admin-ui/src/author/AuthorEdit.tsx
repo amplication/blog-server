@@ -26,6 +26,7 @@ export const AuthorEdit = (props: EditProps): React.ReactElement => {
           <SelectArrayInput optionText={PostTitle} />
         </ReferenceArrayInput>
         <TextInput label="Profile Image" source="profileImage" />
+        <TextInput label="Slug" source="slug" />
       </SimpleForm>
     </Edit>
   );
