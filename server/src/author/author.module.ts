@@ -3,10 +3,9 @@ import { AuthorModuleBase } from "./base/author.module.base";
 import { AuthorService } from "./author.service";
 import { AuthorController } from "./author.controller";
 import { AuthorResolver } from "./author.resolver";
-import { PrismaModule } from "../prisma/prisma.module";
 
 @Module({
-  imports: [AuthorModuleBase, PrismaModule],
+  imports: [AuthorModuleBase],
   controllers: [AuthorController],
   providers: [AuthorService, AuthorResolver],
   exports: [AuthorService],

@@ -33,8 +33,6 @@ Your app is ready to be deployed!
 | JWT_SECRET_KEY       | JWT secret                               | Change_ME!!!                                                |
 | JWT_EXPIRATION       | JWT expiration in days                   | 2d                                                          |
 
-\*db-provider - the prisma DB provider (for example: for postgres is postgresql and for MySQL is mysql)
-
 ## Getting Started - Local Development
 
 ### Prerequisites
