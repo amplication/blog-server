@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useRecordContext } from "react-admin";
 
-export const URLField = ({ source, type = 'blog' }: { source: string; label: string, type?: 'author' | 'blog' | 'tag' }) => {
+export const URLField = ({ source, type = 'blog' }: { source: string; label: string, type?: 'author' | 'blog' | 'tags' }) => {
   const record = useRecordContext();
   const url = new URL(record && record[source], `https://amplication.com/${type}/`)
     .href;

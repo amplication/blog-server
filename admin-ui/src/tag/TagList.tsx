@@ -14,7 +14,7 @@ export const TagList = (props: ListProps): React.ReactElement => {
     >
       <Datagrid rowClick="show">
         <TextField label="Name" source="name" />
-        <URLField label="URL" source="slug" type="tag" />
+        <URLField label="URL" source="slug" type="tags" />
         <DateField source="updatedAt" label="Updated At" />
         <DateField source="createdAt" label="Created At" />
       </Datagrid>
