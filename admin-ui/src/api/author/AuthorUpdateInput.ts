@@ -5,4 +5,5 @@ export type AuthorUpdateInput = {
   lastName?: string | null;
   posts?: PostUpdateManyWithoutAuthorsInput;
   profileImage?: string | null;
+  slug?: string | null;
 };

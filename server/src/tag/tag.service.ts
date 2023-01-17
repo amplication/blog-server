@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { Prisma, Tag } from "@prisma/client";
-import { PrismaService } from "nestjs-prisma";
+import { PrismaService } from "../prisma/prisma.service";
 import slugify from "slugify";
 import { TagServiceBase } from "./base/tag.service.base";
 import { SLUGGIFY_OPTIONS } from "../constants";

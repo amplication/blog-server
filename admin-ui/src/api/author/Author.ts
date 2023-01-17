@@ -7,5 +7,6 @@ export type Author = {
   lastName: string | null;
   posts?: Array<Post>;
   profileImage: string | null;
+  slug: string | null;
   updatedAt: Date;
 };

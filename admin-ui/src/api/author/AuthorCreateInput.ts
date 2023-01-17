@@ -5,4 +5,5 @@ export type AuthorCreateInput = {
   lastName?: string | null;
   posts?: PostCreateNestedManyWithoutAuthorsInput;
   profileImage?: string | null;
+  slug?: string | null;
 };
