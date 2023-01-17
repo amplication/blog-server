@@ -3,9 +3,10 @@ import { TagModuleBase } from "./base/tag.module.base";
 import { TagService } from "./tag.service";
 import { TagController } from "./tag.controller";
 import { TagResolver } from "./tag.resolver";
+import { PrismaModule } from "../prisma/prisma.module";
 
 @Module({
-  imports: [TagModuleBase],
+  imports: [TagModuleBase, PrismaModule],
   controllers: [TagController],
   providers: [TagService, TagResolver],
   exports: [TagService],
