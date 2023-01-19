@@ -8,9 +8,5 @@
 -- AlterTable
 ALTER TABLE "Author" ADD COLUMN     "slug" TEXT;
 
--- AlterTable
-ALTER TABLE "User" DROP COLUMN "roles",
-ADD COLUMN     "roles" JSONB NOT NULL;
-
 -- CreateIndex
 CREATE UNIQUE INDEX "Author_slug_key" ON "Author"("slug");
