@@ -18,4 +18,4 @@ class CreatePostArgs {
   data!: PostCreateInput;
 }
 
-export { CreatePostArgs };
+export { CreatePostArgs as CreatePostArgs };

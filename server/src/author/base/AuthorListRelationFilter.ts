@@ -53,4 +53,4 @@ class AuthorListRelationFilter {
   })
   none?: AuthorWhereInput;
 }
-export { AuthorListRelationFilter };
+export { AuthorListRelationFilter as AuthorListRelationFilter };

@@ -21,4 +21,4 @@ class UpdateAuthorArgs {
   data!: AuthorUpdateInput;
 }
 
-export { UpdateAuthorArgs };
+export { UpdateAuthorArgs as UpdateAuthorArgs };

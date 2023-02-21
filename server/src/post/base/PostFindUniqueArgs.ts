@@ -18,4 +18,4 @@ class PostFindUniqueArgs {
   where!: PostWhereUniqueInput;
 }
 
-export { PostFindUniqueArgs };
+export { PostFindUniqueArgs as PostFindUniqueArgs };

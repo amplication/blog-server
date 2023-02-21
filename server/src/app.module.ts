@@ -5,8 +5,6 @@ import { UserModule } from "./user/user.module";
 import { PostModule } from "./post/post.module";
 import { AuthorModule } from "./author/author.module";
 import { TagModule } from "./tag/tag.module";
-import { ACLModule } from "./auth/acl.module";
-import { AuthModule } from "./auth/auth.module";
 import { HealthModule } from "./health/health.module";
 import { PrismaModule } from "./prisma/prisma.module";
 import { SecretsManagerModule } from "./providers/secrets/secretsManager.module";
@@ -15,15 +13,18 @@ import { ServeStaticModule } from "@nestjs/serve-static";
 import { ServeStaticOptionsService } from "./serveStaticOptions.service";
 import { GraphQLModule } from "@nestjs/graphql";
 
+import { ACLModule } from "./auth/acl.module";
+import { AuthModule } from "./auth/auth.module";
+
 @Module({
   controllers: [],
   imports: [
+    ACLModule,
+    AuthModule,
     UserModule,
     PostModule,
     AuthorModule,
     TagModule,
-    ACLModule,
-    AuthModule,
     HealthModule,
     PrismaModule,
     SecretsManagerModule,

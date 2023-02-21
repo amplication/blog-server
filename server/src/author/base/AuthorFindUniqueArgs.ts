@@ -18,4 +18,4 @@ class AuthorFindUniqueArgs {
   where!: AuthorWhereUniqueInput;
 }
 
-export { AuthorFindUniqueArgs };
+export { AuthorFindUniqueArgs as AuthorFindUniqueArgs };

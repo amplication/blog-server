@@ -18,4 +18,4 @@ class DeletePostArgs {
   where!: PostWhereUniqueInput;
 }
 
-export { DeletePostArgs };
+export { DeletePostArgs as DeletePostArgs };

@@ -24,4 +24,4 @@ class TagWhereUniqueInput {
   id!: string;
 }
 
-export { TagWhereUniqueInput };
+export { TagWhereUniqueInput as TagWhereUniqueInput };

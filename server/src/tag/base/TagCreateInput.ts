@@ -49,4 +49,4 @@ class TagCreateInput {
   slug?: string | null;
 }
 
-export { TagCreateInput };
+export { TagCreateInput as TagCreateInput };

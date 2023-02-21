@@ -52,4 +52,4 @@ class TagUpdateInput {
   slug?: string | null;
 }
 
-export { TagUpdateInput };
+export { TagUpdateInput as TagUpdateInput };

@@ -18,4 +18,4 @@ class CreateAuthorArgs {
   data!: AuthorCreateInput;
 }
 
-export { CreateAuthorArgs };
+export { CreateAuthorArgs as CreateAuthorArgs };

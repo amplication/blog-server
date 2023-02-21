@@ -87,4 +87,4 @@ class AuthorWhereInput {
   slug?: StringNullableFilter;
 }
 
-export { AuthorWhereInput };
+export { AuthorWhereInput as AuthorWhereInput };

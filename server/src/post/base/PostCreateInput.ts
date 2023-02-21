@@ -125,4 +125,4 @@ class PostCreateInput {
   title!: string;
 }
 
-export { PostCreateInput };
+export { PostCreateInput as PostCreateInput };

@@ -11,13 +11,13 @@ https://docs.amplication.com/how-to/custom-code
   */
 import * as common from "@nestjs/common";
 import * as swagger from "@nestjs/swagger";
-import * as nestAccessControl from "nest-access-control";
-import * as defaultAuthGuard from "../../auth/defaultAuth.guard";
 import { isRecordNotFoundError } from "../../prisma.util";
 import * as errors from "../../errors";
 import { Request } from "express";
 import { plainToClass } from "class-transformer";
 import { ApiNestedQuery } from "../../decorators/api-nested-query.decorator";
+import * as nestAccessControl from "nest-access-control";
+import * as defaultAuthGuard from "../../auth/defaultAuth.guard";
 import { PostService } from "../post.service";
 import { AclValidateRequestInterceptor } from "../../interceptors/aclValidateRequest.interceptor";
 import { Public } from "../../decorators/public.decorator";
@@ -31,6 +31,7 @@ import { Post } from "./Post";
 import { TagFindManyArgs } from "../../tag/base/TagFindManyArgs";
 import { Tag } from "../../tag/base/Tag";
 import { TagWhereUniqueInput } from "../../tag/base/TagWhereUniqueInput";
+
 @swagger.ApiBearerAuth()
 @common.UseGuards(defaultAuthGuard.DefaultAuthGuard, nestAccessControl.ACGuard)
 export class PostControllerBase {
@@ -38,16 +39,17 @@ export class PostControllerBase {
     protected readonly service: PostService,
     protected readonly rolesBuilder: nestAccessControl.RolesBuilder
   ) {}
-
   @common.UseInterceptors(AclValidateRequestInterceptor)
+  @common.Post()
+  @swagger.ApiCreatedResponse({ type: Post })
   @nestAccessControl.UseRoles({
     resource: "Post",
     action: "create",
     possession: "any",
   })
-  @common.Post()
-  @swagger.ApiCreatedResponse({ type: Post })
-  @swagger.ApiForbiddenResponse({ type: errors.ForbiddenException })
+  @swagger.ApiForbiddenResponse({
+    type: errors.ForbiddenException,
+  })
   async create(@common.Body() data: PostCreateInput): Promise<Post> {
     return await this.service.create({
       data: {
@@ -82,8 +84,10 @@ export class PostControllerBase {
   @Public()
   @common.Get()
   @swagger.ApiOkResponse({ type: [Post] })
-  @swagger.ApiForbiddenResponse()
   @ApiNestedQuery(PostFindManyArgs)
+  @swagger.ApiForbiddenResponse({
+    type: errors.ForbiddenException,
+  })
   async findMany(@common.Req() request: Request): Promise<Post[]> {
     const args = plainToClass(PostFindManyArgs, request.query);
     return this.service.findMany({
@@ -114,7 +118,9 @@ export class PostControllerBase {
   @common.Get("/:id")
   @swagger.ApiOkResponse({ type: Post })
   @swagger.ApiNotFoundResponse({ type: errors.NotFoundException })
-  @swagger.ApiForbiddenResponse({ type: errors.ForbiddenException })
+  @swagger.ApiForbiddenResponse({
+    type: errors.ForbiddenException,
+  })
   async findOne(
     @common.Param() params: PostWhereUniqueInput
   ): Promise<Post | null> {
@@ -149,15 +155,17 @@ export class PostControllerBase {
   }
 
   @common.UseInterceptors(AclValidateRequestInterceptor)
+  @common.Patch("/:id")
+  @swagger.ApiOkResponse({ type: Post })
+  @swagger.ApiNotFoundResponse({ type: errors.NotFoundException })
   @nestAccessControl.UseRoles({
     resource: "Post",
     action: "update",
     possession: "any",
   })
-  @common.Patch("/:id")
-  @swagger.ApiOkResponse({ type: Post })
-  @swagger.ApiNotFoundResponse({ type: errors.NotFoundException })
-  @swagger.ApiForbiddenResponse({ type: errors.ForbiddenException })
+  @swagger.ApiForbiddenResponse({
+    type: errors.ForbiddenException,
+  })
   async update(
     @common.Param() params: PostWhereUniqueInput,
     @common.Body() data: PostUpdateInput
@@ -202,15 +210,17 @@ export class PostControllerBase {
     }
   }
 
+  @common.Delete("/:id")
+  @swagger.ApiOkResponse({ type: Post })
+  @swagger.ApiNotFoundResponse({ type: errors.NotFoundException })
   @nestAccessControl.UseRoles({
     resource: "Post",
     action: "delete",
     possession: "any",
   })
-  @common.Delete("/:id")
-  @swagger.ApiOkResponse({ type: Post })
-  @swagger.ApiNotFoundResponse({ type: errors.NotFoundException })
-  @swagger.ApiForbiddenResponse({ type: errors.ForbiddenException })
+  @swagger.ApiForbiddenResponse({
+    type: errors.ForbiddenException,
+  })
   async delete(
     @common.Param() params: PostWhereUniqueInput
   ): Promise<Post | null> {
@@ -248,13 +258,13 @@ export class PostControllerBase {
   }
 
   @common.UseInterceptors(AclFilterResponseInterceptor)
+  @common.Get("/:id/tags")
+  @ApiNestedQuery(TagFindManyArgs)
   @nestAccessControl.UseRoles({
     resource: "Tag",
     action: "read",
     possession: "any",
   })
-  @common.Get("/:id/tags")
-  @ApiNestedQuery(TagFindManyArgs)
   async findManyTags(
     @common.Req() request: Request,
     @common.Param() params: PostWhereUniqueInput
@@ -278,12 +288,12 @@ export class PostControllerBase {
     return results;
   }
 
+  @common.Post("/:id/tags")
   @nestAccessControl.UseRoles({
     resource: "Post",
     action: "update",
     possession: "any",
   })
-  @common.Post("/:id/tags")
   async connectTags(
     @common.Param() params: PostWhereUniqueInput,
     @common.Body() body: TagWhereUniqueInput[]
@@ -300,12 +310,12 @@ export class PostControllerBase {
     });
   }
 
+  @common.Patch("/:id/tags")
   @nestAccessControl.UseRoles({
     resource: "Post",
     action: "update",
     possession: "any",
   })
-  @common.Patch("/:id/tags")
   async updateTags(
     @common.Param() params: PostWhereUniqueInput,
     @common.Body() body: TagWhereUniqueInput[]
@@ -322,12 +332,12 @@ export class PostControllerBase {
     });
   }
 
+  @common.Delete("/:id/tags")
   @nestAccessControl.UseRoles({
     resource: "Post",
     action: "update",
     possession: "any",
   })
-  @common.Delete("/:id/tags")
   async disconnectTags(
     @common.Param() params: PostWhereUniqueInput,
     @common.Body() body: TagWhereUniqueInput[]

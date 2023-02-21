@@ -64,4 +64,4 @@ class TagOrderByInput {
   updatedAt?: SortOrder;
 }
 
-export { TagOrderByInput };
+export { TagOrderByInput as TagOrderByInput };

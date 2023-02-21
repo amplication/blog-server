@@ -127,4 +127,4 @@ class PostOrderByInput {
   updatedAt?: SortOrder;
 }
 
-export { PostOrderByInput };
+export { PostOrderByInput as PostOrderByInput };

@@ -24,4 +24,4 @@ class PostWhereUniqueInput {
   id!: string;
 }
 
-export { PostWhereUniqueInput };
+export { PostWhereUniqueInput as PostWhereUniqueInput };

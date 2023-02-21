@@ -145,4 +145,4 @@ class Post {
   updatedAt!: Date;
 }
 
-export { Post };
+export { Post as Post };

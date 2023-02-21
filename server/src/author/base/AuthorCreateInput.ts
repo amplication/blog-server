@@ -71,4 +71,4 @@ class AuthorCreateInput {
   slug?: string | null;
 }
 
-export { AuthorCreateInput };
+export { AuthorCreateInput as AuthorCreateInput };
