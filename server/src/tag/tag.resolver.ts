@@ -1,14 +1,19 @@
+import * as common from "@nestjs/common";
 import * as graphql from "@nestjs/graphql";
 import * as nestAccessControl from "nest-access-control";
-import * as gqlACGuard from "../auth/gqlAC.guard";
 import { GqlDefaultAuthGuard } from "../auth/gqlDefaultAuth.guard";
-import * as common from "@nestjs/common";
+import * as gqlACGuard from "../auth/gqlAC.guard";
 import { TagResolverBase } from "./base/tag.resolver.base";
 import { Tag } from "./base/Tag";
 import { TagService } from "./tag.service";
+import { Public } from "../decorators/public.decorator";
+import { TagFindManyArgs } from "./base/TagFindManyArgs";
+import { TagFindUniqueArgs } from "./base/TagFindUniqueArgs";
+import { Post } from "../post/base/Post";
+import { PostFindManyArgs } from "../post/base/PostFindManyArgs";
 
-@common.UseGuards(GqlDefaultAuthGuard, gqlACGuard.GqlACGuard)
 @graphql.Resolver(() => Tag)
+@common.UseGuards(GqlDefaultAuthGuard, gqlACGuard.GqlACGuard)
 export class TagResolver extends TagResolverBase {
   constructor(
     protected readonly service: TagService,
@@ -16,5 +21,25 @@ export class TagResolver extends TagResolverBase {
     protected readonly rolesBuilder: nestAccessControl.RolesBuilder
   ) {
     super(service, rolesBuilder);
+  }
+
+  @graphql.Query(() => [Tag])
+  @Public()
+  async tags(@graphql.Args() args: TagFindManyArgs): Promise<Tag[]> {
+    return await this.service.findMany(args);
+  }
+
+  @graphql.Query(() => Tag, { nullable: true })
+  @Public()
+  async tag(@graphql.Args() args: TagFindUniqueArgs): Promise<Tag | null> {
+    return await this.service.findOne(args);
+  }
+
+  @graphql.ResolveField(() => [Post])
+  async posts(
+    @graphql.Parent() parent: Tag,
+    @graphql.Args() args: PostFindManyArgs
+  ): Promise<Post[]> {
+    return await this.service.findPosts(parent.id, args);
   }
 }

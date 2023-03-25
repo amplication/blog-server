@@ -1,24 +1,24 @@
 import * as React from "react";
 
 import {
-  Create,
+  Edit,
   SimpleForm,
-  CreateProps,
+  EditProps,
   ReferenceInput,
   SelectInput,
   TextInput,
   BooleanInput,
-  DateTimeInput,
   ReferenceArrayInput,
   SelectArrayInput,
+  DateTimeInput,
 } from "react-admin";
 
 import { AuthorTitle } from "../author/AuthorTitle";
 import { TagTitle } from "../tag/TagTitle";
 
-export const PostCreate = (props: CreateProps): React.ReactElement => {
+export const PostEdit = (props: EditProps): React.ReactElement => {
   return (
-    <Create {...props}>
+    <Edit {...props}>
       <SimpleForm>
         <TextInput label="Title" multiline source="title" />
         <ReferenceInput source="author.id" reference="Author" label="Author">
@@ -44,6 +44,6 @@ export const PostCreate = (props: CreateProps): React.ReactElement => {
           style={{ width: 1000, minHeight: 400 }}
         />
       </SimpleForm>
-    </Create>
+    </Edit>
   );
 };
