@@ -15,7 +15,7 @@ export class TagService extends TagServiceBase {
     args: Prisma.SelectSubset<T, Prisma.TagCreateArgs>
   ): Promise<Tag> {
     // Set Slug on creation
-    args.data.slug = slugify(args.data.name ?? '', SLUGGIFY_OPTIONS);
+    args.data.slug = slugify(args.data.name ?? "", SLUGGIFY_OPTIONS);
     return super.create(args);
   }
 

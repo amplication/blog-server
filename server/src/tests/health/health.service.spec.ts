@@ -1,5 +1,5 @@
 import { mock } from "jest-mock-extended";
-import { PrismaService } from "../prisma/prisma.service";
+import { PrismaService } from "nestjs-prisma";
 import { HealthServiceBase } from "../../health/base/health.service.base";
 
 describe("Testing the HealthServiceBase", () => {

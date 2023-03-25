@@ -6,12 +6,12 @@ services:
       args:
         NPM_LOG_LEVEL: notice
     ports:
-      - ${SERVER_PORT}:3000
+      - ${PORT}:3000
     environment:
       BCRYPT_SALT: ${BCRYPT_SALT}
       JWT_SECRET_KEY: ${JWT_SECRET_KEY}
       JWT_EXPIRATION: ${JWT_EXPIRATION}
-      POSTGRESQL_URL: postgres://${POSTGRESQL_USER}:${POSTGRESQL_PASSWORD}@db:5433
+      DB_URL: postgres://${DB_USER}:${DB_PASSWORD}@db:${DB_PORT}
     depends_on:
       - migrate
   migrate:
@@ -23,17 +23,18 @@ services:
     working_dir: /app/server
     environment:
       BCRYPT_SALT: ${BCRYPT_SALT}
-      POSTGRESQL_URL: postgres://${POSTGRESQL_USER}:${POSTGRESQL_PASSWORD}@db:5432
+      DB_URL: postgres://${DB_USER}:${DB_PASSWORD}@db:${DB_PORT}
     depends_on:
       db:
         condition: service_healthy
   db:
     image: postgres:12
     ports:
-      - ${POSTGRESQL_PORT}:5432
+      - ${DB_PORT}:5432
     environment:
-      POSTGRES_USER: ${POSTGRESQL_USER}
-      POSTGRES_PASSWORD: ${POSTGRESQL_PASSWORD}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
     volumes:
       - postgres:/var/lib/postgresql/data
     healthcheck:
@@ -42,9 +43,9 @@ services:
         - pg_isready
         - -q
         - -d
-        - ${DB_DB_NAME}
+        - ${DB_NAME}
         - -U
-        - ${POSTGRESQL_USER}
+        - ${DB_USER}
       timeout: 45s
       interval: 10s
       retries: 10

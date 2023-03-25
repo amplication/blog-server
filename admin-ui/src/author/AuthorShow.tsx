@@ -8,7 +8,7 @@ import {
   ReferenceManyField,
   Datagrid,
   BooleanField,
-  ImageField
+  ImageField,
 } from "react-admin";
 
 import { URLField } from "../util/URLField";
