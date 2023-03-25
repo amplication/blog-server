@@ -11,13 +11,13 @@ https://docs.amplication.com/how-to/custom-code
   */
 import * as common from "@nestjs/common";
 import * as swagger from "@nestjs/swagger";
-import * as nestAccessControl from "nest-access-control";
-import * as defaultAuthGuard from "../../auth/defaultAuth.guard";
 import { isRecordNotFoundError } from "../../prisma.util";
 import * as errors from "../../errors";
 import { Request } from "express";
 import { plainToClass } from "class-transformer";
 import { ApiNestedQuery } from "../../decorators/api-nested-query.decorator";
+import * as nestAccessControl from "nest-access-control";
+import * as defaultAuthGuard from "../../auth/defaultAuth.guard";
 import { AuthorService } from "../author.service";
 import { AclValidateRequestInterceptor } from "../../interceptors/aclValidateRequest.interceptor";
 import { AclFilterResponseInterceptor } from "../../interceptors/aclFilterResponse.interceptor";
@@ -38,16 +38,17 @@ export class AuthorControllerBase {
     protected readonly service: AuthorService,
     protected readonly rolesBuilder: nestAccessControl.RolesBuilder
   ) {}
-
   @common.UseInterceptors(AclValidateRequestInterceptor)
+  @common.Post()
+  @swagger.ApiCreatedResponse({ type: Author })
   @nestAccessControl.UseRoles({
     resource: "Author",
     action: "create",
     possession: "any",
   })
-  @common.Post()
-  @swagger.ApiCreatedResponse({ type: Author })
-  @swagger.ApiForbiddenResponse({ type: errors.ForbiddenException })
+  @swagger.ApiForbiddenResponse({
+    type: errors.ForbiddenException,
+  })
   async create(@common.Body() data: AuthorCreateInput): Promise<Author> {
     return await this.service.create({
       data: data,
@@ -64,15 +65,17 @@ export class AuthorControllerBase {
   }
 
   @common.UseInterceptors(AclFilterResponseInterceptor)
+  @common.Get()
+  @swagger.ApiOkResponse({ type: [Author] })
+  @ApiNestedQuery(AuthorFindManyArgs)
   @nestAccessControl.UseRoles({
     resource: "Author",
     action: "read",
     possession: "any",
   })
-  @common.Get()
-  @swagger.ApiOkResponse({ type: [Author] })
-  @swagger.ApiForbiddenResponse()
-  @ApiNestedQuery(AuthorFindManyArgs)
+  @swagger.ApiForbiddenResponse({
+    type: errors.ForbiddenException,
+  })
   async findMany(@common.Req() request: Request): Promise<Author[]> {
     const args = plainToClass(AuthorFindManyArgs, request.query);
     return this.service.findMany({
@@ -90,15 +93,17 @@ export class AuthorControllerBase {
   }
 
   @common.UseInterceptors(AclFilterResponseInterceptor)
+  @common.Get("/:id")
+  @swagger.ApiOkResponse({ type: Author })
+  @swagger.ApiNotFoundResponse({ type: errors.NotFoundException })
   @nestAccessControl.UseRoles({
     resource: "Author",
     action: "read",
     possession: "own",
   })
-  @common.Get("/:id")
-  @swagger.ApiOkResponse({ type: Author })
-  @swagger.ApiNotFoundResponse({ type: errors.NotFoundException })
-  @swagger.ApiForbiddenResponse({ type: errors.ForbiddenException })
+  @swagger.ApiForbiddenResponse({
+    type: errors.ForbiddenException,
+  })
   async findOne(
     @common.Param() params: AuthorWhereUniqueInput
   ): Promise<Author | null> {
@@ -123,15 +128,17 @@ export class AuthorControllerBase {
   }
 
   @common.UseInterceptors(AclValidateRequestInterceptor)
+  @common.Patch("/:id")
+  @swagger.ApiOkResponse({ type: Author })
+  @swagger.ApiNotFoundResponse({ type: errors.NotFoundException })
   @nestAccessControl.UseRoles({
     resource: "Author",
     action: "update",
     possession: "any",
   })
-  @common.Patch("/:id")
-  @swagger.ApiOkResponse({ type: Author })
-  @swagger.ApiNotFoundResponse({ type: errors.NotFoundException })
-  @swagger.ApiForbiddenResponse({ type: errors.ForbiddenException })
+  @swagger.ApiForbiddenResponse({
+    type: errors.ForbiddenException,
+  })
   async update(
     @common.Param() params: AuthorWhereUniqueInput,
     @common.Body() data: AuthorUpdateInput
@@ -160,15 +167,17 @@ export class AuthorControllerBase {
     }
   }
 
+  @common.Delete("/:id")
+  @swagger.ApiOkResponse({ type: Author })
+  @swagger.ApiNotFoundResponse({ type: errors.NotFoundException })
   @nestAccessControl.UseRoles({
     resource: "Author",
     action: "delete",
     possession: "any",
   })
-  @common.Delete("/:id")
-  @swagger.ApiOkResponse({ type: Author })
-  @swagger.ApiNotFoundResponse({ type: errors.NotFoundException })
-  @swagger.ApiForbiddenResponse({ type: errors.ForbiddenException })
+  @swagger.ApiForbiddenResponse({
+    type: errors.ForbiddenException,
+  })
   async delete(
     @common.Param() params: AuthorWhereUniqueInput
   ): Promise<Author | null> {
@@ -233,12 +242,12 @@ export class AuthorControllerBase {
     return results;
   }
 
+  @common.Post("/:id/posts")
   @nestAccessControl.UseRoles({
     resource: "Author",
     action: "update",
     possession: "any",
   })
-  @common.Post("/:id/posts")
   async connectPosts(
     @common.Param() params: AuthorWhereUniqueInput,
     @common.Body() body: PostWhereUniqueInput[]
@@ -255,12 +264,12 @@ export class AuthorControllerBase {
     });
   }
 
+  @common.Patch("/:id/posts")
   @nestAccessControl.UseRoles({
     resource: "Author",
     action: "update",
     possession: "any",
   })
-  @common.Patch("/:id/posts")
   async updatePosts(
     @common.Param() params: AuthorWhereUniqueInput,
     @common.Body() body: PostWhereUniqueInput[]
@@ -277,12 +286,12 @@ export class AuthorControllerBase {
     });
   }
 
+  @common.Delete("/:id/posts")
   @nestAccessControl.UseRoles({
     resource: "Author",
     action: "update",
     possession: "any",
   })
-  @common.Delete("/:id/posts")
   async disconnectPosts(
     @common.Param() params: AuthorWhereUniqueInput,
     @common.Body() body: PostWhereUniqueInput[]
