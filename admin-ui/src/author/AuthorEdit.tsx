@@ -27,6 +27,7 @@ export const AuthorEdit = (props: EditProps): React.ReactElement => {
         </ReferenceArrayInput>
         <TextInput label="Profile Image" source="profileImage" />
         <TextInput label="Slug" source="slug" />
+        <TextInput label="Twitter" source="twitter" />
       </SimpleForm>
     </Edit>
   );

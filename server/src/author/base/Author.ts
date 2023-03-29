@@ -84,6 +84,17 @@ class Author {
   slug!: string | null;
 
   @ApiProperty({
+    required: false,
+    type: String,
+  })
+  @IsString()
+  @IsOptional()
+  @Field(() => String, {
+    nullable: true,
+  })
+  twitter!: string | null;
+
+  @ApiProperty({
     required: true,
   })
   @IsDate()

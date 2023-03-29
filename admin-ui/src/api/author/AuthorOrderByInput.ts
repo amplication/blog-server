@@ -7,5 +7,6 @@ export type AuthorOrderByInput = {
   lastName?: SortOrder;
   profileImage?: SortOrder;
   slug?: SortOrder;
+  twitter?: SortOrder;
   updatedAt?: SortOrder;
 };

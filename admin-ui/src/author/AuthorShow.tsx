@@ -24,6 +24,7 @@ export const AuthorShow = (props: ShowProps): React.ReactElement => {
         <TextField label="Last Name" source="lastName" />
         <TextField label="Profile Image" source="profileImage" />
         <TextField label="Slug" source="slug" />
+        <TextField label="Twitter" source="twitter" />
         <DateField source="updatedAt" label="Updated At" />
         <ReferenceManyField reference="Post" target="AuthorId" label="Posts">
           <Datagrid rowClick="show">

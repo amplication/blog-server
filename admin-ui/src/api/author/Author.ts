@@ -8,5 +8,6 @@ export type Author = {
   posts?: Array<Post>;
   profileImage: string | null;
   slug: string | null;
+  twitter: string | null;
   updatedAt: Date;
 };
