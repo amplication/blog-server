@@ -18,4 +18,4 @@ class DeleteAuthorArgs {
   where!: AuthorWhereUniqueInput;
 }
 
-export { DeleteAuthorArgs as DeleteAuthorArgs };
+export { DeleteAuthorArgs };

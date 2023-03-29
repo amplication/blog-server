@@ -70,4 +70,4 @@ class Tag {
   updatedAt!: Date;
 }
 
-export { Tag as Tag };
+export { Tag };

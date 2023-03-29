@@ -24,7 +24,6 @@ export const TagCreate = (props: CreateProps): React.ReactElement => {
         >
           <SelectArrayInput optionText={PostTitle} />
         </ReferenceArrayInput>
-        <TextInput label="Slug" source="slug" />
       </SimpleForm>
     </Create>
   );

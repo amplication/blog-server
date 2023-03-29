@@ -72,4 +72,4 @@ class UserUpdateInput {
   username?: string;
 }
 
-export { UserUpdateInput as UserUpdateInput };
+export { UserUpdateInput };

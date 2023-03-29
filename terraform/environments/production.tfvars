@@ -1,0 +1,15 @@
+environment             = "production"
+project_id              = "amplication"
+region                  = "us-east1"
+database_tier           = "db-custom-2-4096"
+cloud_run_min_replica   = 1
+cloud_run_max_replica   = 5
+db_user                 = "amplication"
+db_name                 = "blog"
+container_concurrency    = 100
+cpu                      = "4"
+memory                   = "4Gi"
+cpu_allocation           = "allways"
+app_server_url          = "https://blog-api.amplication.com"
+blog_server_client_domain = "blog-admin.amplication.com"
+blog_server_domain        = "blog-api.amplication.com"

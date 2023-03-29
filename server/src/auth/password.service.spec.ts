@@ -14,8 +14,10 @@ const configServiceGetMock = jest.fn(() => {
 
 jest.mock("bcrypt");
 
+//@ts-ignore
 bcrypt.hash.mockImplementation(async () => EXAMPLE_HASHED_PASSWORD);
 
+//@ts-ignore
 bcrypt.compare.mockImplementation(async () => true);
 
 describe("PasswordService", () => {

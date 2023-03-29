@@ -18,4 +18,4 @@ class TagFindUniqueArgs {
   where!: TagWhereUniqueInput;
 }
 
-export { TagFindUniqueArgs as TagFindUniqueArgs };
+export { TagFindUniqueArgs };

@@ -146,4 +146,4 @@ class PostWhereInput {
   title?: StringFilter;
 }
 
-export { PostWhereInput as PostWhereInput };
+export { PostWhereInput };

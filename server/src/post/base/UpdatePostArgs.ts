@@ -21,4 +21,4 @@ class UpdatePostArgs {
   data!: PostUpdateInput;
 }
 
-export { UpdatePostArgs as UpdatePostArgs };
+export { UpdatePostArgs };

@@ -91,4 +91,4 @@ class AuthorOrderByInput {
   updatedAt?: SortOrder;
 }
 
-export { AuthorOrderByInput as AuthorOrderByInput };
+export { AuthorOrderByInput };
