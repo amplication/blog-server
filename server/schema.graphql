@@ -10,6 +10,7 @@ type Author {
   posts(orderBy: [PostOrderByInput!], skip: Float, take: Float, where: PostWhereInput): [Post!]!
   profileImage: String
   slug: String
+  twitter: String
   updatedAt: DateTime!
 }
 
@@ -19,6 +20,7 @@ input AuthorCreateInput {
   posts: PostCreateNestedManyWithoutAuthorsInput
   profileImage: String
   slug: String
+  twitter: String
 }
 
 input AuthorOrderByInput {
@@ -28,6 +30,7 @@ input AuthorOrderByInput {
   lastName: SortOrder
   profileImage: SortOrder
   slug: SortOrder
+  twitter: SortOrder
   updatedAt: SortOrder
 }
 
@@ -37,6 +40,7 @@ input AuthorUpdateInput {
   posts: PostUpdateManyWithoutAuthorsInput
   profileImage: String
   slug: String
+  twitter: String
 }
 
 input AuthorWhereInput {
@@ -46,6 +50,7 @@ input AuthorWhereInput {
   posts: PostListRelationFilter
   profileImage: StringNullableFilter
   slug: StringNullableFilter
+  twitter: StringNullableFilter
 }
 
 input AuthorWhereUniqueInput {
