@@ -59,7 +59,7 @@ resource "google_cloud_run_service" "service" {
       containers {
         image = var.image
         env {
-          name  = "POSTGRESQL_URL"
+          name  = "DB_URL"
           value = "postgresql://${google_sql_user.user.name}:${google_sql_user.user.password}@127.0.0.1/${google_sql_database.database.name}?host=/cloudsql/${var.project_id}:${var.region}:${google_sql_database_instance.instance.name}"
         }
         env {
