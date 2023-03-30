@@ -59,6 +59,7 @@ export class AuthorControllerBase {
         lastName: true,
         profileImage: true,
         slug: true,
+        twitter: true,
         updatedAt: true,
       },
     });
@@ -87,6 +88,7 @@ export class AuthorControllerBase {
         lastName: true,
         profileImage: true,
         slug: true,
+        twitter: true,
         updatedAt: true,
       },
     });
@@ -116,6 +118,7 @@ export class AuthorControllerBase {
         lastName: true,
         profileImage: true,
         slug: true,
+        twitter: true,
         updatedAt: true,
       },
     });
@@ -154,6 +157,7 @@ export class AuthorControllerBase {
           lastName: true,
           profileImage: true,
           slug: true,
+          twitter: true,
           updatedAt: true,
         },
       });
@@ -191,6 +195,7 @@ export class AuthorControllerBase {
           lastName: true,
           profileImage: true,
           slug: true,
+          twitter: true,
           updatedAt: true,
         },
       });

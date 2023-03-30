@@ -6,4 +6,5 @@ export type AuthorUpdateInput = {
   posts?: PostUpdateManyWithoutAuthorsInput;
   profileImage?: string | null;
   slug?: string | null;
+  twitter?: string | null;
 };

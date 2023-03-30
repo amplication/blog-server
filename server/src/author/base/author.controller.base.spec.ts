@@ -25,6 +25,7 @@ const CREATE_INPUT = {
   lastName: "exampleLastName",
   profileImage: "exampleProfileImage",
   slug: "exampleSlug",
+  twitter: "exampleTwitter",
   updatedAt: new Date(),
 };
 const CREATE_RESULT = {
@@ -34,6 +35,7 @@ const CREATE_RESULT = {
   lastName: "exampleLastName",
   profileImage: "exampleProfileImage",
   slug: "exampleSlug",
+  twitter: "exampleTwitter",
   updatedAt: new Date(),
 };
 const FIND_MANY_RESULT = [
@@ -44,6 +46,7 @@ const FIND_MANY_RESULT = [
     lastName: "exampleLastName",
     profileImage: "exampleProfileImage",
     slug: "exampleSlug",
+    twitter: "exampleTwitter",
     updatedAt: new Date(),
   },
 ];
@@ -54,6 +57,7 @@ const FIND_ONE_RESULT = {
   lastName: "exampleLastName",
   profileImage: "exampleProfileImage",
   slug: "exampleSlug",
+  twitter: "exampleTwitter",
   updatedAt: new Date(),
 };
 

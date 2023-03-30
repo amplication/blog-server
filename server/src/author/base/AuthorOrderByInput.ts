@@ -79,6 +79,15 @@ class AuthorOrderByInput {
   @Field(() => SortOrder, {
     nullable: true,
   })
+  twitter?: SortOrder;
+
+  @ApiProperty({
+    required: false,
+    enum: ["asc", "desc"],
+  })
+  @Field(() => SortOrder, {
+    nullable: true,
+  })
   updatedAt?: SortOrder;
 }
 

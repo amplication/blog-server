@@ -43,6 +43,7 @@ model Author {
   posts        Post[]
   profileImage String?
   slug         String?  @unique
+  twitter      String?
   updatedAt    DateTime @updatedAt
 }
 

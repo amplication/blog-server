@@ -1,5 +1,6 @@
 import { useRecordContext } from "react-admin";
 import ReactMarkdown from "react-markdown";
+import rehypeRaw from "rehype-raw";
 
 export const MDPreview = ({ source }: { source: string; label: string }) => {
   const record = useRecordContext();
@@ -11,7 +12,7 @@ export const MDPreview = ({ source }: { source: string; label: string }) => {
   return (
     <div>
       <style>{css}</style>
-      <ReactMarkdown children={md} />
+      <ReactMarkdown children={md} rehypePlugins={[rehypeRaw]} />
     </div>
   );
 };

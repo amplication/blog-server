@@ -6,4 +6,5 @@ export type AuthorCreateInput = {
   posts?: PostCreateNestedManyWithoutAuthorsInput;
   profileImage?: string | null;
   slug?: string | null;
+  twitter?: string | null;
 };
