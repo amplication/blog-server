@@ -51,3 +51,7 @@ Experience the fastest way to develop Node.js applications with Amplication.
 This generated project consists of two components:
 - [server](./server/README.md)
 - [admin ui](./admin-ui/README.md)
+
+## Deployment
+
+Both the Amplication `website`, `blog server` and `blog admin-ui`, are hosted on the staging cluster aswell as the production cluster. The repository follows a similar approach to the main amplication repository, where the staging environment will be deployed by commits to `master` and the a release - i.e., a tag of a specific commit on master - will deploy to the production environment.
