@@ -1,0 +1,66 @@
+name: continuous-integration
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+  release:
+    types: [published]
+
+jobs:
+  continuous-integration:
+    name: continuous-integration
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        projects: [admin-ui, server]
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 1
+
+      - name: install dependencies ${{ matrix.projects }}
+        working-directory: ${{ matrix.projects }}
+        run: npm install
+
+      - name: build ${{ matrix.projects }} component
+        working-directory: ${{ matrix.projects }}
+        run: npm run build
+
+      - name: test ${{ matrix.projects }} component
+        working-directory: ${{ matrix.projects }}
+        run: npm run test
+
+  configure:
+    name: configure deployment target environment
+    runs-on: ubuntu-20.04
+    outputs:
+      environment: ${{ steps.environment-identifier.outputs.environment }}
+    steps:
+      - id: environment-identifier
+        run: |
+          if [[ "${{ env.GITHUB_REF_NAME }}" == "${{ github.event.repository.default_branch }}" ]];
+          then
+            echo environment="staging" >> $GITHUB_OUTPUT
+          elif [[ "${{ env.GITHUB_REF_TYPE }}" == "tag" ]];
+          then
+            echo environment="production" >> $GITHUB_OUTPUT
+          fi;
+
+  release:
+    name: release
+    needs: [continuous-integration, configure]
+    uses: ./.github/workflows/release.template.yml
+    strategy:
+      matrix:
+        projects: [admin-ui, server]
+    with:
+      branch: ${{ github.ref_name }}
+      environment-name: ${{ needs.configure.outputs.environment }}
+      project-name: ${{ matrix.projects }}
+    secrets:
+      ECR_AWS_ACCESS_KEY_ID: ${{ secrets.ECR_AWS_ACCESS_KEY_ID }}
+      ECR_AWS_SECRET_ACCESS_KEY: ${{ secrets.ECR_AWS_SECRET_ACCESS_KEY }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
