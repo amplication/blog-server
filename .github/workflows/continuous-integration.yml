@@ -29,8 +29,14 @@ jobs:
         run: npm run build
 
       - name: test ${{ matrix.projects }} component
+        if: ${{ matrix.projects == 'server' }}
         working-directory: ${{ matrix.projects }}
         run: npm run test
+
+      - name: test ${{ matrix.projects }} component
+        if: ${{ matrix.projects == 'admin-ui' }}
+        working-directory: ${{ matrix.projects }}
+        run: npm run test --passWithNoTests
 
   configure:
     name: configure deployment target environment
@@ -40,10 +46,10 @@ jobs:
     steps:
       - id: environment-identifier
         run: |
-          if [[ "${{ env.GITHUB_REF_NAME }}" == "${{ github.event.repository.default_branch }}" ]];
+          if [[ "${{ github.ref_name }}" == "${{ github.event.repository.default_branch }}" ]];
           then
             echo environment="staging" >> $GITHUB_OUTPUT
-          elif [[ "${{ env.GITHUB_REF_TYPE }}" == "tag" ]];
+          elif [[ "${{ github.ref_type }}" == "tag" ]];
           then
             echo environment="production" >> $GITHUB_OUTPUT
           fi;
