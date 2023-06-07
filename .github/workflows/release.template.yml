@@ -59,7 +59,7 @@ jobs:
       - name: container image metadata
         if: ${{ inputs.project-name == 'server'}}
         uses: docker/metadata-action@v4
-        id: meta
+        id: meta-blog
         with:
           images: "439403303254.dkr.ecr.us-east-1.amazonaws.com/blog"
           tags: |
@@ -74,7 +74,7 @@ jobs:
       - name: container image metadata
         if: ${{ inputs.project-name == 'admin-ui'}}
         uses: docker/metadata-action@v4
-        id: meta
+        id: meta-blog-admin
         with:
           images: "439403303254.dkr.ecr.us-east-1.amazonaws.com/blog-admin"
           tags: |
@@ -92,7 +92,7 @@ jobs:
         with:
           context: ${{ inputs.project-name }}
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
+          tags: ${{ steps.meta-blog-admin.outputs.tags }}
           build-args: |
             REACT_APP_SERVER_URL=https://blog-api.amplication-staging.com
 
@@ -102,7 +102,7 @@ jobs:
         with:
           context: ${{ inputs.project-name }}
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
+          tags: ${{ steps.meta-blog.outputs.tags }}
 
       - name: package admin-ui production
         if: ${{ inputs.environment-name == 'production' && inputs.project-name == 'admin-ui'}}
@@ -110,7 +110,7 @@ jobs:
         with:
           context: ${{ inputs.project-name }}
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
+          tags: ${{ steps.meta-blog-admin.outputs.tags }}
           build-args: |
             REACT_APP_SERVER_URL=https://blog-api.amplication.com
 
@@ -120,7 +120,7 @@ jobs:
         with:
           context: ${{ inputs.project-name }}
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
+          tags: ${{ steps.meta-blog.outputs.tags }}
 
   deploy:
     name: deployment
