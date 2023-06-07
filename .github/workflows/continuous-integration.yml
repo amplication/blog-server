@@ -30,7 +30,7 @@ jobs:
 
       - name: test ${{ matrix.projects }} component
         working-directory: ${{ matrix.projects }}
-        run: npm run test --passWithNoTests
+        run: npm run test
 
   configure:
     name: configure deployment target environment
