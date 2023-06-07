@@ -27,9 +27,26 @@ on:
         required: true
 
 jobs:
+  configure:
+    name: configure deployment target component
+    runs-on: ubuntu-20.04
+    outputs:
+      component: ${{ steps.component-identifier.outputs.component }}
+    steps:
+      - id: component-identifier
+        run: |
+          if [[ "${{ inputs.project-name }}" == "server" ]];
+          then
+            echo component="blog" >> $GITHUB_OUTPUT
+          elif [[ "${{ inputs.project-name }}" == "admin-ui" ]];
+          then
+            echo component="blog-admin" >> $GITHUB_OUTPUT
+          fi;
+
   package:
     name: package
     runs-on: ubuntu-20.04
+    needs: configure
     steps:
       - name: checkout
         uses: actions/checkout@v3
@@ -57,26 +74,10 @@ jobs:
           registries: "439403303254"
 
       - name: container image metadata
-        if: ${{ inputs.project-name == 'server'}}
         uses: docker/metadata-action@v4
-        id: meta-blog
+        id: meta
         with:
-          images: "439403303254.dkr.ecr.us-east-1.amazonaws.com/blog"
-          tags: |
-            type=sha,prefix=sha-
-            type=ref,event=pr,prefix=pr-
-            type=ref,event=tag,prefix=tag-
-            type=raw,value=${{ github.run_id }},prefix=gh-
-            type=raw,value=${{ inputs.branch }}
-            type=raw,value=${{ inputs.environment-name }}
-            type=raw,value=latest,enable=${{ inputs.branch == 'master' }}
-
-      - name: container image metadata
-        if: ${{ inputs.project-name == 'admin-ui'}}
-        uses: docker/metadata-action@v4
-        id: meta-blog-admin
-        with:
-          images: "439403303254.dkr.ecr.us-east-1.amazonaws.com/blog-admin"
+          images: "439403303254.dkr.ecr.us-east-1.amazonaws.com/${{ needs.configure.outputs.component }}"
           tags: |
             type=sha,prefix=sha-
             type=ref,event=pr,prefix=pr-
@@ -92,17 +93,9 @@ jobs:
         with:
           context: ${{ inputs.project-name }}
           push: true
-          tags: ${{ steps.meta-blog-admin.outputs.tags }}
+          tags: ${{ steps.meta.outputs.tags }}
           build-args: |
             REACT_APP_SERVER_URL=https://blog-api.amplication-staging.com
-
-      - name: package server staging
-        if: ${{ inputs.environment-name == 'staging' && inputs.project-name == 'server'}}
-        uses: docker/build-push-action@v4
-        with:
-          context: ${{ inputs.project-name }}
-          push: true
-          tags: ${{ steps.meta-blog.outputs.tags }}
 
       - name: package admin-ui production
         if: ${{ inputs.environment-name == 'production' && inputs.project-name == 'admin-ui'}}
@@ -110,25 +103,25 @@ jobs:
         with:
           context: ${{ inputs.project-name }}
           push: true
-          tags: ${{ steps.meta-blog-admin.outputs.tags }}
+          tags: ${{ steps.meta.outputs.tags }}
           build-args: |
             REACT_APP_SERVER_URL=https://blog-api.amplication.com
 
       - name: package server production
-        if: ${{ inputs.environment-name == 'production' && inputs.project-name == 'server'}}
+        if: ${{ inputs.project-name == 'server' }}
         uses: docker/build-push-action@v4
         with:
           context: ${{ inputs.project-name }}
           push: true
-          tags: ${{ steps.meta-blog.outputs.tags }}
+          tags: ${{ steps.meta.outputs.tags }}
 
   deploy:
     name: deployment
-    needs: [package]
+    needs: [package, configure]
     uses: ./.github/workflows/deployment.template.yml
     with:
       environment-name: ${{ inputs.environment-name }}
-      project-name: ${{ inputs.project-name }}
+      component-name: ${{ needs.configure.outputs.component }}
     secrets:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
