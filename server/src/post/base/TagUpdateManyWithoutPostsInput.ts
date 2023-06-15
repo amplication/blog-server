@@ -43,4 +43,4 @@ class TagUpdateManyWithoutPostsInput {
   set?: Array<TagWhereUniqueInput>;
 }
 
-export { TagUpdateManyWithoutPostsInput };
+export { TagUpdateManyWithoutPostsInput as TagUpdateManyWithoutPostsInput };

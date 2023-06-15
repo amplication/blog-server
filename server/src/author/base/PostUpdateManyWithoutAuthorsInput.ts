@@ -43,4 +43,4 @@ class PostUpdateManyWithoutAuthorsInput {
   set?: Array<PostWhereUniqueInput>;
 }
 
-export { PostUpdateManyWithoutAuthorsInput };
+export { PostUpdateManyWithoutAuthorsInput as PostUpdateManyWithoutAuthorsInput };

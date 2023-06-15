@@ -65,4 +65,4 @@ class TagWhereInput {
   slug?: StringNullableFilter;
 }
 
-export { TagWhereInput };
+export { TagWhereInput as TagWhereInput };

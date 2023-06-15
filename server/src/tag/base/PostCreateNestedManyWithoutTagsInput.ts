@@ -25,4 +25,4 @@ class PostCreateNestedManyWithoutTagsInput {
   connect?: Array<PostWhereUniqueInput>;
 }
 
-export { PostCreateNestedManyWithoutTagsInput };
+export { PostCreateNestedManyWithoutTagsInput as PostCreateNestedManyWithoutTagsInput };

@@ -10,12 +10,21 @@ https://docs.amplication.com/how-to/custom-code
 ------------------------------------------------------------------------------
   */
 import { ArgsType, Field } from "@nestjs/graphql";
+import { ApiProperty } from "@nestjs/swagger";
 import { AuthorWhereUniqueInput } from "./AuthorWhereUniqueInput";
+import { ValidateNested } from "class-validator";
+import { Type } from "class-transformer";
 
 @ArgsType()
 class AuthorFindUniqueArgs {
+  @ApiProperty({
+    required: true,
+    type: () => AuthorWhereUniqueInput,
+  })
+  @ValidateNested()
+  @Type(() => AuthorWhereUniqueInput)
   @Field(() => AuthorWhereUniqueInput, { nullable: false })
   where!: AuthorWhereUniqueInput;
 }
 
-export { AuthorFindUniqueArgs };
+export { AuthorFindUniqueArgs as AuthorFindUniqueArgs };

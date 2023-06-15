@@ -85,4 +85,4 @@ class AuthorUpdateInput {
   twitter?: string | null;
 }
 
-export { AuthorUpdateInput };
+export { AuthorUpdateInput as AuthorUpdateInput };

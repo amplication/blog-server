@@ -98,4 +98,4 @@ class AuthorWhereInput {
   twitter?: StringNullableFilter;
 }
 
-export { AuthorWhereInput };
+export { AuthorWhereInput as AuthorWhereInput };

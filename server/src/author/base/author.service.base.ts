@@ -15,8 +15,8 @@ import { Prisma, Author, Post } from "@prisma/client";
 export class AuthorServiceBase {
   constructor(protected readonly prisma: PrismaService) {}
 
-  async count<T extends Prisma.AuthorFindManyArgs>(
-    args: Prisma.SelectSubset<T, Prisma.AuthorFindManyArgs>
+  async count<T extends Prisma.AuthorCountArgs>(
+    args: Prisma.SelectSubset<T, Prisma.AuthorCountArgs>
   ): Promise<number> {
     return this.prisma.author.count(args);
   }
