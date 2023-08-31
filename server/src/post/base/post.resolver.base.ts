@@ -19,10 +19,10 @@ import { GqlDefaultAuthGuard } from "../../auth/gqlDefaultAuth.guard";
 import * as common from "@nestjs/common";
 import { Public } from "../../decorators/public.decorator";
 import { AclValidateRequestInterceptor } from "../../interceptors/aclValidateRequest.interceptor";
-import { AclFilterResponseInterceptor } from "../../interceptors/aclFilterResponse.interceptor";
 import { CreatePostArgs } from "./CreatePostArgs";
 import { UpdatePostArgs } from "./UpdatePostArgs";
 import { DeletePostArgs } from "./DeletePostArgs";
+import { PostCountArgs } from "./PostCountArgs";
 import { PostFindManyArgs } from "./PostFindManyArgs";
 import { PostFindUniqueArgs } from "./PostFindUniqueArgs";
 import { Post } from "./Post";
@@ -41,15 +41,11 @@ export class PostResolverBase {
   @Public()
   @graphql.Query(() => MetaQueryPayload)
   async _postsMeta(
-    @graphql.Args() args: PostFindManyArgs
+    @graphql.Args() args: PostCountArgs
   ): Promise<MetaQueryPayload> {
-    const results = await this.service.count({
-      ...args,
-      skip: undefined,
-      take: undefined,
-    });
+    const result = await this.service.count(args);
     return {
-      count: results,
+      count: result,
     };
   }
 
@@ -137,14 +133,9 @@ export class PostResolverBase {
     }
   }
 
-  @common.UseInterceptors(AclFilterResponseInterceptor)
-  @graphql.ResolveField(() => [Tag])
-  @nestAccessControl.UseRoles({
-    resource: "Tag",
-    action: "read",
-    possession: "any",
-  })
-  async tags(
+  @Public()
+  @graphql.ResolveField(() => [Tag], { name: "tags" })
+  async resolveFieldTags(
     @graphql.Parent() parent: Post,
     @graphql.Args() args: TagFindManyArgs
   ): Promise<Tag[]> {
@@ -157,14 +148,14 @@ export class PostResolverBase {
     return results;
   }
 
-  @common.UseInterceptors(AclFilterResponseInterceptor)
-  @graphql.ResolveField(() => Author, { nullable: true })
-  @nestAccessControl.UseRoles({
-    resource: "Author",
-    action: "read",
-    possession: "any",
+  @Public()
+  @graphql.ResolveField(() => Author, {
+    nullable: true,
+    name: "author",
   })
-  async author(@graphql.Parent() parent: Post): Promise<Author | null> {
+  async resolveFieldAuthor(
+    @graphql.Parent() parent: Post
+  ): Promise<Author | null> {
     const result = await this.service.getAuthor(parent.id);
 
     if (!result) {

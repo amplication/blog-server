@@ -17,12 +17,12 @@ import * as nestAccessControl from "nest-access-control";
 import * as gqlACGuard from "../../auth/gqlAC.guard";
 import { GqlDefaultAuthGuard } from "../../auth/gqlDefaultAuth.guard";
 import * as common from "@nestjs/common";
-import { AclFilterResponseInterceptor } from "../../interceptors/aclFilterResponse.interceptor";
-import { AclValidateRequestInterceptor } from "../../interceptors/aclValidateRequest.interceptor";
 import { Public } from "../../decorators/public.decorator";
+import { AclValidateRequestInterceptor } from "../../interceptors/aclValidateRequest.interceptor";
 import { CreateAuthorArgs } from "./CreateAuthorArgs";
 import { UpdateAuthorArgs } from "./UpdateAuthorArgs";
 import { DeleteAuthorArgs } from "./DeleteAuthorArgs";
+import { AuthorCountArgs } from "./AuthorCountArgs";
 import { AuthorFindManyArgs } from "./AuthorFindManyArgs";
 import { AuthorFindUniqueArgs } from "./AuthorFindUniqueArgs";
 import { Author } from "./Author";
@@ -37,43 +37,25 @@ export class AuthorResolverBase {
     protected readonly rolesBuilder: nestAccessControl.RolesBuilder
   ) {}
 
+  @Public()
   @graphql.Query(() => MetaQueryPayload)
-  @nestAccessControl.UseRoles({
-    resource: "Author",
-    action: "read",
-    possession: "any",
-  })
   async _authorsMeta(
-    @graphql.Args() args: AuthorFindManyArgs
+    @graphql.Args() args: AuthorCountArgs
   ): Promise<MetaQueryPayload> {
-    const results = await this.service.count({
-      ...args,
-      skip: undefined,
-      take: undefined,
-    });
+    const result = await this.service.count(args);
     return {
-      count: results,
+      count: result,
     };
   }
 
-  @common.UseInterceptors(AclFilterResponseInterceptor)
+  @Public()
   @graphql.Query(() => [Author])
-  @nestAccessControl.UseRoles({
-    resource: "Author",
-    action: "read",
-    possession: "any",
-  })
   async authors(@graphql.Args() args: AuthorFindManyArgs): Promise<Author[]> {
     return this.service.findMany(args);
   }
 
-  @common.UseInterceptors(AclFilterResponseInterceptor)
+  @Public()
   @graphql.Query(() => Author, { nullable: true })
-  @nestAccessControl.UseRoles({
-    resource: "Author",
-    action: "read",
-    possession: "own",
-  })
   async author(
     @graphql.Args() args: AuthorFindUniqueArgs
   ): Promise<Author | null> {
@@ -145,8 +127,8 @@ export class AuthorResolverBase {
   }
 
   @Public()
-  @graphql.ResolveField(() => [Post])
-  async posts(
+  @graphql.ResolveField(() => [Post], { name: "posts" })
+  async resolveFieldPosts(
     @graphql.Parent() parent: Author,
     @graphql.Args() args: PostFindManyArgs
   ): Promise<Post[]> {

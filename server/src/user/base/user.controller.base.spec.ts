@@ -180,7 +180,7 @@ describe("User", () => {
   });
 
   test("POST /users existing resource", async () => {
-    let agent = request(app.getHttpServer());
+    const agent = request(app.getHttpServer());
     await agent
       .post("/users")
       .send(CREATE_INPUT)
