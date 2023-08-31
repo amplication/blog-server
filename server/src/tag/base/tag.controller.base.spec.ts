@@ -172,7 +172,7 @@ describe("Tag", () => {
   });
 
   test("POST /tags existing resource", async () => {
-    let agent = request(app.getHttpServer());
+    const agent = request(app.getHttpServer());
     await agent
       .post("/tags")
       .send(CREATE_INPUT)
