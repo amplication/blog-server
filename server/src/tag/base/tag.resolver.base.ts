@@ -10,7 +10,7 @@ https://docs.amplication.com/how-to/custom-code
 ------------------------------------------------------------------------------
   */
 import * as graphql from "@nestjs/graphql";
-import { GraphQLError } from "graphql";
+import * as apollo from "apollo-server-express";
 import { isRecordNotFoundError } from "../../prisma.util";
 import { MetaQueryPayload } from "../../util/MetaQueryPayload";
 import * as nestAccessControl from "nest-access-control";
@@ -19,13 +19,13 @@ import { GqlDefaultAuthGuard } from "../../auth/gqlDefaultAuth.guard";
 import * as common from "@nestjs/common";
 import { Public } from "../../decorators/public.decorator";
 import { AclValidateRequestInterceptor } from "../../interceptors/aclValidateRequest.interceptor";
-import { Tag } from "./Tag";
-import { TagCountArgs } from "./TagCountArgs";
-import { TagFindManyArgs } from "./TagFindManyArgs";
-import { TagFindUniqueArgs } from "./TagFindUniqueArgs";
 import { CreateTagArgs } from "./CreateTagArgs";
 import { UpdateTagArgs } from "./UpdateTagArgs";
 import { DeleteTagArgs } from "./DeleteTagArgs";
+import { TagCountArgs } from "./TagCountArgs";
+import { TagFindManyArgs } from "./TagFindManyArgs";
+import { TagFindUniqueArgs } from "./TagFindUniqueArgs";
+import { Tag } from "./Tag";
 import { PostFindManyArgs } from "../../post/base/PostFindManyArgs";
 import { Post } from "../../post/base/Post";
 import { TagService } from "../tag.service";
@@ -51,13 +51,13 @@ export class TagResolverBase {
   @Public()
   @graphql.Query(() => [Tag])
   async tags(@graphql.Args() args: TagFindManyArgs): Promise<Tag[]> {
-    return this.service.tags(args);
+    return this.service.findMany(args);
   }
 
   @Public()
   @graphql.Query(() => Tag, { nullable: true })
   async tag(@graphql.Args() args: TagFindUniqueArgs): Promise<Tag | null> {
-    const result = await this.service.tag(args);
+    const result = await this.service.findOne(args);
     if (result === null) {
       return null;
     }
@@ -72,7 +72,7 @@ export class TagResolverBase {
     possession: "any",
   })
   async createTag(@graphql.Args() args: CreateTagArgs): Promise<Tag> {
-    return await this.service.createTag({
+    return await this.service.create({
       ...args,
       data: args.data,
     });
@@ -87,13 +87,13 @@ export class TagResolverBase {
   })
   async updateTag(@graphql.Args() args: UpdateTagArgs): Promise<Tag | null> {
     try {
-      return await this.service.updateTag({
+      return await this.service.update({
         ...args,
         data: args.data,
       });
     } catch (error) {
       if (isRecordNotFoundError(error)) {
-        throw new GraphQLError(
+        throw new apollo.ApolloError(
           `No resource was found for ${JSON.stringify(args.where)}`
         );
       }
@@ -109,10 +109,10 @@ export class TagResolverBase {
   })
   async deleteTag(@graphql.Args() args: DeleteTagArgs): Promise<Tag | null> {
     try {
-      return await this.service.deleteTag(args);
+      return await this.service.delete(args);
     } catch (error) {
       if (isRecordNotFoundError(error)) {
-        throw new GraphQLError(
+        throw new apollo.ApolloError(
           `No resource was found for ${JSON.stringify(args.where)}`
         );
       }
@@ -122,7 +122,7 @@ export class TagResolverBase {
 
   @Public()
   @graphql.ResolveField(() => [Post], { name: "posts" })
-  async findPosts(
+  async resolveFieldPosts(
     @graphql.Parent() parent: Tag,
     @graphql.Args() args: PostFindManyArgs
   ): Promise<Post[]> {

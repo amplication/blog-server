@@ -10,9 +10,10 @@ https://docs.amplication.com/how-to/custom-code
 ------------------------------------------------------------------------------
   */
 import { Module } from "@nestjs/common";
+import { MorganModule } from "nest-morgan";
 import { ACLModule } from "../../auth/acl.module";
 @Module({
-  imports: [ACLModule],
-  exports: [ACLModule],
+  imports: [ACLModule, MorganModule],
+  exports: [ACLModule, MorganModule],
 })
 export class TagModuleBase {}

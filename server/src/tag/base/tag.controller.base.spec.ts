@@ -6,6 +6,7 @@ import {
   CallHandler,
 } from "@nestjs/common";
 import request from "supertest";
+import { MorganModule } from "nest-morgan";
 import { ACGuard } from "nest-access-control";
 import { DefaultAuthGuard } from "../../auth/defaultAuth.guard";
 import { ACLModule } from "../../auth/acl.module";
@@ -49,11 +50,11 @@ const FIND_ONE_RESULT = {
 };
 
 const service = {
-  createTag() {
+  create() {
     return CREATE_RESULT;
   },
-  tags: () => FIND_MANY_RESULT,
-  tag: ({ where }: { where: { id: string } }) => {
+  findMany: () => FIND_MANY_RESULT,
+  findOne: ({ where }: { where: { id: string } }) => {
     switch (where.id) {
       case existingId:
         return FIND_ONE_RESULT;
@@ -107,7 +108,7 @@ describe("Tag", () => {
         },
       ],
       controllers: [TagController],
-      imports: [ACLModule],
+      imports: [MorganModule.forRoot(), ACLModule],
     })
       .overrideGuard(DefaultAuthGuard)
       .useValue(basicAuthGuard)

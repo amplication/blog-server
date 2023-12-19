@@ -22,10 +22,11 @@ import { PostService } from "../post.service";
 import { AclValidateRequestInterceptor } from "../../interceptors/aclValidateRequest.interceptor";
 import { Public } from "../../decorators/public.decorator";
 import { PostCreateInput } from "./PostCreateInput";
-import { Post } from "./Post";
-import { PostFindManyArgs } from "./PostFindManyArgs";
+import { PostWhereInput } from "./PostWhereInput";
 import { PostWhereUniqueInput } from "./PostWhereUniqueInput";
+import { PostFindManyArgs } from "./PostFindManyArgs";
 import { PostUpdateInput } from "./PostUpdateInput";
+import { Post } from "./Post";
 import { TagFindManyArgs } from "../../tag/base/TagFindManyArgs";
 import { Tag } from "../../tag/base/Tag";
 import { TagWhereUniqueInput } from "../../tag/base/TagWhereUniqueInput";
@@ -48,8 +49,8 @@ export class PostControllerBase {
   @swagger.ApiForbiddenResponse({
     type: errors.ForbiddenException,
   })
-  async createPost(@common.Body() data: PostCreateInput): Promise<Post> {
-    return await this.service.createPost({
+  async create(@common.Body() data: PostCreateInput): Promise<Post> {
+    return await this.service.create({
       data: {
         ...data,
 
@@ -86,9 +87,9 @@ export class PostControllerBase {
   @swagger.ApiForbiddenResponse({
     type: errors.ForbiddenException,
   })
-  async posts(@common.Req() request: Request): Promise<Post[]> {
+  async findMany(@common.Req() request: Request): Promise<Post[]> {
     const args = plainToClass(PostFindManyArgs, request.query);
-    return this.service.posts({
+    return this.service.findMany({
       ...args,
       select: {
         author: {
@@ -119,10 +120,10 @@ export class PostControllerBase {
   @swagger.ApiForbiddenResponse({
     type: errors.ForbiddenException,
   })
-  async post(
+  async findOne(
     @common.Param() params: PostWhereUniqueInput
   ): Promise<Post | null> {
-    const result = await this.service.post({
+    const result = await this.service.findOne({
       where: params,
       select: {
         author: {
@@ -164,12 +165,12 @@ export class PostControllerBase {
   @swagger.ApiForbiddenResponse({
     type: errors.ForbiddenException,
   })
-  async updatePost(
+  async update(
     @common.Param() params: PostWhereUniqueInput,
     @common.Body() data: PostUpdateInput
   ): Promise<Post | null> {
     try {
-      return await this.service.updatePost({
+      return await this.service.update({
         where: params,
         data: {
           ...data,
@@ -219,11 +220,11 @@ export class PostControllerBase {
   @swagger.ApiForbiddenResponse({
     type: errors.ForbiddenException,
   })
-  async deletePost(
+  async delete(
     @common.Param() params: PostWhereUniqueInput
   ): Promise<Post | null> {
     try {
-      return await this.service.deletePost({
+      return await this.service.delete({
         where: params,
         select: {
           author: {
@@ -258,7 +259,7 @@ export class PostControllerBase {
   @Public()
   @common.Get("/:id/tags")
   @ApiNestedQuery(TagFindManyArgs)
-  async findTags(
+  async findManyTags(
     @common.Req() request: Request,
     @common.Param() params: PostWhereUniqueInput
   ): Promise<Tag[]> {
@@ -296,7 +297,7 @@ export class PostControllerBase {
         connect: body,
       },
     };
-    await this.service.updatePost({
+    await this.service.update({
       where: params,
       data,
       select: { id: true },
@@ -318,7 +319,7 @@ export class PostControllerBase {
         set: body,
       },
     };
-    await this.service.updatePost({
+    await this.service.update({
       where: params,
       data,
       select: { id: true },
@@ -340,7 +341,7 @@ export class PostControllerBase {
         disconnect: body,
       },
     };
-    await this.service.updatePost({
+    await this.service.update({
       where: params,
       data,
       select: { id: true },

@@ -22,11 +22,12 @@ import { UserService } from "../user.service";
 import { AclValidateRequestInterceptor } from "../../interceptors/aclValidateRequest.interceptor";
 import { AclFilterResponseInterceptor } from "../../interceptors/aclFilterResponse.interceptor";
 import { UserCreateInput } from "./UserCreateInput";
+import { UserWhereInput } from "./UserWhereInput";
+import { UserWhereUniqueInput } from "./UserWhereUniqueInput";
+import { UserFindManyArgs } from "./UserFindManyArgs";
+import { UserUpdateInput } from "./UserUpdateInput";
 import { User } from "./User";
 import { Post } from "../../post/base/Post";
-import { UserFindManyArgs } from "./UserFindManyArgs";
-import { UserWhereUniqueInput } from "./UserWhereUniqueInput";
-import { UserUpdateInput } from "./UserUpdateInput";
 
 @swagger.ApiBearerAuth()
 @common.UseGuards(defaultAuthGuard.DefaultAuthGuard, nestAccessControl.ACGuard)
@@ -46,8 +47,8 @@ export class UserControllerBase {
   @swagger.ApiForbiddenResponse({
     type: errors.ForbiddenException,
   })
-  async createUser(@common.Body() data: UserCreateInput): Promise<User> {
-    return await this.service.createUser({
+  async create(@common.Body() data: UserCreateInput): Promise<User> {
+    return await this.service.create({
       data: data,
       select: {
         createdAt: true,
@@ -73,9 +74,9 @@ export class UserControllerBase {
   @swagger.ApiForbiddenResponse({
     type: errors.ForbiddenException,
   })
-  async users(@common.Req() request: Request): Promise<User[]> {
+  async findMany(@common.Req() request: Request): Promise<User[]> {
     const args = plainToClass(UserFindManyArgs, request.query);
-    return this.service.users({
+    return this.service.findMany({
       ...args,
       select: {
         createdAt: true,
@@ -101,10 +102,10 @@ export class UserControllerBase {
   @swagger.ApiForbiddenResponse({
     type: errors.ForbiddenException,
   })
-  async user(
+  async findOne(
     @common.Param() params: UserWhereUniqueInput
   ): Promise<User | null> {
-    const result = await this.service.user({
+    const result = await this.service.findOne({
       where: params,
       select: {
         createdAt: true,
@@ -136,12 +137,12 @@ export class UserControllerBase {
   @swagger.ApiForbiddenResponse({
     type: errors.ForbiddenException,
   })
-  async updateUser(
+  async update(
     @common.Param() params: UserWhereUniqueInput,
     @common.Body() data: UserUpdateInput
   ): Promise<User | null> {
     try {
-      return await this.service.updateUser({
+      return await this.service.update({
         where: params,
         data: data,
         select: {
@@ -175,11 +176,11 @@ export class UserControllerBase {
   @swagger.ApiForbiddenResponse({
     type: errors.ForbiddenException,
   })
-  async deleteUser(
+  async delete(
     @common.Param() params: UserWhereUniqueInput
   ): Promise<User | null> {
     try {
-      return await this.service.deleteUser({
+      return await this.service.delete({
         where: params,
         select: {
           createdAt: true,

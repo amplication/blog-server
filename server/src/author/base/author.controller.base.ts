@@ -22,11 +22,12 @@ import { AuthorService } from "../author.service";
 import { AclValidateRequestInterceptor } from "../../interceptors/aclValidateRequest.interceptor";
 import { Public } from "../../decorators/public.decorator";
 import { AuthorCreateInput } from "./AuthorCreateInput";
+import { AuthorWhereInput } from "./AuthorWhereInput";
+import { AuthorWhereUniqueInput } from "./AuthorWhereUniqueInput";
+import { AuthorFindManyArgs } from "./AuthorFindManyArgs";
+import { AuthorUpdateInput } from "./AuthorUpdateInput";
 import { Author } from "./Author";
 import { Post } from "../../post/base/Post";
-import { AuthorFindManyArgs } from "./AuthorFindManyArgs";
-import { AuthorWhereUniqueInput } from "./AuthorWhereUniqueInput";
-import { AuthorUpdateInput } from "./AuthorUpdateInput";
 import { PostFindManyArgs } from "../../post/base/PostFindManyArgs";
 import { PostWhereUniqueInput } from "../../post/base/PostWhereUniqueInput";
 
@@ -48,8 +49,8 @@ export class AuthorControllerBase {
   @swagger.ApiForbiddenResponse({
     type: errors.ForbiddenException,
   })
-  async createAuthor(@common.Body() data: AuthorCreateInput): Promise<Author> {
-    return await this.service.createAuthor({
+  async create(@common.Body() data: AuthorCreateInput): Promise<Author> {
+    return await this.service.create({
       data: data,
       select: {
         createdAt: true,
@@ -71,9 +72,9 @@ export class AuthorControllerBase {
   @swagger.ApiForbiddenResponse({
     type: errors.ForbiddenException,
   })
-  async authors(@common.Req() request: Request): Promise<Author[]> {
+  async findMany(@common.Req() request: Request): Promise<Author[]> {
     const args = plainToClass(AuthorFindManyArgs, request.query);
-    return this.service.authors({
+    return this.service.findMany({
       ...args,
       select: {
         createdAt: true,
@@ -95,10 +96,10 @@ export class AuthorControllerBase {
   @swagger.ApiForbiddenResponse({
     type: errors.ForbiddenException,
   })
-  async author(
+  async findOne(
     @common.Param() params: AuthorWhereUniqueInput
   ): Promise<Author | null> {
-    const result = await this.service.author({
+    const result = await this.service.findOne({
       where: params,
       select: {
         createdAt: true,
@@ -131,12 +132,12 @@ export class AuthorControllerBase {
   @swagger.ApiForbiddenResponse({
     type: errors.ForbiddenException,
   })
-  async updateAuthor(
+  async update(
     @common.Param() params: AuthorWhereUniqueInput,
     @common.Body() data: AuthorUpdateInput
   ): Promise<Author | null> {
     try {
-      return await this.service.updateAuthor({
+      return await this.service.update({
         where: params,
         data: data,
         select: {
@@ -171,11 +172,11 @@ export class AuthorControllerBase {
   @swagger.ApiForbiddenResponse({
     type: errors.ForbiddenException,
   })
-  async deleteAuthor(
+  async delete(
     @common.Param() params: AuthorWhereUniqueInput
   ): Promise<Author | null> {
     try {
-      return await this.service.deleteAuthor({
+      return await this.service.delete({
         where: params,
         select: {
           createdAt: true,
@@ -201,7 +202,7 @@ export class AuthorControllerBase {
   @Public()
   @common.Get("/:id/posts")
   @ApiNestedQuery(PostFindManyArgs)
-  async findPosts(
+  async findManyPosts(
     @common.Req() request: Request,
     @common.Param() params: AuthorWhereUniqueInput
   ): Promise<Post[]> {
@@ -251,7 +252,7 @@ export class AuthorControllerBase {
         connect: body,
       },
     };
-    await this.service.updateAuthor({
+    await this.service.update({
       where: params,
       data,
       select: { id: true },
@@ -273,7 +274,7 @@ export class AuthorControllerBase {
         set: body,
       },
     };
-    await this.service.updateAuthor({
+    await this.service.update({
       where: params,
       data,
       select: { id: true },
@@ -295,7 +296,7 @@ export class AuthorControllerBase {
         disconnect: body,
       },
     };
-    await this.service.updateAuthor({
+    await this.service.update({
       where: params,
       data,
       select: { id: true },

@@ -10,7 +10,7 @@ https://docs.amplication.com/how-to/custom-code
 ------------------------------------------------------------------------------
   */
 import * as graphql from "@nestjs/graphql";
-import { GraphQLError } from "graphql";
+import * as apollo from "apollo-server-express";
 import { isRecordNotFoundError } from "../../prisma.util";
 import { MetaQueryPayload } from "../../util/MetaQueryPayload";
 import * as nestAccessControl from "nest-access-control";
@@ -19,13 +19,13 @@ import { GqlDefaultAuthGuard } from "../../auth/gqlDefaultAuth.guard";
 import * as common from "@nestjs/common";
 import { AclFilterResponseInterceptor } from "../../interceptors/aclFilterResponse.interceptor";
 import { AclValidateRequestInterceptor } from "../../interceptors/aclValidateRequest.interceptor";
-import { User } from "./User";
-import { UserCountArgs } from "./UserCountArgs";
-import { UserFindManyArgs } from "./UserFindManyArgs";
-import { UserFindUniqueArgs } from "./UserFindUniqueArgs";
 import { CreateUserArgs } from "./CreateUserArgs";
 import { UpdateUserArgs } from "./UpdateUserArgs";
 import { DeleteUserArgs } from "./DeleteUserArgs";
+import { UserCountArgs } from "./UserCountArgs";
+import { UserFindManyArgs } from "./UserFindManyArgs";
+import { UserFindUniqueArgs } from "./UserFindUniqueArgs";
+import { User } from "./User";
 import { UserService } from "../user.service";
 @common.UseGuards(GqlDefaultAuthGuard, gqlACGuard.GqlACGuard)
 @graphql.Resolver(() => User)
@@ -58,7 +58,7 @@ export class UserResolverBase {
     possession: "any",
   })
   async users(@graphql.Args() args: UserFindManyArgs): Promise<User[]> {
-    return this.service.users(args);
+    return this.service.findMany(args);
   }
 
   @common.UseInterceptors(AclFilterResponseInterceptor)
@@ -69,7 +69,7 @@ export class UserResolverBase {
     possession: "own",
   })
   async user(@graphql.Args() args: UserFindUniqueArgs): Promise<User | null> {
-    const result = await this.service.user(args);
+    const result = await this.service.findOne(args);
     if (result === null) {
       return null;
     }
@@ -84,7 +84,7 @@ export class UserResolverBase {
     possession: "any",
   })
   async createUser(@graphql.Args() args: CreateUserArgs): Promise<User> {
-    return await this.service.createUser({
+    return await this.service.create({
       ...args,
       data: args.data,
     });
@@ -99,13 +99,13 @@ export class UserResolverBase {
   })
   async updateUser(@graphql.Args() args: UpdateUserArgs): Promise<User | null> {
     try {
-      return await this.service.updateUser({
+      return await this.service.update({
         ...args,
         data: args.data,
       });
     } catch (error) {
       if (isRecordNotFoundError(error)) {
-        throw new GraphQLError(
+        throw new apollo.ApolloError(
           `No resource was found for ${JSON.stringify(args.where)}`
         );
       }
@@ -121,10 +121,10 @@ export class UserResolverBase {
   })
   async deleteUser(@graphql.Args() args: DeleteUserArgs): Promise<User | null> {
     try {
-      return await this.service.deleteUser(args);
+      return await this.service.delete(args);
     } catch (error) {
       if (isRecordNotFoundError(error)) {
-        throw new GraphQLError(
+        throw new apollo.ApolloError(
           `No resource was found for ${JSON.stringify(args.where)}`
         );
       }

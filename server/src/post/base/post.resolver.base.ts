@@ -10,7 +10,7 @@ https://docs.amplication.com/how-to/custom-code
 ------------------------------------------------------------------------------
   */
 import * as graphql from "@nestjs/graphql";
-import { GraphQLError } from "graphql";
+import * as apollo from "apollo-server-express";
 import { isRecordNotFoundError } from "../../prisma.util";
 import { MetaQueryPayload } from "../../util/MetaQueryPayload";
 import * as nestAccessControl from "nest-access-control";
@@ -19,13 +19,13 @@ import { GqlDefaultAuthGuard } from "../../auth/gqlDefaultAuth.guard";
 import * as common from "@nestjs/common";
 import { Public } from "../../decorators/public.decorator";
 import { AclValidateRequestInterceptor } from "../../interceptors/aclValidateRequest.interceptor";
-import { Post } from "./Post";
-import { PostCountArgs } from "./PostCountArgs";
-import { PostFindManyArgs } from "./PostFindManyArgs";
-import { PostFindUniqueArgs } from "./PostFindUniqueArgs";
 import { CreatePostArgs } from "./CreatePostArgs";
 import { UpdatePostArgs } from "./UpdatePostArgs";
 import { DeletePostArgs } from "./DeletePostArgs";
+import { PostCountArgs } from "./PostCountArgs";
+import { PostFindManyArgs } from "./PostFindManyArgs";
+import { PostFindUniqueArgs } from "./PostFindUniqueArgs";
+import { Post } from "./Post";
 import { TagFindManyArgs } from "../../tag/base/TagFindManyArgs";
 import { Tag } from "../../tag/base/Tag";
 import { Author } from "../../author/base/Author";
@@ -52,13 +52,13 @@ export class PostResolverBase {
   @Public()
   @graphql.Query(() => [Post])
   async posts(@graphql.Args() args: PostFindManyArgs): Promise<Post[]> {
-    return this.service.posts(args);
+    return this.service.findMany(args);
   }
 
   @Public()
   @graphql.Query(() => Post, { nullable: true })
   async post(@graphql.Args() args: PostFindUniqueArgs): Promise<Post | null> {
-    const result = await this.service.post(args);
+    const result = await this.service.findOne(args);
     if (result === null) {
       return null;
     }
@@ -73,7 +73,7 @@ export class PostResolverBase {
     possession: "any",
   })
   async createPost(@graphql.Args() args: CreatePostArgs): Promise<Post> {
-    return await this.service.createPost({
+    return await this.service.create({
       ...args,
       data: {
         ...args.data,
@@ -94,7 +94,7 @@ export class PostResolverBase {
   })
   async updatePost(@graphql.Args() args: UpdatePostArgs): Promise<Post | null> {
     try {
-      return await this.service.updatePost({
+      return await this.service.update({
         ...args,
         data: {
           ...args.data,
@@ -106,7 +106,7 @@ export class PostResolverBase {
       });
     } catch (error) {
       if (isRecordNotFoundError(error)) {
-        throw new GraphQLError(
+        throw new apollo.ApolloError(
           `No resource was found for ${JSON.stringify(args.where)}`
         );
       }
@@ -122,10 +122,10 @@ export class PostResolverBase {
   })
   async deletePost(@graphql.Args() args: DeletePostArgs): Promise<Post | null> {
     try {
-      return await this.service.deletePost(args);
+      return await this.service.delete(args);
     } catch (error) {
       if (isRecordNotFoundError(error)) {
-        throw new GraphQLError(
+        throw new apollo.ApolloError(
           `No resource was found for ${JSON.stringify(args.where)}`
         );
       }
@@ -135,7 +135,7 @@ export class PostResolverBase {
 
   @Public()
   @graphql.ResolveField(() => [Tag], { name: "tags" })
-  async findTags(
+  async resolveFieldTags(
     @graphql.Parent() parent: Post,
     @graphql.Args() args: TagFindManyArgs
   ): Promise<Tag[]> {
@@ -153,7 +153,9 @@ export class PostResolverBase {
     nullable: true,
     name: "author",
   })
-  async getAuthor(@graphql.Parent() parent: Post): Promise<Author | null> {
+  async resolveFieldAuthor(
+    @graphql.Parent() parent: Post
+  ): Promise<Author | null> {
     const result = await this.service.getAuthor(parent.id);
 
     if (!result) {

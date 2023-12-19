@@ -10,13 +10,7 @@ https://docs.amplication.com/how-to/custom-code
 ------------------------------------------------------------------------------
   */
 import { PrismaService } from "../../prisma/prisma.service";
-
-import {
-  Prisma,
-  Post, // @ts-ignore
-  Tag, // @ts-ignore
-  Author,
-} from "@prisma/client";
+import { Prisma, Post, Tag, Author } from "@prisma/client";
 
 export class PostServiceBase {
   constructor(protected readonly prisma: PrismaService) {}
@@ -27,27 +21,27 @@ export class PostServiceBase {
     return this.prisma.post.count(args);
   }
 
-  async posts<T extends Prisma.PostFindManyArgs>(
+  async findMany<T extends Prisma.PostFindManyArgs>(
     args: Prisma.SelectSubset<T, Prisma.PostFindManyArgs>
   ): Promise<Post[]> {
     return this.prisma.post.findMany(args);
   }
-  async post<T extends Prisma.PostFindUniqueArgs>(
+  async findOne<T extends Prisma.PostFindUniqueArgs>(
     args: Prisma.SelectSubset<T, Prisma.PostFindUniqueArgs>
   ): Promise<Post | null> {
     return this.prisma.post.findUnique(args);
   }
-  async createPost<T extends Prisma.PostCreateArgs>(
+  async create<T extends Prisma.PostCreateArgs>(
     args: Prisma.SelectSubset<T, Prisma.PostCreateArgs>
   ): Promise<Post> {
     return this.prisma.post.create<T>(args);
   }
-  async updatePost<T extends Prisma.PostUpdateArgs>(
+  async update<T extends Prisma.PostUpdateArgs>(
     args: Prisma.SelectSubset<T, Prisma.PostUpdateArgs>
   ): Promise<Post> {
     return this.prisma.post.update<T>(args);
   }
-  async deletePost<T extends Prisma.PostDeleteArgs>(
+  async delete<T extends Prisma.PostDeleteArgs>(
     args: Prisma.SelectSubset<T, Prisma.PostDeleteArgs>
   ): Promise<Post> {
     return this.prisma.post.delete(args);
