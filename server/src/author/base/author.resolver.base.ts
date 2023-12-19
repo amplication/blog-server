@@ -10,22 +10,22 @@ https://docs.amplication.com/how-to/custom-code
 ------------------------------------------------------------------------------
   */
 import * as graphql from "@nestjs/graphql";
-import * as apollo from "apollo-server-express";
+import { GraphQLError } from "graphql";
 import { isRecordNotFoundError } from "../../prisma.util";
 import { MetaQueryPayload } from "../../util/MetaQueryPayload";
 import * as nestAccessControl from "nest-access-control";
 import * as gqlACGuard from "../../auth/gqlAC.guard";
 import { GqlDefaultAuthGuard } from "../../auth/gqlDefaultAuth.guard";
 import * as common from "@nestjs/common";
-import { AclFilterResponseInterceptor } from "../../interceptors/aclFilterResponse.interceptor";
-import { AclValidateRequestInterceptor } from "../../interceptors/aclValidateRequest.interceptor";
 import { Public } from "../../decorators/public.decorator";
+import { AclValidateRequestInterceptor } from "../../interceptors/aclValidateRequest.interceptor";
+import { Author } from "./Author";
+import { AuthorCountArgs } from "./AuthorCountArgs";
+import { AuthorFindManyArgs } from "./AuthorFindManyArgs";
+import { AuthorFindUniqueArgs } from "./AuthorFindUniqueArgs";
 import { CreateAuthorArgs } from "./CreateAuthorArgs";
 import { UpdateAuthorArgs } from "./UpdateAuthorArgs";
 import { DeleteAuthorArgs } from "./DeleteAuthorArgs";
-import { AuthorFindManyArgs } from "./AuthorFindManyArgs";
-import { AuthorFindUniqueArgs } from "./AuthorFindUniqueArgs";
-import { Author } from "./Author";
 import { PostFindManyArgs } from "../../post/base/PostFindManyArgs";
 import { Post } from "../../post/base/Post";
 import { AuthorService } from "../author.service";
@@ -37,47 +37,29 @@ export class AuthorResolverBase {
     protected readonly rolesBuilder: nestAccessControl.RolesBuilder
   ) {}
 
+  @Public()
   @graphql.Query(() => MetaQueryPayload)
-  @nestAccessControl.UseRoles({
-    resource: "Author",
-    action: "read",
-    possession: "any",
-  })
   async _authorsMeta(
-    @graphql.Args() args: AuthorFindManyArgs
+    @graphql.Args() args: AuthorCountArgs
   ): Promise<MetaQueryPayload> {
-    const results = await this.service.count({
-      ...args,
-      skip: undefined,
-      take: undefined,
-    });
+    const result = await this.service.count(args);
     return {
-      count: results,
+      count: result,
     };
   }
 
-  @common.UseInterceptors(AclFilterResponseInterceptor)
+  @Public()
   @graphql.Query(() => [Author])
-  @nestAccessControl.UseRoles({
-    resource: "Author",
-    action: "read",
-    possession: "any",
-  })
   async authors(@graphql.Args() args: AuthorFindManyArgs): Promise<Author[]> {
-    return this.service.findMany(args);
+    return this.service.authors(args);
   }
 
-  @common.UseInterceptors(AclFilterResponseInterceptor)
+  @Public()
   @graphql.Query(() => Author, { nullable: true })
-  @nestAccessControl.UseRoles({
-    resource: "Author",
-    action: "read",
-    possession: "own",
-  })
   async author(
     @graphql.Args() args: AuthorFindUniqueArgs
   ): Promise<Author | null> {
-    const result = await this.service.findOne(args);
+    const result = await this.service.author(args);
     if (result === null) {
       return null;
     }
@@ -92,7 +74,7 @@ export class AuthorResolverBase {
     possession: "any",
   })
   async createAuthor(@graphql.Args() args: CreateAuthorArgs): Promise<Author> {
-    return await this.service.create({
+    return await this.service.createAuthor({
       ...args,
       data: args.data,
     });
@@ -109,13 +91,13 @@ export class AuthorResolverBase {
     @graphql.Args() args: UpdateAuthorArgs
   ): Promise<Author | null> {
     try {
-      return await this.service.update({
+      return await this.service.updateAuthor({
         ...args,
         data: args.data,
       });
     } catch (error) {
       if (isRecordNotFoundError(error)) {
-        throw new apollo.ApolloError(
+        throw new GraphQLError(
           `No resource was found for ${JSON.stringify(args.where)}`
         );
       }
@@ -133,10 +115,10 @@ export class AuthorResolverBase {
     @graphql.Args() args: DeleteAuthorArgs
   ): Promise<Author | null> {
     try {
-      return await this.service.delete(args);
+      return await this.service.deleteAuthor(args);
     } catch (error) {
       if (isRecordNotFoundError(error)) {
-        throw new apollo.ApolloError(
+        throw new GraphQLError(
           `No resource was found for ${JSON.stringify(args.where)}`
         );
       }
@@ -145,8 +127,8 @@ export class AuthorResolverBase {
   }
 
   @Public()
-  @graphql.ResolveField(() => [Post])
-  async posts(
+  @graphql.ResolveField(() => [Post], { name: "posts" })
+  async findPosts(
     @graphql.Parent() parent: Author,
     @graphql.Args() args: PostFindManyArgs
   ): Promise<Post[]> {

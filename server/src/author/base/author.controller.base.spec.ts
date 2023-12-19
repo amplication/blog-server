@@ -6,7 +6,6 @@ import {
   CallHandler,
 } from "@nestjs/common";
 import request from "supertest";
-import { MorganModule } from "nest-morgan";
 import { ACGuard } from "nest-access-control";
 import { DefaultAuthGuard } from "../../auth/defaultAuth.guard";
 import { ACLModule } from "../../auth/acl.module";
@@ -62,11 +61,11 @@ const FIND_ONE_RESULT = {
 };
 
 const service = {
-  create() {
+  createAuthor() {
     return CREATE_RESULT;
   },
-  findMany: () => FIND_MANY_RESULT,
-  findOne: ({ where }: { where: { id: string } }) => {
+  authors: () => FIND_MANY_RESULT,
+  author: ({ where }: { where: { id: string } }) => {
     switch (where.id) {
       case existingId:
         return FIND_ONE_RESULT;
@@ -120,7 +119,7 @@ describe("Author", () => {
         },
       ],
       controllers: [AuthorController],
-      imports: [MorganModule.forRoot(), ACLModule],
+      imports: [ACLModule],
     })
       .overrideGuard(DefaultAuthGuard)
       .useValue(basicAuthGuard)
@@ -184,7 +183,7 @@ describe("Author", () => {
   });
 
   test("POST /authors existing resource", async () => {
-    let agent = request(app.getHttpServer());
+    const agent = request(app.getHttpServer());
     await agent
       .post("/authors")
       .send(CREATE_INPUT)
