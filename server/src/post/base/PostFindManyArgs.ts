@@ -59,4 +59,4 @@ class PostFindManyArgs {
   take?: number;
 }
 
-export { PostFindManyArgs as PostFindManyArgs };
+export { PostFindManyArgs };

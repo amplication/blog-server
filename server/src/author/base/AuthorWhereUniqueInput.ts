@@ -24,4 +24,4 @@ class AuthorWhereUniqueInput {
   id!: string;
 }
 
-export { AuthorWhereUniqueInput as AuthorWhereUniqueInput };
+export { AuthorWhereUniqueInput };

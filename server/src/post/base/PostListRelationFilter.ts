@@ -53,4 +53,4 @@ class PostListRelationFilter {
   })
   none?: PostWhereInput;
 }
-export { PostListRelationFilter as PostListRelationFilter };
+export { PostListRelationFilter };

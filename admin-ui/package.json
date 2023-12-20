@@ -11,7 +11,9 @@
     "react": "16.14.0",
     "react-admin": "3.19.12",
     "react-dom": "16.14.0",
+    "react-markdown": "^8.0.4",
     "react-scripts": "5.0.0",
+    "rehype-raw": "^6.1.1",
     "sass": "^1.39.0",
     "web-vitals": "1.1.2"
   },
@@ -23,7 +25,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "react-scripts test --passWithNoTests",
     "eject": "react-scripts eject",
     "package:container": "docker build ."
   },

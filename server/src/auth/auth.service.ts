@@ -17,7 +17,7 @@ export class AuthService {
     username: string,
     password: string
   ): Promise<UserInfo | null> {
-    const user = await this.userService.user({
+    const user = await this.userService.findOne({
       where: { username },
     });
     if (user && (await this.passwordService.compare(password, user.password))) {

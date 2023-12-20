@@ -81,4 +81,4 @@ class User {
   username!: string;
 }
 
-export { User as User };
+export { User };

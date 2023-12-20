@@ -27,4 +27,4 @@ class CreateAuthorArgs {
   data!: AuthorCreateInput;
 }
 
-export { CreateAuthorArgs as CreateAuthorArgs };
+export { CreateAuthorArgs };

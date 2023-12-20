@@ -27,4 +27,4 @@ class DeleteTagArgs {
   where!: TagWhereUniqueInput;
 }
 
-export { DeleteTagArgs as DeleteTagArgs };
+export { DeleteTagArgs };

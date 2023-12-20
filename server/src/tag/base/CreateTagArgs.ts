@@ -27,4 +27,4 @@ class CreateTagArgs {
   data!: TagCreateInput;
 }
 
-export { CreateTagArgs as CreateTagArgs };
+export { CreateTagArgs };
