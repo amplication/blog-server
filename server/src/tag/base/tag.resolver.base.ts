@@ -19,13 +19,13 @@ import { GqlDefaultAuthGuard } from "../../auth/gqlDefaultAuth.guard";
 import * as common from "@nestjs/common";
 import { Public } from "../../decorators/public.decorator";
 import { AclValidateRequestInterceptor } from "../../interceptors/aclValidateRequest.interceptor";
-import { CreateTagArgs } from "./CreateTagArgs";
-import { UpdateTagArgs } from "./UpdateTagArgs";
-import { DeleteTagArgs } from "./DeleteTagArgs";
+import { Tag } from "./Tag";
 import { TagCountArgs } from "./TagCountArgs";
 import { TagFindManyArgs } from "./TagFindManyArgs";
 import { TagFindUniqueArgs } from "./TagFindUniqueArgs";
-import { Tag } from "./Tag";
+import { CreateTagArgs } from "./CreateTagArgs";
+import { UpdateTagArgs } from "./UpdateTagArgs";
+import { DeleteTagArgs } from "./DeleteTagArgs";
 import { PostFindManyArgs } from "../../post/base/PostFindManyArgs";
 import { Post } from "../../post/base/Post";
 import { TagService } from "../tag.service";
@@ -51,13 +51,13 @@ export class TagResolverBase {
   @Public()
   @graphql.Query(() => [Tag])
   async tags(@graphql.Args() args: TagFindManyArgs): Promise<Tag[]> {
-    return this.service.findMany(args);
+    return this.service.tags(args);
   }
 
   @Public()
   @graphql.Query(() => Tag, { nullable: true })
   async tag(@graphql.Args() args: TagFindUniqueArgs): Promise<Tag | null> {
-    const result = await this.service.findOne(args);
+    const result = await this.service.tag(args);
     if (result === null) {
       return null;
     }
@@ -72,7 +72,7 @@ export class TagResolverBase {
     possession: "any",
   })
   async createTag(@graphql.Args() args: CreateTagArgs): Promise<Tag> {
-    return await this.service.create({
+    return await this.service.createTag({
       ...args,
       data: args.data,
     });
@@ -87,7 +87,7 @@ export class TagResolverBase {
   })
   async updateTag(@graphql.Args() args: UpdateTagArgs): Promise<Tag | null> {
     try {
-      return await this.service.update({
+      return await this.service.updateTag({
         ...args,
         data: args.data,
       });
@@ -109,7 +109,7 @@ export class TagResolverBase {
   })
   async deleteTag(@graphql.Args() args: DeleteTagArgs): Promise<Tag | null> {
     try {
-      return await this.service.delete(args);
+      return await this.service.deleteTag(args);
     } catch (error) {
       if (isRecordNotFoundError(error)) {
         throw new GraphQLError(
@@ -122,7 +122,7 @@ export class TagResolverBase {
 
   @Public()
   @graphql.ResolveField(() => [Post], { name: "posts" })
-  async resolveFieldPosts(
+  async findPosts(
     @graphql.Parent() parent: Tag,
     @graphql.Args() args: PostFindManyArgs
   ): Promise<Post[]> {
