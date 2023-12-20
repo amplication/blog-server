@@ -22,12 +22,11 @@ import { TagService } from "../tag.service";
 import { AclValidateRequestInterceptor } from "../../interceptors/aclValidateRequest.interceptor";
 import { Public } from "../../decorators/public.decorator";
 import { TagCreateInput } from "./TagCreateInput";
-import { TagWhereInput } from "./TagWhereInput";
-import { TagWhereUniqueInput } from "./TagWhereUniqueInput";
-import { TagFindManyArgs } from "./TagFindManyArgs";
-import { TagUpdateInput } from "./TagUpdateInput";
 import { Tag } from "./Tag";
 import { Post } from "../../post/base/Post";
+import { TagFindManyArgs } from "./TagFindManyArgs";
+import { TagWhereUniqueInput } from "./TagWhereUniqueInput";
+import { TagUpdateInput } from "./TagUpdateInput";
 import { PostFindManyArgs } from "../../post/base/PostFindManyArgs";
 import { PostWhereUniqueInput } from "../../post/base/PostWhereUniqueInput";
 
@@ -49,8 +48,8 @@ export class TagControllerBase {
   @swagger.ApiForbiddenResponse({
     type: errors.ForbiddenException,
   })
-  async create(@common.Body() data: TagCreateInput): Promise<Tag> {
-    return await this.service.create({
+  async createTag(@common.Body() data: TagCreateInput): Promise<Tag> {
+    return await this.service.createTag({
       data: data,
       select: {
         createdAt: true,
@@ -69,9 +68,9 @@ export class TagControllerBase {
   @swagger.ApiForbiddenResponse({
     type: errors.ForbiddenException,
   })
-  async findMany(@common.Req() request: Request): Promise<Tag[]> {
+  async tags(@common.Req() request: Request): Promise<Tag[]> {
     const args = plainToClass(TagFindManyArgs, request.query);
-    return this.service.findMany({
+    return this.service.tags({
       ...args,
       select: {
         createdAt: true,
@@ -90,10 +89,8 @@ export class TagControllerBase {
   @swagger.ApiForbiddenResponse({
     type: errors.ForbiddenException,
   })
-  async findOne(
-    @common.Param() params: TagWhereUniqueInput
-  ): Promise<Tag | null> {
-    const result = await this.service.findOne({
+  async tag(@common.Param() params: TagWhereUniqueInput): Promise<Tag | null> {
+    const result = await this.service.tag({
       where: params,
       select: {
         createdAt: true,
@@ -123,12 +120,12 @@ export class TagControllerBase {
   @swagger.ApiForbiddenResponse({
     type: errors.ForbiddenException,
   })
-  async update(
+  async updateTag(
     @common.Param() params: TagWhereUniqueInput,
     @common.Body() data: TagUpdateInput
   ): Promise<Tag | null> {
     try {
-      return await this.service.update({
+      return await this.service.updateTag({
         where: params,
         data: data,
         select: {
@@ -160,11 +157,11 @@ export class TagControllerBase {
   @swagger.ApiForbiddenResponse({
     type: errors.ForbiddenException,
   })
-  async delete(
+  async deleteTag(
     @common.Param() params: TagWhereUniqueInput
   ): Promise<Tag | null> {
     try {
-      return await this.service.delete({
+      return await this.service.deleteTag({
         where: params,
         select: {
           createdAt: true,
@@ -187,7 +184,7 @@ export class TagControllerBase {
   @Public()
   @common.Get("/:id/posts")
   @ApiNestedQuery(PostFindManyArgs)
-  async findManyPosts(
+  async findPosts(
     @common.Req() request: Request,
     @common.Param() params: TagWhereUniqueInput
   ): Promise<Post[]> {
@@ -237,7 +234,7 @@ export class TagControllerBase {
         connect: body,
       },
     };
-    await this.service.update({
+    await this.service.updateTag({
       where: params,
       data,
       select: { id: true },
@@ -259,7 +256,7 @@ export class TagControllerBase {
         set: body,
       },
     };
-    await this.service.update({
+    await this.service.updateTag({
       where: params,
       data,
       select: { id: true },
@@ -281,7 +278,7 @@ export class TagControllerBase {
         disconnect: body,
       },
     };
-    await this.service.update({
+    await this.service.updateTag({
       where: params,
       data,
       select: { id: true },

@@ -19,13 +19,13 @@ import { GqlDefaultAuthGuard } from "../../auth/gqlDefaultAuth.guard";
 import * as common from "@nestjs/common";
 import { Public } from "../../decorators/public.decorator";
 import { AclValidateRequestInterceptor } from "../../interceptors/aclValidateRequest.interceptor";
-import { CreateAuthorArgs } from "./CreateAuthorArgs";
-import { UpdateAuthorArgs } from "./UpdateAuthorArgs";
-import { DeleteAuthorArgs } from "./DeleteAuthorArgs";
+import { Author } from "./Author";
 import { AuthorCountArgs } from "./AuthorCountArgs";
 import { AuthorFindManyArgs } from "./AuthorFindManyArgs";
 import { AuthorFindUniqueArgs } from "./AuthorFindUniqueArgs";
-import { Author } from "./Author";
+import { CreateAuthorArgs } from "./CreateAuthorArgs";
+import { UpdateAuthorArgs } from "./UpdateAuthorArgs";
+import { DeleteAuthorArgs } from "./DeleteAuthorArgs";
 import { PostFindManyArgs } from "../../post/base/PostFindManyArgs";
 import { Post } from "../../post/base/Post";
 import { AuthorService } from "../author.service";
@@ -51,7 +51,7 @@ export class AuthorResolverBase {
   @Public()
   @graphql.Query(() => [Author])
   async authors(@graphql.Args() args: AuthorFindManyArgs): Promise<Author[]> {
-    return this.service.findMany(args);
+    return this.service.authors(args);
   }
 
   @Public()
@@ -59,7 +59,7 @@ export class AuthorResolverBase {
   async author(
     @graphql.Args() args: AuthorFindUniqueArgs
   ): Promise<Author | null> {
-    const result = await this.service.findOne(args);
+    const result = await this.service.author(args);
     if (result === null) {
       return null;
     }
@@ -74,7 +74,7 @@ export class AuthorResolverBase {
     possession: "any",
   })
   async createAuthor(@graphql.Args() args: CreateAuthorArgs): Promise<Author> {
-    return await this.service.create({
+    return await this.service.createAuthor({
       ...args,
       data: args.data,
     });
@@ -91,7 +91,7 @@ export class AuthorResolverBase {
     @graphql.Args() args: UpdateAuthorArgs
   ): Promise<Author | null> {
     try {
-      return await this.service.update({
+      return await this.service.updateAuthor({
         ...args,
         data: args.data,
       });
@@ -115,7 +115,7 @@ export class AuthorResolverBase {
     @graphql.Args() args: DeleteAuthorArgs
   ): Promise<Author | null> {
     try {
-      return await this.service.delete(args);
+      return await this.service.deleteAuthor(args);
     } catch (error) {
       if (isRecordNotFoundError(error)) {
         throw new GraphQLError(
@@ -128,7 +128,7 @@ export class AuthorResolverBase {
 
   @Public()
   @graphql.ResolveField(() => [Post], { name: "posts" })
-  async resolveFieldPosts(
+  async findPosts(
     @graphql.Parent() parent: Author,
     @graphql.Args() args: PostFindManyArgs
   ): Promise<Post[]> {
