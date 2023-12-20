@@ -103,4 +103,4 @@ class Author {
   updatedAt!: Date;
 }
 
-export { Author as Author };
+export { Author };

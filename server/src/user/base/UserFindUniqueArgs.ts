@@ -27,4 +27,4 @@ class UserFindUniqueArgs {
   where!: UserWhereUniqueInput;
 }
 
-export { UserFindUniqueArgs as UserFindUniqueArgs };
+export { UserFindUniqueArgs };

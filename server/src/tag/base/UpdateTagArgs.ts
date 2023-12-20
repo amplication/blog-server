@@ -37,4 +37,4 @@ class UpdateTagArgs {
   data!: TagUpdateInput;
 }
 
-export { UpdateTagArgs as UpdateTagArgs };
+export { UpdateTagArgs };

@@ -59,4 +59,4 @@ class TagFindManyArgs {
   take?: number;
 }
 
-export { TagFindManyArgs as TagFindManyArgs };
+export { TagFindManyArgs };

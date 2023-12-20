@@ -37,4 +37,4 @@ class UpdateAuthorArgs {
   data!: AuthorUpdateInput;
 }
 
-export { UpdateAuthorArgs as UpdateAuthorArgs };
+export { UpdateAuthorArgs };
