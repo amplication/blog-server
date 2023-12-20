@@ -1,6 +1,4 @@
-import { Module, Scope } from "@nestjs/common";
-import { APP_INTERCEPTOR } from "@nestjs/core";
-import { MorganInterceptor, MorganModule } from "nest-morgan";
+import { Module } from "@nestjs/common";
 import { UserModule } from "./user/user.module";
 import { PostModule } from "./post/post.module";
 import { AuthorModule } from "./author/author.module";
@@ -12,6 +10,7 @@ import { ServeStaticModule } from "@nestjs/serve-static";
 import { ServeStaticOptionsService } from "./serveStaticOptions.service";
 import { ConfigModule, ConfigService } from "@nestjs/config";
 import { GraphQLModule } from "@nestjs/graphql";
+import { ApolloDriver, ApolloDriverConfig } from "@nestjs/apollo";
 
 import { ACLModule } from "./auth/acl.module";
 import { AuthModule } from "./auth/auth.module";
@@ -28,13 +27,13 @@ import { AuthModule } from "./auth/auth.module";
     HealthModule,
     PrismaModule,
     SecretsManagerModule,
-    MorganModule,
     ConfigModule.forRoot({ isGlobal: true }),
     ServeStaticModule.forRootAsync({
       useClass: ServeStaticOptionsService,
     }),
-    GraphQLModule.forRootAsync({
-      useFactory: (configService) => {
+    GraphQLModule.forRootAsync<ApolloDriverConfig>({
+      driver: ApolloDriver,
+      useFactory: (configService: ConfigService) => {
         const playground = configService.get("GRAPHQL_PLAYGROUND");
         const introspection = configService.get("GRAPHQL_INTROSPECTION");
         return {
@@ -48,12 +47,6 @@ import { AuthModule } from "./auth/auth.module";
       imports: [ConfigModule],
     }),
   ],
-  providers: [
-    {
-      provide: APP_INTERCEPTOR,
-      scope: Scope.REQUEST,
-      useClass: MorganInterceptor("combined"),
-    },
-  ],
+  providers: [],
 })
 export class AppModule {}
