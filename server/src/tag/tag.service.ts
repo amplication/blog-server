@@ -16,7 +16,7 @@ export class TagService extends TagServiceBase {
   ): Promise<Tag> {
     // Set Slug on creation
     args.data.slug = slugify(args.data.name ?? "", SLUGGIFY_OPTIONS);
-    return super.create(args);
+    return super.createTag(args);
   }
 
   async update<T extends Prisma.TagUpdateArgs>(
@@ -26,6 +26,6 @@ export class TagService extends TagServiceBase {
     if (args.data.slug === null) {
       delete args.data.slug;
     }
-    return super.update(args);
+    return super.updateTag(args);
   }
 }

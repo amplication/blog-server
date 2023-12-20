@@ -25,7 +25,7 @@ export class PostService extends PostServiceBase {
     if (args.data.draft === null || args.data.draft === undefined) {
       args.data.draft = false;
     }
-    return super.create<T>(args);
+    return super.createPost<T>(args);
   }
 
   async update<T extends Prisma.PostUpdateArgs>(
@@ -43,6 +43,6 @@ export class PostService extends PostServiceBase {
     if (args.data.draft === null) {
       delete args.data.draft;
     }
-    return super.update<T>(args);
+    return super.updatePost<T>(args);
   }
 }
