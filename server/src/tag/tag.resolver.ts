@@ -26,13 +26,13 @@ export class TagResolver extends TagResolverBase {
   @graphql.Query(() => [Tag])
   @Public()
   async tags(@graphql.Args() args: TagFindManyArgs): Promise<Tag[]> {
-    return await this.service.findMany(args);
+    return await this.service.tags(args);
   }
 
   @graphql.Query(() => Tag, { nullable: true })
   @Public()
   async tag(@graphql.Args() args: TagFindUniqueArgs): Promise<Tag | null> {
-    return await this.service.findOne(args);
+    return await this.service.tag(args);
   }
 
   @graphql.ResolveField(() => [Post])

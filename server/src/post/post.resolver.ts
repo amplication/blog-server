@@ -27,13 +27,13 @@ export class PostResolver extends PostResolverBase {
   @graphql.Query(() => [Post])
   @Public()
   async posts(@graphql.Args() args: PostFindManyArgs): Promise<Post[]> {
-    return await this.service.findMany(args);
+    return await this.service.posts(args);
   }
 
   @graphql.Query(() => Post, { nullable: true })
   @Public()
   async post(@graphql.Args() args: PostFindUniqueArgs): Promise<Post | null> {
-    return await this.service.findOne(args);
+    return await this.service.post(args);
   }
 
   @graphql.ResolveField(() => [Tag])
