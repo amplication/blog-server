@@ -21,7 +21,6 @@ import * as defaultAuthGuard from "../../auth/defaultAuth.guard";
 import { PostService } from "../post.service";
 import { AclValidateRequestInterceptor } from "../../interceptors/aclValidateRequest.interceptor";
 import { Public } from "../../decorators/public.decorator";
-import { AclFilterResponseInterceptor } from "../../interceptors/aclFilterResponse.interceptor";
 import { PostCreateInput } from "./PostCreateInput";
 import { PostWhereInput } from "./PostWhereInput";
 import { PostWhereUniqueInput } from "./PostWhereUniqueInput";
@@ -256,14 +255,9 @@ export class PostControllerBase {
     }
   }
 
-  @common.UseInterceptors(AclFilterResponseInterceptor)
+  @Public()
   @common.Get("/:id/tags")
   @ApiNestedQuery(TagFindManyArgs)
-  @nestAccessControl.UseRoles({
-    resource: "Tag",
-    action: "read",
-    possession: "any",
-  })
   async findManyTags(
     @common.Req() request: Request,
     @common.Param() params: PostWhereUniqueInput

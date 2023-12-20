@@ -86,7 +86,7 @@ input DateTimeNullableFilter {
 """
 The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
 """
-scalar JSON @specifiedBy(url: "http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf")
+scalar JSON
 
 type MetaQueryPayload {
   count: Float!
@@ -210,10 +210,10 @@ input PostWhereUniqueInput {
 }
 
 type Query {
-  _authorsMeta(orderBy: [AuthorOrderByInput!], skip: Float, take: Float, where: AuthorWhereInput): MetaQueryPayload!
-  _postsMeta(orderBy: [PostOrderByInput!], skip: Float, take: Float, where: PostWhereInput): MetaQueryPayload!
-  _tagsMeta(orderBy: [TagOrderByInput!], skip: Float, take: Float, where: TagWhereInput): MetaQueryPayload!
-  _usersMeta(orderBy: [UserOrderByInput!], skip: Float, take: Float, where: UserWhereInput): MetaQueryPayload!
+  _authorsMeta(where: AuthorWhereInput): MetaQueryPayload!
+  _postsMeta(where: PostWhereInput): MetaQueryPayload!
+  _tagsMeta(where: TagWhereInput): MetaQueryPayload!
+  _usersMeta(where: UserWhereInput): MetaQueryPayload!
   author(where: AuthorWhereUniqueInput!): Author
   authors(orderBy: [AuthorOrderByInput!], skip: Float, take: Float, where: AuthorWhereInput): [Author!]!
   post(where: PostWhereUniqueInput!): Post
