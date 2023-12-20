@@ -21,6 +21,7 @@ export class PostResolver extends PostResolverBase {
     @nestAccessControl.InjectRolesBuilder()
     protected readonly rolesBuilder: nestAccessControl.RolesBuilder
   ) {
+    
     super(service, rolesBuilder);
   }
 
