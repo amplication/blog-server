@@ -3,7 +3,9 @@ name: continuous-integration
 on:
   workflow_dispatch:
   push:
-    branches: [main]
+    branches:
+      - main
+      - staging 
   release:
     types: [published]
 
@@ -41,6 +43,9 @@ jobs:
       - id: environment-identifier
         run: |
           if [[ "${{ github.ref_name }}" == "${{ github.event.repository.default_branch }}" ]];
+          then
+            echo environment="staging" >> $GITHUB_OUTPUT
+          elif [[ "${{ github.ref_name }}" == "staging" ]];
           then
             echo environment="staging" >> $GITHUB_OUTPUT
           elif [[ "${{ github.ref_type }}" == "tag" ]];
