@@ -12,7 +12,7 @@ export class PostService extends PostServiceBase {
     super(prisma);
   }
 
-  async create<T extends Prisma.PostCreateArgs>(
+  async createPost<T extends Prisma.PostCreateArgs>(
     args: Prisma.SelectSubset<T, Prisma.TagCreateArgs>
   ): Promise<Post> {
     // Set Slug on creation
@@ -28,7 +28,7 @@ export class PostService extends PostServiceBase {
     return super.createPost<T>(args);
   }
 
-  async update<T extends Prisma.PostUpdateArgs>(
+  async updatePost<T extends Prisma.PostUpdateArgs>(
     args: Prisma.SelectSubset<T, Prisma.PostUpdateArgs>
   ): Promise<Post> {
     // Prevent Slugs from being removed
