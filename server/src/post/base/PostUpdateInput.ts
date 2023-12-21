@@ -137,4 +137,4 @@ class PostUpdateInput {
   title?: string;
 }
 
-export { PostUpdateInput as PostUpdateInput };
+export { PostUpdateInput };

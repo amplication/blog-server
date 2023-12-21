@@ -24,7 +24,7 @@ services:
     working_dir: /app/server
     environment:
       BCRYPT_SALT: ${BCRYPT_SALT}
-      DB_URL: postgres://${DB_USER}:${DB_PASSWORD}@db:5432/${DB_NAME}
+      DB_URL: postgres://${DB_USER}:${DB_PASSWORD}@db:${DB_PORT}
     depends_on:
       db:
         condition: service_healthy
@@ -40,8 +40,13 @@ services:
       - postgres:/var/lib/postgresql/data
     healthcheck:
       test:
-        - CMD-SHELL
-        - pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}
+        - CMD
+        - pg_isready
+        - -q
+        - -d
+        - ${DB_NAME}
+        - -U
+        - ${DB_USER}
       timeout: 45s
       interval: 10s
       retries: 10
