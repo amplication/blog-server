@@ -21,6 +21,10 @@ import { TagList } from "./tag/TagList";
 import { TagCreate } from "./tag/TagCreate";
 import { TagEdit } from "./tag/TagEdit";
 import { TagShow } from "./tag/TagShow";
+import { StoryList } from "./story/StoryList";
+import { StoryCreate } from "./story/StoryCreate";
+import { StoryEdit } from "./story/StoryEdit";
+import { StoryShow } from "./story/StoryShow";
 import { jwtAuthProvider } from "./auth-provider/ra-auth-jwt";
 
 const App = (): React.ReactElement => {
@@ -74,6 +78,13 @@ const App = (): React.ReactElement => {
           edit={TagEdit}
           create={TagCreate}
           show={TagShow}
+        />
+        <Resource
+          name="Story"
+          list={StoryList}
+          edit={StoryEdit}
+          create={StoryCreate}
+          show={StoryShow}
         />
       </Admin>
     </div>

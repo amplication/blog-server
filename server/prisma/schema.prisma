@@ -55,3 +55,18 @@ model Tag {
   slug      String?  @unique
   updatedAt DateTime @updatedAt
 }
+
+model Story {
+  content         String
+  createdAt       DateTime  @default(now())
+  draft           Boolean?
+  featuredImage   String
+  id              String    @id @default(cuid())
+  metaDescription String?
+  metaTitle       String?
+  publishedAt     DateTime?
+  slug            String?   @unique
+  tag             String
+  title           String
+  updatedAt       DateTime  @updatedAt
+}
