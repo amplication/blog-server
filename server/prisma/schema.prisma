@@ -59,6 +59,7 @@ model Tag {
 model Story {
   content         String
   createdAt       DateTime  @default(now())
+  customerName    String?
   draft           Boolean?
   featuredImage   String
   id              String    @id @default(cuid())

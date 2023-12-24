@@ -11,7 +11,7 @@ https://docs.amplication.com/how-to/custom-code
   */
 import { InputType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
-import { IsString, IsBoolean, IsOptional, IsDate } from "class-validator";
+import { IsString, IsOptional, IsBoolean, IsDate } from "class-validator";
 import { Type } from "class-transformer";
 
 @InputType()
@@ -23,6 +23,17 @@ class StoryCreateInput {
   @IsString()
   @Field(() => String)
   content!: string;
+
+  @ApiProperty({
+    required: false,
+    type: String,
+  })
+  @IsString()
+  @IsOptional()
+  @Field(() => String, {
+    nullable: true,
+  })
+  customerName?: string | null;
 
   @ApiProperty({
     required: false,

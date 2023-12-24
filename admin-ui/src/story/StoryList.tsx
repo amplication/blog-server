@@ -21,6 +21,7 @@ export const StoryList = (props: ListProps): React.ReactElement => {
       <Datagrid rowClick="show">
         <TextField label="Content" source="content" />
         <DateField source="createdAt" label="Created At" />
+        <TextField label="Customer Name" source="customerName" />
         <BooleanField label="Draft" source="draft" />
         <TextField label="Featured Image" source="featuredImage" />
         <TextField label="ID" source="id" />

@@ -15,8 +15,8 @@ import { StringFilter } from "../../util/StringFilter";
 import { Type } from "class-transformer";
 import { IsOptional } from "class-validator";
 import { DateTimeFilter } from "../../util/DateTimeFilter";
-import { BooleanNullableFilter } from "../../util/BooleanNullableFilter";
 import { StringNullableFilter } from "../../util/StringNullableFilter";
+import { BooleanNullableFilter } from "../../util/BooleanNullableFilter";
 import { DateTimeNullableFilter } from "../../util/DateTimeNullableFilter";
 
 @InputType()
@@ -42,6 +42,17 @@ class StoryWhereInput {
     nullable: true,
   })
   createdAt?: DateTimeFilter;
+
+  @ApiProperty({
+    required: false,
+    type: StringNullableFilter,
+  })
+  @Type(() => StringNullableFilter)
+  @IsOptional()
+  @Field(() => StringNullableFilter, {
+    nullable: true,
+  })
+  customerName?: StringNullableFilter;
 
   @ApiProperty({
     required: false,
