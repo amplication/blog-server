@@ -86,12 +86,6 @@
   {
     "role": "user",
     "resource": "Story",
-    "action": "read:own",
-    "attributes": "*"
-  },
-  {
-    "role": "user",
-    "resource": "Story",
     "action": "create:any",
     "attributes": "*"
   },
@@ -105,12 +99,6 @@
     "role": "user",
     "resource": "Story",
     "action": "delete:any",
-    "attributes": "*"
-  },
-  {
-    "role": "user",
-    "resource": "Story",
-    "action": "read:any",
     "attributes": "*"
   }
 ]

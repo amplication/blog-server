@@ -17,7 +17,7 @@ import * as nestAccessControl from "nest-access-control";
 import * as gqlACGuard from "../../auth/gqlAC.guard";
 import { GqlDefaultAuthGuard } from "../../auth/gqlDefaultAuth.guard";
 import * as common from "@nestjs/common";
-import { AclFilterResponseInterceptor } from "../../interceptors/aclFilterResponse.interceptor";
+import { Public } from "../../decorators/public.decorator";
 import { AclValidateRequestInterceptor } from "../../interceptors/aclValidateRequest.interceptor";
 import { Story } from "./Story";
 import { StoryCountArgs } from "./StoryCountArgs";
@@ -35,12 +35,8 @@ export class StoryResolverBase {
     protected readonly rolesBuilder: nestAccessControl.RolesBuilder
   ) {}
 
+  @Public()
   @graphql.Query(() => MetaQueryPayload)
-  @nestAccessControl.UseRoles({
-    resource: "Story",
-    action: "read",
-    possession: "any",
-  })
   async _storiesMeta(
     @graphql.Args() args: StoryCountArgs
   ): Promise<MetaQueryPayload> {
@@ -50,24 +46,14 @@ export class StoryResolverBase {
     };
   }
 
-  @common.UseInterceptors(AclFilterResponseInterceptor)
+  @Public()
   @graphql.Query(() => [Story])
-  @nestAccessControl.UseRoles({
-    resource: "Story",
-    action: "read",
-    possession: "any",
-  })
   async stories(@graphql.Args() args: StoryFindManyArgs): Promise<Story[]> {
     return this.service.stories(args);
   }
 
-  @common.UseInterceptors(AclFilterResponseInterceptor)
+  @Public()
   @graphql.Query(() => Story, { nullable: true })
-  @nestAccessControl.UseRoles({
-    resource: "Story",
-    action: "read",
-    possession: "own",
-  })
   async story(
     @graphql.Args() args: StoryFindUniqueArgs
   ): Promise<Story | null> {
