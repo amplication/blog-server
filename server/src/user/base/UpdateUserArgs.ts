@@ -37,4 +37,4 @@ class UpdateUserArgs {
   data!: UserUpdateInput;
 }
 
-export { UpdateUserArgs as UpdateUserArgs };
+export { UpdateUserArgs };

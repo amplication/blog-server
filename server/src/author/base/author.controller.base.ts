@@ -29,7 +29,6 @@ import { AuthorWhereUniqueInput } from "./AuthorWhereUniqueInput";
 import { AuthorUpdateInput } from "./AuthorUpdateInput";
 import { PostFindManyArgs } from "../../post/base/PostFindManyArgs";
 import { PostWhereUniqueInput } from "../../post/base/PostWhereUniqueInput";
-
 @swagger.ApiBearerAuth()
 @common.UseGuards(defaultAuthGuard.DefaultAuthGuard, nestAccessControl.ACGuard)
 export class AuthorControllerBase {

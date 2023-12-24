@@ -53,4 +53,4 @@ class TagListRelationFilter {
   })
   none?: TagWhereInput;
 }
-export { TagListRelationFilter as TagListRelationFilter };
+export { TagListRelationFilter };

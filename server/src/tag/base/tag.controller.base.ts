@@ -29,7 +29,6 @@ import { TagWhereUniqueInput } from "./TagWhereUniqueInput";
 import { TagUpdateInput } from "./TagUpdateInput";
 import { PostFindManyArgs } from "../../post/base/PostFindManyArgs";
 import { PostWhereUniqueInput } from "../../post/base/PostWhereUniqueInput";
-
 @swagger.ApiBearerAuth()
 @common.UseGuards(defaultAuthGuard.DefaultAuthGuard, nestAccessControl.ACGuard)
 export class TagControllerBase {
