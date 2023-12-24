@@ -14,6 +14,7 @@ export const StoryShow = (props: ShowProps): React.ReactElement => {
       <SimpleShowLayout>
         <TextField label="Content" source="content" />
         <DateField source="createdAt" label="Created At" />
+        <TextField label="Customer Name" source="customerName" />
         <BooleanField label="Draft" source="draft" />
         <TextField label="Featured Image" source="featuredImage" />
         <TextField label="ID" source="id" />

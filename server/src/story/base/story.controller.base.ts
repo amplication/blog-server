@@ -52,6 +52,7 @@ export class StoryControllerBase {
       select: {
         content: true,
         createdAt: true,
+        customerName: true,
         draft: true,
         featuredImage: true,
         id: true,
@@ -80,6 +81,7 @@ export class StoryControllerBase {
       select: {
         content: true,
         createdAt: true,
+        customerName: true,
         draft: true,
         featuredImage: true,
         id: true,
@@ -109,6 +111,7 @@ export class StoryControllerBase {
       select: {
         content: true,
         createdAt: true,
+        customerName: true,
         draft: true,
         featuredImage: true,
         id: true,
@@ -152,6 +155,7 @@ export class StoryControllerBase {
         select: {
           content: true,
           createdAt: true,
+          customerName: true,
           draft: true,
           featuredImage: true,
           id: true,
@@ -194,6 +198,7 @@ export class StoryControllerBase {
         select: {
           content: true,
           createdAt: true,
+          customerName: true,
           draft: true,
           featuredImage: true,
           id: true,

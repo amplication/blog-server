@@ -13,6 +13,7 @@ export const StoryCreate = (props: CreateProps): React.ReactElement => {
     <Create {...props}>
       <SimpleForm>
         <TextInput label="Content" source="content" />
+        <TextInput label="Customer Name" source="customerName" />
         <BooleanInput label="Draft" source="draft" />
         <TextInput label="Featured Image" source="featuredImage" />
         <TextInput label="Meta Description" source="metaDescription" />

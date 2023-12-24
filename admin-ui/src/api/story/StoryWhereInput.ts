@@ -1,12 +1,13 @@
 import { StringFilter } from "../../util/StringFilter";
 import { DateTimeFilter } from "../../util/DateTimeFilter";
-import { BooleanNullableFilter } from "../../util/BooleanNullableFilter";
 import { StringNullableFilter } from "../../util/StringNullableFilter";
+import { BooleanNullableFilter } from "../../util/BooleanNullableFilter";
 import { DateTimeNullableFilter } from "../../util/DateTimeNullableFilter";
 
 export type StoryWhereInput = {
   content?: StringFilter;
   createdAt?: DateTimeFilter;
+  customerName?: StringNullableFilter;
   draft?: BooleanNullableFilter;
   featuredImage?: StringFilter;
   id?: StringFilter;

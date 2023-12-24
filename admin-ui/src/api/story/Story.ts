@@ -1,6 +1,7 @@
 export type Story = {
   content: string;
   createdAt: Date;
+  customerName: string | null;
   draft: boolean | null;
   featuredImage: string;
   id: string;

@@ -1,5 +1,6 @@
 export type StoryUpdateInput = {
   content?: string;
+  customerName?: string | null;
   draft?: boolean | null;
   featuredImage?: string;
   metaDescription?: string | null;
