@@ -12,7 +12,7 @@ export const StoryCreate = (props: CreateProps): React.ReactElement => {
   return (
     <Create {...props}>
       <SimpleForm>
-        <TextInput label="Content" source="content" />
+        <TextInput label="Title" source="title" />
         <TextInput label="Customer Name" source="customerName" />
         <BooleanInput label="Draft" source="draft" />
         <TextInput label="Featured Image" source="featuredImage" />
@@ -21,7 +21,12 @@ export const StoryCreate = (props: CreateProps): React.ReactElement => {
         <DateTimeInput label="Published At" source="publishedAt" />
         <TextInput label="Slug" source="slug" />
         <TextInput label="Tag" source="tag" />
-        <TextInput label="Title" source="title" />
+        <TextInput
+          label="Content"
+          multiline
+          source="content"
+          style={{ width: 1000, minHeight: 400 }}
+        />
       </SimpleForm>
     </Create>
   );
