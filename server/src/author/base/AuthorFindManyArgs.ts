@@ -12,6 +12,7 @@ https://docs.amplication.com/how-to/custom-code
 import { ArgsType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
 import { AuthorWhereInput } from "./AuthorWhereInput";
+import { IsOptional, ValidateNested, IsInt } from "class-validator";
 import { Type } from "class-transformer";
 import { AuthorOrderByInput } from "./AuthorOrderByInput";
 
@@ -21,6 +22,8 @@ class AuthorFindManyArgs {
     required: false,
     type: () => AuthorWhereInput,
   })
+  @IsOptional()
+  @ValidateNested()
   @Field(() => AuthorWhereInput, { nullable: true })
   @Type(() => AuthorWhereInput)
   where?: AuthorWhereInput;
@@ -29,6 +32,8 @@ class AuthorFindManyArgs {
     required: false,
     type: [AuthorOrderByInput],
   })
+  @IsOptional()
+  @ValidateNested({ each: true })
   @Field(() => [AuthorOrderByInput], { nullable: true })
   @Type(() => AuthorOrderByInput)
   orderBy?: Array<AuthorOrderByInput>;
@@ -37,6 +42,8 @@ class AuthorFindManyArgs {
     required: false,
     type: Number,
   })
+  @IsOptional()
+  @IsInt()
   @Field(() => Number, { nullable: true })
   @Type(() => Number)
   skip?: number;
@@ -45,6 +52,8 @@ class AuthorFindManyArgs {
     required: false,
     type: Number,
   })
+  @IsOptional()
+  @IsInt()
   @Field(() => Number, { nullable: true })
   @Type(() => Number)
   take?: number;

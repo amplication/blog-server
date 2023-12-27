@@ -10,7 +10,7 @@ https://docs.amplication.com/how-to/custom-code
 ------------------------------------------------------------------------------
   */
 import * as graphql from "@nestjs/graphql";
-import * as apollo from "apollo-server-express";
+import { GraphQLError } from "graphql";
 import { isRecordNotFoundError } from "../../prisma.util";
 import { MetaQueryPayload } from "../../util/MetaQueryPayload";
 import * as nestAccessControl from "nest-access-control";
@@ -19,13 +19,13 @@ import { GqlDefaultAuthGuard } from "../../auth/gqlDefaultAuth.guard";
 import * as common from "@nestjs/common";
 import { Public } from "../../decorators/public.decorator";
 import { AclValidateRequestInterceptor } from "../../interceptors/aclValidateRequest.interceptor";
-import { AclFilterResponseInterceptor } from "../../interceptors/aclFilterResponse.interceptor";
+import { Post } from "./Post";
+import { PostCountArgs } from "./PostCountArgs";
+import { PostFindManyArgs } from "./PostFindManyArgs";
+import { PostFindUniqueArgs } from "./PostFindUniqueArgs";
 import { CreatePostArgs } from "./CreatePostArgs";
 import { UpdatePostArgs } from "./UpdatePostArgs";
 import { DeletePostArgs } from "./DeletePostArgs";
-import { PostFindManyArgs } from "./PostFindManyArgs";
-import { PostFindUniqueArgs } from "./PostFindUniqueArgs";
-import { Post } from "./Post";
 import { TagFindManyArgs } from "../../tag/base/TagFindManyArgs";
 import { Tag } from "../../tag/base/Tag";
 import { Author } from "../../author/base/Author";
@@ -41,28 +41,24 @@ export class PostResolverBase {
   @Public()
   @graphql.Query(() => MetaQueryPayload)
   async _postsMeta(
-    @graphql.Args() args: PostFindManyArgs
+    @graphql.Args() args: PostCountArgs
   ): Promise<MetaQueryPayload> {
-    const results = await this.service.count({
-      ...args,
-      skip: undefined,
-      take: undefined,
-    });
+    const result = await this.service.count(args);
     return {
-      count: results,
+      count: result,
     };
   }
 
   @Public()
   @graphql.Query(() => [Post])
   async posts(@graphql.Args() args: PostFindManyArgs): Promise<Post[]> {
-    return this.service.findMany(args);
+    return this.service.posts(args);
   }
 
   @Public()
   @graphql.Query(() => Post, { nullable: true })
   async post(@graphql.Args() args: PostFindUniqueArgs): Promise<Post | null> {
-    const result = await this.service.findOne(args);
+    const result = await this.service.post(args);
     if (result === null) {
       return null;
     }
@@ -77,7 +73,7 @@ export class PostResolverBase {
     possession: "any",
   })
   async createPost(@graphql.Args() args: CreatePostArgs): Promise<Post> {
-    return await this.service.create({
+    return await this.service.createPost({
       ...args,
       data: {
         ...args.data,
@@ -98,7 +94,7 @@ export class PostResolverBase {
   })
   async updatePost(@graphql.Args() args: UpdatePostArgs): Promise<Post | null> {
     try {
-      return await this.service.update({
+      return await this.service.updatePost({
         ...args,
         data: {
           ...args.data,
@@ -110,7 +106,7 @@ export class PostResolverBase {
       });
     } catch (error) {
       if (isRecordNotFoundError(error)) {
-        throw new apollo.ApolloError(
+        throw new GraphQLError(
           `No resource was found for ${JSON.stringify(args.where)}`
         );
       }
@@ -126,10 +122,10 @@ export class PostResolverBase {
   })
   async deletePost(@graphql.Args() args: DeletePostArgs): Promise<Post | null> {
     try {
-      return await this.service.delete(args);
+      return await this.service.deletePost(args);
     } catch (error) {
       if (isRecordNotFoundError(error)) {
-        throw new apollo.ApolloError(
+        throw new GraphQLError(
           `No resource was found for ${JSON.stringify(args.where)}`
         );
       }
@@ -137,14 +133,9 @@ export class PostResolverBase {
     }
   }
 
-  @common.UseInterceptors(AclFilterResponseInterceptor)
-  @graphql.ResolveField(() => [Tag])
-  @nestAccessControl.UseRoles({
-    resource: "Tag",
-    action: "read",
-    possession: "any",
-  })
-  async tags(
+  @Public()
+  @graphql.ResolveField(() => [Tag], { name: "tags" })
+  async findTags(
     @graphql.Parent() parent: Post,
     @graphql.Args() args: TagFindManyArgs
   ): Promise<Tag[]> {
@@ -157,14 +148,12 @@ export class PostResolverBase {
     return results;
   }
 
-  @common.UseInterceptors(AclFilterResponseInterceptor)
-  @graphql.ResolveField(() => Author, { nullable: true })
-  @nestAccessControl.UseRoles({
-    resource: "Author",
-    action: "read",
-    possession: "any",
+  @Public()
+  @graphql.ResolveField(() => Author, {
+    nullable: true,
+    name: "author",
   })
-  async author(@graphql.Parent() parent: Post): Promise<Author | null> {
+  async getAuthor(@graphql.Parent() parent: Post): Promise<Author | null> {
     const result = await this.service.getAuthor(parent.id);
 
     if (!result) {

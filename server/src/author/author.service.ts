@@ -18,7 +18,7 @@ export class AuthorService extends AuthorServiceBase {
     // Set Slug on creation
     const name = [args.data.firstName, args.data.lastName].join(" ");
     args.data.slug = slugify(name, SLUGGIFY_OPTIONS);
-    return super.create<T>(args);
+    return super.createAuthor<T>(args);
   }
 
   async update<T extends Prisma.AuthorUpdateArgs>(
@@ -28,6 +28,6 @@ export class AuthorService extends AuthorServiceBase {
     if (args.data.slug === null) {
       delete args.data.slug;
     }
-    return super.update<T>(args);
+    return super.updateAuthor<T>(args);
   }
 }

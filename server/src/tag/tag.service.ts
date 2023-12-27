@@ -11,21 +11,21 @@ export class TagService extends TagServiceBase {
     super(prisma);
   }
 
-  async create<T extends Prisma.TagCreateArgs>(
+  async createTag<T extends Prisma.TagCreateArgs>(
     args: Prisma.SelectSubset<T, Prisma.TagCreateArgs>
   ): Promise<Tag> {
     // Set Slug on creation
     args.data.slug = slugify(args.data.name ?? "", SLUGGIFY_OPTIONS);
-    return super.create(args);
+    return super.createTag(args);
   }
 
-  async update<T extends Prisma.TagUpdateArgs>(
+  async updateTag<T extends Prisma.TagUpdateArgs>(
     args: Prisma.SelectSubset<T, Prisma.TagUpdateArgs>
   ): Promise<Tag> {
     // Prevent Slugs from being removed
     if (args.data.slug === null) {
       delete args.data.slug;
     }
-    return super.update(args);
+    return super.updateTag(args);
   }
 }

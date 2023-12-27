@@ -10,22 +10,22 @@ https://docs.amplication.com/how-to/custom-code
 ------------------------------------------------------------------------------
   */
 import * as graphql from "@nestjs/graphql";
-import * as apollo from "apollo-server-express";
+import { GraphQLError } from "graphql";
 import { isRecordNotFoundError } from "../../prisma.util";
 import { MetaQueryPayload } from "../../util/MetaQueryPayload";
 import * as nestAccessControl from "nest-access-control";
 import * as gqlACGuard from "../../auth/gqlAC.guard";
 import { GqlDefaultAuthGuard } from "../../auth/gqlDefaultAuth.guard";
 import * as common from "@nestjs/common";
-import { AclFilterResponseInterceptor } from "../../interceptors/aclFilterResponse.interceptor";
-import { AclValidateRequestInterceptor } from "../../interceptors/aclValidateRequest.interceptor";
 import { Public } from "../../decorators/public.decorator";
+import { AclValidateRequestInterceptor } from "../../interceptors/aclValidateRequest.interceptor";
+import { Tag } from "./Tag";
+import { TagCountArgs } from "./TagCountArgs";
+import { TagFindManyArgs } from "./TagFindManyArgs";
+import { TagFindUniqueArgs } from "./TagFindUniqueArgs";
 import { CreateTagArgs } from "./CreateTagArgs";
 import { UpdateTagArgs } from "./UpdateTagArgs";
 import { DeleteTagArgs } from "./DeleteTagArgs";
-import { TagFindManyArgs } from "./TagFindManyArgs";
-import { TagFindUniqueArgs } from "./TagFindUniqueArgs";
-import { Tag } from "./Tag";
 import { PostFindManyArgs } from "../../post/base/PostFindManyArgs";
 import { Post } from "../../post/base/Post";
 import { TagService } from "../tag.service";
@@ -37,45 +37,27 @@ export class TagResolverBase {
     protected readonly rolesBuilder: nestAccessControl.RolesBuilder
   ) {}
 
+  @Public()
   @graphql.Query(() => MetaQueryPayload)
-  @nestAccessControl.UseRoles({
-    resource: "Tag",
-    action: "read",
-    possession: "any",
-  })
   async _tagsMeta(
-    @graphql.Args() args: TagFindManyArgs
+    @graphql.Args() args: TagCountArgs
   ): Promise<MetaQueryPayload> {
-    const results = await this.service.count({
-      ...args,
-      skip: undefined,
-      take: undefined,
-    });
+    const result = await this.service.count(args);
     return {
-      count: results,
+      count: result,
     };
   }
 
-  @common.UseInterceptors(AclFilterResponseInterceptor)
+  @Public()
   @graphql.Query(() => [Tag])
-  @nestAccessControl.UseRoles({
-    resource: "Tag",
-    action: "read",
-    possession: "any",
-  })
   async tags(@graphql.Args() args: TagFindManyArgs): Promise<Tag[]> {
-    return this.service.findMany(args);
+    return this.service.tags(args);
   }
 
-  @common.UseInterceptors(AclFilterResponseInterceptor)
+  @Public()
   @graphql.Query(() => Tag, { nullable: true })
-  @nestAccessControl.UseRoles({
-    resource: "Tag",
-    action: "read",
-    possession: "own",
-  })
   async tag(@graphql.Args() args: TagFindUniqueArgs): Promise<Tag | null> {
-    const result = await this.service.findOne(args);
+    const result = await this.service.tag(args);
     if (result === null) {
       return null;
     }
@@ -90,7 +72,7 @@ export class TagResolverBase {
     possession: "any",
   })
   async createTag(@graphql.Args() args: CreateTagArgs): Promise<Tag> {
-    return await this.service.create({
+    return await this.service.createTag({
       ...args,
       data: args.data,
     });
@@ -105,13 +87,13 @@ export class TagResolverBase {
   })
   async updateTag(@graphql.Args() args: UpdateTagArgs): Promise<Tag | null> {
     try {
-      return await this.service.update({
+      return await this.service.updateTag({
         ...args,
         data: args.data,
       });
     } catch (error) {
       if (isRecordNotFoundError(error)) {
-        throw new apollo.ApolloError(
+        throw new GraphQLError(
           `No resource was found for ${JSON.stringify(args.where)}`
         );
       }
@@ -127,10 +109,10 @@ export class TagResolverBase {
   })
   async deleteTag(@graphql.Args() args: DeleteTagArgs): Promise<Tag | null> {
     try {
-      return await this.service.delete(args);
+      return await this.service.deleteTag(args);
     } catch (error) {
       if (isRecordNotFoundError(error)) {
-        throw new apollo.ApolloError(
+        throw new GraphQLError(
           `No resource was found for ${JSON.stringify(args.where)}`
         );
       }
@@ -139,8 +121,8 @@ export class TagResolverBase {
   }
 
   @Public()
-  @graphql.ResolveField(() => [Post])
-  async posts(
+  @graphql.ResolveField(() => [Post], { name: "posts" })
+  async findPosts(
     @graphql.Parent() parent: Tag,
     @graphql.Args() args: PostFindManyArgs
   ): Promise<Post[]> {

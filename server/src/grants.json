@@ -50,12 +50,6 @@
   {
     "role": "user",
     "resource": "Author",
-    "action": "read:own",
-    "attributes": "*"
-  },
-  {
-    "role": "user",
-    "resource": "Author",
     "action": "create:any",
     "attributes": "*"
   },
@@ -69,18 +63,6 @@
     "role": "user",
     "resource": "Author",
     "action": "delete:any",
-    "attributes": "*"
-  },
-  {
-    "role": "user",
-    "resource": "Author",
-    "action": "read:any",
-    "attributes": "*"
-  },
-  {
-    "role": "user",
-    "resource": "Tag",
-    "action": "read:own",
     "attributes": "*"
   },
   {
@@ -103,8 +85,20 @@
   },
   {
     "role": "user",
-    "resource": "Tag",
-    "action": "read:any",
+    "resource": "Story",
+    "action": "create:any",
+    "attributes": "*"
+  },
+  {
+    "role": "user",
+    "resource": "Story",
+    "action": "update:any",
+    "attributes": "*"
+  },
+  {
+    "role": "user",
+    "resource": "Story",
+    "action": "delete:any",
     "attributes": "*"
   }
 ]
