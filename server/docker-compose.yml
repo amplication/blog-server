@@ -10,6 +10,8 @@ services:
     environment:
       BCRYPT_SALT: ${BCRYPT_SALT}
       DB_URL: postgres://${DB_USER}:${DB_PASSWORD}@db:5432/${DB_NAME}
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY}
+      JWT_EXPIRATION: ${JWT_EXPIRATION}
     depends_on:
       - migrate
     restart: on-failure
