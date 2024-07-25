@@ -3,11 +3,11 @@ import { StringNullableFilter } from "../../util/StringNullableFilter";
 import { PostListRelationFilter } from "../post/PostListRelationFilter";
 
 export type AuthorWhereInput = {
-  firstName?: StringFilter;
   id?: StringFilter;
+  firstName?: StringFilter;
   lastName?: StringNullableFilter;
-  posts?: PostListRelationFilter;
   profileImage?: StringNullableFilter;
+  posts?: PostListRelationFilter;
   slug?: StringNullableFilter;
   twitter?: StringNullableFilter;
 };

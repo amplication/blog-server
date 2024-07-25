@@ -52,11 +52,11 @@ export class TagControllerBase {
     return await this.service.createTag({
       data: data,
       select: {
-        createdAt: true,
         id: true,
+        createdAt: true,
+        updatedAt: true,
         name: true,
         slug: true,
-        updatedAt: true,
       },
     });
   }
@@ -73,11 +73,11 @@ export class TagControllerBase {
     return this.service.tags({
       ...args,
       select: {
-        createdAt: true,
         id: true,
+        createdAt: true,
+        updatedAt: true,
         name: true,
         slug: true,
-        updatedAt: true,
       },
     });
   }
@@ -93,11 +93,11 @@ export class TagControllerBase {
     const result = await this.service.tag({
       where: params,
       select: {
-        createdAt: true,
         id: true,
+        createdAt: true,
+        updatedAt: true,
         name: true,
         slug: true,
-        updatedAt: true,
       },
     });
     if (result === null) {
@@ -129,11 +129,11 @@ export class TagControllerBase {
         where: params,
         data: data,
         select: {
-          createdAt: true,
           id: true,
+          createdAt: true,
+          updatedAt: true,
           name: true,
           slug: true,
-          updatedAt: true,
         },
       });
     } catch (error) {
@@ -164,11 +164,11 @@ export class TagControllerBase {
       return await this.service.deleteTag({
         where: params,
         select: {
-          createdAt: true,
           id: true,
+          createdAt: true,
+          updatedAt: true,
           name: true,
           slug: true,
-          updatedAt: true,
         },
       });
     } catch (error) {
@@ -192,23 +192,24 @@ export class TagControllerBase {
     const results = await this.service.findPosts(params.id, {
       ...query,
       select: {
+        id: true,
+        createdAt: true,
+        updatedAt: true,
+        title: true,
+        featuredImage: true,
+        content: true,
+
         author: {
           select: {
             id: true,
           },
         },
 
-        content: true,
-        createdAt: true,
-        draft: true,
-        featuredImage: true,
-        id: true,
-        metaDescription: true,
         metaTitle: true,
-        publishedAt: true,
+        metaDescription: true,
         slug: true,
-        title: true,
-        updatedAt: true,
+        draft: true,
+        publishedAt: true,
       },
     });
     if (results === null) {

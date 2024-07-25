@@ -52,14 +52,14 @@ export class AuthorControllerBase {
     return await this.service.createAuthor({
       data: data,
       select: {
-        createdAt: true,
-        firstName: true,
         id: true,
+        createdAt: true,
+        updatedAt: true,
+        firstName: true,
         lastName: true,
         profileImage: true,
         slug: true,
         twitter: true,
-        updatedAt: true,
       },
     });
   }
@@ -76,14 +76,14 @@ export class AuthorControllerBase {
     return this.service.authors({
       ...args,
       select: {
-        createdAt: true,
-        firstName: true,
         id: true,
+        createdAt: true,
+        updatedAt: true,
+        firstName: true,
         lastName: true,
         profileImage: true,
         slug: true,
         twitter: true,
-        updatedAt: true,
       },
     });
   }
@@ -101,14 +101,14 @@ export class AuthorControllerBase {
     const result = await this.service.author({
       where: params,
       select: {
-        createdAt: true,
-        firstName: true,
         id: true,
+        createdAt: true,
+        updatedAt: true,
+        firstName: true,
         lastName: true,
         profileImage: true,
         slug: true,
         twitter: true,
-        updatedAt: true,
       },
     });
     if (result === null) {
@@ -140,14 +140,14 @@ export class AuthorControllerBase {
         where: params,
         data: data,
         select: {
-          createdAt: true,
-          firstName: true,
           id: true,
+          createdAt: true,
+          updatedAt: true,
+          firstName: true,
           lastName: true,
           profileImage: true,
           slug: true,
           twitter: true,
-          updatedAt: true,
         },
       });
     } catch (error) {
@@ -178,14 +178,14 @@ export class AuthorControllerBase {
       return await this.service.deleteAuthor({
         where: params,
         select: {
-          createdAt: true,
-          firstName: true,
           id: true,
+          createdAt: true,
+          updatedAt: true,
+          firstName: true,
           lastName: true,
           profileImage: true,
           slug: true,
           twitter: true,
-          updatedAt: true,
         },
       });
     } catch (error) {
@@ -209,23 +209,24 @@ export class AuthorControllerBase {
     const results = await this.service.findPosts(params.id, {
       ...query,
       select: {
+        id: true,
+        createdAt: true,
+        updatedAt: true,
+        title: true,
+        featuredImage: true,
+        content: true,
+
         author: {
           select: {
             id: true,
           },
         },
 
-        content: true,
-        createdAt: true,
-        draft: true,
-        featuredImage: true,
-        id: true,
-        metaDescription: true,
         metaTitle: true,
-        publishedAt: true,
+        metaDescription: true,
         slug: true,
-        title: true,
-        updatedAt: true,
+        draft: true,
+        publishedAt: true,
       },
     });
     if (results === null) {

@@ -11,7 +11,13 @@ https://docs.amplication.com/how-to/custom-code
   */
 import { ObjectType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
-import { IsString, IsDate, IsOptional, IsBoolean } from "class-validator";
+import {
+  IsString,
+  MaxLength,
+  IsDate,
+  IsBoolean,
+  IsOptional,
+} from "class-validator";
 import { Type } from "class-transformer";
 
 @ObjectType()
@@ -21,6 +27,7 @@ class Story {
     type: String,
   })
   @IsString()
+  @MaxLength(256)
   @Field(() => String)
   content!: string;
 
@@ -31,17 +38,6 @@ class Story {
   @Type(() => Date)
   @Field(() => Date)
   createdAt!: Date;
-
-  @ApiProperty({
-    required: false,
-    type: String,
-  })
-  @IsString()
-  @IsOptional()
-  @Field(() => String, {
-    nullable: true,
-  })
-  customerName!: string | null;
 
   @ApiProperty({
     required: false,
@@ -59,6 +55,7 @@ class Story {
     type: String,
   })
   @IsString()
+  @MaxLength(256)
   @Field(() => String)
   featuredImage!: string;
 
@@ -75,6 +72,7 @@ class Story {
     type: String,
   })
   @IsString()
+  @MaxLength(256)
   @IsOptional()
   @Field(() => String, {
     nullable: true,
@@ -86,6 +84,7 @@ class Story {
     type: String,
   })
   @IsString()
+  @MaxLength(256)
   @IsOptional()
   @Field(() => String, {
     nullable: true,
@@ -108,6 +107,7 @@ class Story {
     type: String,
   })
   @IsString()
+  @MaxLength(256)
   @IsOptional()
   @Field(() => String, {
     nullable: true,
@@ -119,14 +119,7 @@ class Story {
     type: String,
   })
   @IsString()
-  @Field(() => String)
-  tag!: string;
-
-  @ApiProperty({
-    required: true,
-    type: String,
-  })
-  @IsString()
+  @MaxLength(256)
   @Field(() => String)
   title!: string;
 
@@ -137,6 +130,27 @@ class Story {
   @Type(() => Date)
   @Field(() => Date)
   updatedAt!: Date;
+
+  @ApiProperty({
+    required: true,
+    type: String,
+  })
+  @IsString()
+  @MaxLength(256)
+  @Field(() => String)
+  tag!: string;
+
+  @ApiProperty({
+    required: false,
+    type: String,
+  })
+  @IsString()
+  @MaxLength(1000)
+  @IsOptional()
+  @Field(() => String, {
+    nullable: true,
+  })
+  customerName!: string | null;
 }
 
 export { Story as Story };

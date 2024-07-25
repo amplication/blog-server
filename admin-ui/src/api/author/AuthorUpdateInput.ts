@@ -3,8 +3,8 @@ import { PostUpdateManyWithoutAuthorsInput } from "./PostUpdateManyWithoutAuthor
 export type AuthorUpdateInput = {
   firstName?: string;
   lastName?: string | null;
-  posts?: PostUpdateManyWithoutAuthorsInput;
   profileImage?: string | null;
+  posts?: PostUpdateManyWithoutAuthorsInput;
   slug?: string | null;
   twitter?: string | null;
 };

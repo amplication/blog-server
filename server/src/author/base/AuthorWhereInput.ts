@@ -28,7 +28,7 @@ class AuthorWhereInput {
   @Field(() => StringFilter, {
     nullable: true,
   })
-  firstName?: StringFilter;
+  id?: StringFilter;
 
   @ApiProperty({
     required: false,
@@ -39,7 +39,7 @@ class AuthorWhereInput {
   @Field(() => StringFilter, {
     nullable: true,
   })
-  id?: StringFilter;
+  firstName?: StringFilter;
 
   @ApiProperty({
     required: false,
@@ -54,6 +54,17 @@ class AuthorWhereInput {
 
   @ApiProperty({
     required: false,
+    type: StringNullableFilter,
+  })
+  @Type(() => StringNullableFilter)
+  @IsOptional()
+  @Field(() => StringNullableFilter, {
+    nullable: true,
+  })
+  profileImage?: StringNullableFilter;
+
+  @ApiProperty({
+    required: false,
     type: () => PostListRelationFilter,
   })
   @ValidateNested()
@@ -63,17 +74,6 @@ class AuthorWhereInput {
     nullable: true,
   })
   posts?: PostListRelationFilter;
-
-  @ApiProperty({
-    required: false,
-    type: StringNullableFilter,
-  })
-  @Type(() => StringNullableFilter)
-  @IsOptional()
-  @Field(() => StringNullableFilter, {
-    nullable: true,
-  })
-  profileImage?: StringNullableFilter;
 
   @ApiProperty({
     required: false,

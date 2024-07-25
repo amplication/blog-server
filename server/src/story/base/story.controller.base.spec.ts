@@ -20,7 +20,6 @@ const existingId = "existingId";
 const CREATE_INPUT = {
   content: "exampleContent",
   createdAt: new Date(),
-  customerName: "exampleCustomerName",
   draft: "true",
   featuredImage: "exampleFeaturedImage",
   id: "exampleId",
@@ -28,14 +27,14 @@ const CREATE_INPUT = {
   metaTitle: "exampleMetaTitle",
   publishedAt: new Date(),
   slug: "exampleSlug",
-  tag: "exampleTag",
   title: "exampleTitle",
   updatedAt: new Date(),
+  tag: "exampleTag",
+  customerName: "exampleCustomerName",
 };
 const CREATE_RESULT = {
   content: "exampleContent",
   createdAt: new Date(),
-  customerName: "exampleCustomerName",
   draft: "true",
   featuredImage: "exampleFeaturedImage",
   id: "exampleId",
@@ -43,15 +42,15 @@ const CREATE_RESULT = {
   metaTitle: "exampleMetaTitle",
   publishedAt: new Date(),
   slug: "exampleSlug",
-  tag: "exampleTag",
   title: "exampleTitle",
   updatedAt: new Date(),
+  tag: "exampleTag",
+  customerName: "exampleCustomerName",
 };
 const FIND_MANY_RESULT = [
   {
     content: "exampleContent",
     createdAt: new Date(),
-    customerName: "exampleCustomerName",
     draft: "true",
     featuredImage: "exampleFeaturedImage",
     id: "exampleId",
@@ -59,15 +58,15 @@ const FIND_MANY_RESULT = [
     metaTitle: "exampleMetaTitle",
     publishedAt: new Date(),
     slug: "exampleSlug",
-    tag: "exampleTag",
     title: "exampleTitle",
     updatedAt: new Date(),
+    tag: "exampleTag",
+    customerName: "exampleCustomerName",
   },
 ];
 const FIND_ONE_RESULT = {
   content: "exampleContent",
   createdAt: new Date(),
-  customerName: "exampleCustomerName",
   draft: "true",
   featuredImage: "exampleFeaturedImage",
   id: "exampleId",
@@ -75,9 +74,10 @@ const FIND_ONE_RESULT = {
   metaTitle: "exampleMetaTitle",
   publishedAt: new Date(),
   slug: "exampleSlug",
-  tag: "exampleTag",
   title: "exampleTitle",
   updatedAt: new Date(),
+  tag: "exampleTag",
+  customerName: "exampleCustomerName",
 };
 
 const service = {

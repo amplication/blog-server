@@ -11,14 +11,15 @@ https://docs.amplication.com/how-to/custom-code
   */
 import { InputType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
-import { AuthorWhereUniqueInput } from "../../author/base/AuthorWhereUniqueInput";
 import {
-  ValidateNested,
-  IsOptional,
   IsString,
+  MaxLength,
+  IsOptional,
+  ValidateNested,
   IsBoolean,
   IsDate,
 } from "class-validator";
+import { AuthorWhereUniqueInput } from "../../author/base/AuthorWhereUniqueInput";
 import { Type } from "class-transformer";
 import { TagUpdateManyWithoutPostsInput } from "./TagUpdateManyWithoutPostsInput";
 
@@ -26,43 +27,22 @@ import { TagUpdateManyWithoutPostsInput } from "./TagUpdateManyWithoutPostsInput
 class PostUpdateInput {
   @ApiProperty({
     required: false,
-    type: () => AuthorWhereUniqueInput,
-  })
-  @ValidateNested()
-  @Type(() => AuthorWhereUniqueInput)
-  @IsOptional()
-  @Field(() => AuthorWhereUniqueInput, {
-    nullable: true,
-  })
-  author?: AuthorWhereUniqueInput;
-
-  @ApiProperty({
-    required: false,
     type: String,
   })
   @IsString()
+  @MaxLength(500)
   @IsOptional()
   @Field(() => String, {
     nullable: true,
   })
-  content?: string;
-
-  @ApiProperty({
-    required: false,
-    type: Boolean,
-  })
-  @IsBoolean()
-  @IsOptional()
-  @Field(() => Boolean, {
-    nullable: true,
-  })
-  draft?: boolean | null;
+  title?: string;
 
   @ApiProperty({
     required: false,
     type: String,
   })
   @IsString()
+  @MaxLength(5000)
   @IsOptional()
   @Field(() => String, {
     nullable: true,
@@ -74,44 +54,24 @@ class PostUpdateInput {
     type: String,
   })
   @IsString()
+  @MaxLength(99999999)
   @IsOptional()
   @Field(() => String, {
     nullable: true,
   })
-  metaDescription?: string | null;
+  content?: string;
 
   @ApiProperty({
     required: false,
-    type: String,
+    type: () => AuthorWhereUniqueInput,
   })
-  @IsString()
+  @ValidateNested()
+  @Type(() => AuthorWhereUniqueInput)
   @IsOptional()
-  @Field(() => String, {
+  @Field(() => AuthorWhereUniqueInput, {
     nullable: true,
   })
-  metaTitle?: string | null;
-
-  @ApiProperty({
-    required: false,
-  })
-  @IsDate()
-  @Type(() => Date)
-  @IsOptional()
-  @Field(() => Date, {
-    nullable: true,
-  })
-  publishedAt?: Date | null;
-
-  @ApiProperty({
-    required: false,
-    type: String,
-  })
-  @IsString()
-  @IsOptional()
-  @Field(() => String, {
-    nullable: true,
-  })
-  slug?: string | null;
+  author?: AuthorWhereUniqueInput;
 
   @ApiProperty({
     required: false,
@@ -130,11 +90,58 @@ class PostUpdateInput {
     type: String,
   })
   @IsString()
+  @MaxLength(100)
   @IsOptional()
   @Field(() => String, {
     nullable: true,
   })
-  title?: string;
+  metaTitle?: string | null;
+
+  @ApiProperty({
+    required: false,
+    type: String,
+  })
+  @IsString()
+  @MaxLength(256)
+  @IsOptional()
+  @Field(() => String, {
+    nullable: true,
+  })
+  metaDescription?: string | null;
+
+  @ApiProperty({
+    required: false,
+    type: String,
+  })
+  @IsString()
+  @MaxLength(100)
+  @IsOptional()
+  @Field(() => String, {
+    nullable: true,
+  })
+  slug?: string | null;
+
+  @ApiProperty({
+    required: false,
+    type: Boolean,
+  })
+  @IsBoolean()
+  @IsOptional()
+  @Field(() => Boolean, {
+    nullable: true,
+  })
+  draft?: boolean | null;
+
+  @ApiProperty({
+    required: false,
+  })
+  @IsDate()
+  @Type(() => Date)
+  @IsOptional()
+  @Field(() => Date, {
+    nullable: true,
+  })
+  publishedAt?: Date | null;
 }
 
 export { PostUpdateInput as PostUpdateInput };

@@ -1,9 +1,9 @@
 import { SortOrder } from "../../util/SortOrder";
 
 export type TagOrderByInput = {
-  createdAt?: SortOrder;
   id?: SortOrder;
+  createdAt?: SortOrder;
+  updatedAt?: SortOrder;
   name?: SortOrder;
   slug?: SortOrder;
-  updatedAt?: SortOrder;
 };

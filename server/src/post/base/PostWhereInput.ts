@@ -11,28 +11,27 @@ https://docs.amplication.com/how-to/custom-code
   */
 import { InputType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
-import { AuthorWhereUniqueInput } from "../../author/base/AuthorWhereUniqueInput";
-import { ValidateNested, IsOptional } from "class-validator";
-import { Type } from "class-transformer";
 import { StringFilter } from "../../util/StringFilter";
-import { BooleanNullableFilter } from "../../util/BooleanNullableFilter";
-import { StringNullableFilter } from "../../util/StringNullableFilter";
-import { DateTimeNullableFilter } from "../../util/DateTimeNullableFilter";
+import { Type } from "class-transformer";
+import { IsOptional, ValidateNested } from "class-validator";
+import { AuthorWhereUniqueInput } from "../../author/base/AuthorWhereUniqueInput";
 import { TagListRelationFilter } from "../../tag/base/TagListRelationFilter";
+import { StringNullableFilter } from "../../util/StringNullableFilter";
+import { BooleanNullableFilter } from "../../util/BooleanNullableFilter";
+import { DateTimeNullableFilter } from "../../util/DateTimeNullableFilter";
 
 @InputType()
 class PostWhereInput {
   @ApiProperty({
     required: false,
-    type: () => AuthorWhereUniqueInput,
+    type: StringFilter,
   })
-  @ValidateNested()
-  @Type(() => AuthorWhereUniqueInput)
+  @Type(() => StringFilter)
   @IsOptional()
-  @Field(() => AuthorWhereUniqueInput, {
+  @Field(() => StringFilter, {
     nullable: true,
   })
-  author?: AuthorWhereUniqueInput;
+  id?: StringFilter;
 
   @ApiProperty({
     required: false,
@@ -43,18 +42,7 @@ class PostWhereInput {
   @Field(() => StringFilter, {
     nullable: true,
   })
-  content?: StringFilter;
-
-  @ApiProperty({
-    required: false,
-    type: BooleanNullableFilter,
-  })
-  @Type(() => BooleanNullableFilter)
-  @IsOptional()
-  @Field(() => BooleanNullableFilter, {
-    nullable: true,
-  })
-  draft?: BooleanNullableFilter;
+  title?: StringFilter;
 
   @ApiProperty({
     required: false,
@@ -76,7 +64,42 @@ class PostWhereInput {
   @Field(() => StringFilter, {
     nullable: true,
   })
-  id?: StringFilter;
+  content?: StringFilter;
+
+  @ApiProperty({
+    required: false,
+    type: () => AuthorWhereUniqueInput,
+  })
+  @ValidateNested()
+  @Type(() => AuthorWhereUniqueInput)
+  @IsOptional()
+  @Field(() => AuthorWhereUniqueInput, {
+    nullable: true,
+  })
+  author?: AuthorWhereUniqueInput;
+
+  @ApiProperty({
+    required: false,
+    type: () => TagListRelationFilter,
+  })
+  @ValidateNested()
+  @Type(() => TagListRelationFilter)
+  @IsOptional()
+  @Field(() => TagListRelationFilter, {
+    nullable: true,
+  })
+  tags?: TagListRelationFilter;
+
+  @ApiProperty({
+    required: false,
+    type: StringNullableFilter,
+  })
+  @Type(() => StringNullableFilter)
+  @IsOptional()
+  @Field(() => StringNullableFilter, {
+    nullable: true,
+  })
+  metaTitle?: StringNullableFilter;
 
   @ApiProperty({
     required: false,
@@ -98,7 +121,18 @@ class PostWhereInput {
   @Field(() => StringNullableFilter, {
     nullable: true,
   })
-  metaTitle?: StringNullableFilter;
+  slug?: StringNullableFilter;
+
+  @ApiProperty({
+    required: false,
+    type: BooleanNullableFilter,
+  })
+  @Type(() => BooleanNullableFilter)
+  @IsOptional()
+  @Field(() => BooleanNullableFilter, {
+    nullable: true,
+  })
+  draft?: BooleanNullableFilter;
 
   @ApiProperty({
     required: false,
@@ -110,40 +144,6 @@ class PostWhereInput {
     nullable: true,
   })
   publishedAt?: DateTimeNullableFilter;
-
-  @ApiProperty({
-    required: false,
-    type: StringNullableFilter,
-  })
-  @Type(() => StringNullableFilter)
-  @IsOptional()
-  @Field(() => StringNullableFilter, {
-    nullable: true,
-  })
-  slug?: StringNullableFilter;
-
-  @ApiProperty({
-    required: false,
-    type: () => TagListRelationFilter,
-  })
-  @ValidateNested()
-  @Type(() => TagListRelationFilter)
-  @IsOptional()
-  @Field(() => TagListRelationFilter, {
-    nullable: true,
-  })
-  tags?: TagListRelationFilter;
-
-  @ApiProperty({
-    required: false,
-    type: StringFilter,
-  })
-  @Type(() => StringFilter)
-  @IsOptional()
-  @Field(() => StringFilter, {
-    nullable: true,
-  })
-  title?: StringFilter;
 }
 
 export { PostWhereInput as PostWhereInput };

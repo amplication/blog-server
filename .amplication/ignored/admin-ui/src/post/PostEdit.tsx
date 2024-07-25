@@ -4,13 +4,13 @@ import {
   Edit,
   SimpleForm,
   EditProps,
+  TextInput,
   ReferenceInput,
   SelectInput,
-  TextInput,
-  BooleanInput,
-  DateTimeInput,
   ReferenceArrayInput,
   SelectArrayInput,
+  BooleanInput,
+  DateTimeInput,
 } from "react-admin";
 
 import { AuthorTitle } from "../author/AuthorTitle";
@@ -20,16 +20,12 @@ export const PostEdit = (props: EditProps): React.ReactElement => {
   return (
     <Edit {...props}>
       <SimpleForm>
+        <TextInput label="Title" multiline source="title" />
+        <TextInput label="Featured Image" source="featuredImage" />
+        <TextInput label="Content" multiline source="content" />
         <ReferenceInput source="author.id" reference="Author" label="Author">
           <SelectInput optionText={AuthorTitle} />
         </ReferenceInput>
-        <TextInput label="Content" multiline source="content" />
-        <BooleanInput label="Draft" source="draft" />
-        <TextInput label="Featured Image" source="featuredImage" />
-        <TextInput label="Meta Description" source="metaDescription" />
-        <TextInput label="Meta Title" source="metaTitle" />
-        <DateTimeInput label="Published At" source="publishedAt" />
-        <TextInput label="Slug" source="slug" />
         <ReferenceArrayInput
           source="tags"
           reference="Tag"
@@ -38,7 +34,11 @@ export const PostEdit = (props: EditProps): React.ReactElement => {
         >
           <SelectArrayInput optionText={TagTitle} />
         </ReferenceArrayInput>
-        <TextInput label="Title" multiline source="title" />
+        <TextInput label="Meta Title" source="metaTitle" />
+        <TextInput label="Meta Description" source="metaDescription" />
+        <TextInput label="Slug" source="slug" />
+        <BooleanInput label="Draft" source="draft" />
+        <DateTimeInput label="Published At" source="publishedAt" />
       </SimpleForm>
     </Edit>
   );

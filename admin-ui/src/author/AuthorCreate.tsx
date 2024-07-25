@@ -17,6 +17,7 @@ export const AuthorCreate = (props: CreateProps): React.ReactElement => {
       <SimpleForm>
         <TextInput label="First Name" source="firstName" />
         <TextInput label="Last Name" source="lastName" />
+        <TextInput label="Profile Image" source="profileImage" />
         <ReferenceArrayInput
           source="posts"
           reference="Post"
@@ -25,7 +26,6 @@ export const AuthorCreate = (props: CreateProps): React.ReactElement => {
         >
           <SelectArrayInput optionText={PostTitle} />
         </ReferenceArrayInput>
-        <TextInput label="Profile Image" source="profileImage" />
         <TextInput label="Slug" source="slug" />
         <TextInput label="Twitter" source="twitter" />
       </SimpleForm>

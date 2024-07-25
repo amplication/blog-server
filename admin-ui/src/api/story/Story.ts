@@ -1,7 +1,6 @@
 export type Story = {
   content: string;
   createdAt: Date;
-  customerName: string | null;
   draft: boolean | null;
   featuredImage: string;
   id: string;
@@ -9,7 +8,8 @@ export type Story = {
   metaTitle: string | null;
   publishedAt: Date | null;
   slug: string | null;
-  tag: string;
   title: string;
   updatedAt: Date;
+  tag: string;
+  customerName: string | null;
 };

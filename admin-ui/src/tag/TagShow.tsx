@@ -3,19 +3,19 @@ import {
   Show,
   SimpleShowLayout,
   ShowProps,
-  DateField,
   TextField,
+  DateField,
 } from "react-admin";
 
 export const TagShow = (props: ShowProps): React.ReactElement => {
   return (
     <Show {...props}>
       <SimpleShowLayout>
-        <DateField source="createdAt" label="Created At" />
         <TextField label="ID" source="id" />
+        <DateField source="createdAt" label="Created At" />
+        <DateField source="updatedAt" label="Updated At" />
         <TextField label="Name" source="name" />
         <TextField label="Slug" source="slug" />
-        <DateField source="updatedAt" label="Updated At" />
       </SimpleShowLayout>
     </Show>
   );

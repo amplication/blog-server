@@ -1,20 +1,20 @@
-import { AuthorWhereUniqueInput } from "../author/AuthorWhereUniqueInput";
 import { StringFilter } from "../../util/StringFilter";
-import { BooleanNullableFilter } from "../../util/BooleanNullableFilter";
-import { StringNullableFilter } from "../../util/StringNullableFilter";
-import { DateTimeNullableFilter } from "../../util/DateTimeNullableFilter";
+import { AuthorWhereUniqueInput } from "../author/AuthorWhereUniqueInput";
 import { TagListRelationFilter } from "../tag/TagListRelationFilter";
+import { StringNullableFilter } from "../../util/StringNullableFilter";
+import { BooleanNullableFilter } from "../../util/BooleanNullableFilter";
+import { DateTimeNullableFilter } from "../../util/DateTimeNullableFilter";
 
 export type PostWhereInput = {
-  author?: AuthorWhereUniqueInput;
-  content?: StringFilter;
-  draft?: BooleanNullableFilter;
-  featuredImage?: StringFilter;
   id?: StringFilter;
-  metaDescription?: StringNullableFilter;
-  metaTitle?: StringNullableFilter;
-  publishedAt?: DateTimeNullableFilter;
-  slug?: StringNullableFilter;
-  tags?: TagListRelationFilter;
   title?: StringFilter;
+  featuredImage?: StringFilter;
+  content?: StringFilter;
+  author?: AuthorWhereUniqueInput;
+  tags?: TagListRelationFilter;
+  metaTitle?: StringNullableFilter;
+  metaDescription?: StringNullableFilter;
+  slug?: StringNullableFilter;
+  draft?: BooleanNullableFilter;
+  publishedAt?: DateTimeNullableFilter;
 };

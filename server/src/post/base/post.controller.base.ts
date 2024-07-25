@@ -58,23 +58,24 @@ export class PostControllerBase {
         },
       },
       select: {
+        id: true,
+        createdAt: true,
+        updatedAt: true,
+        title: true,
+        featuredImage: true,
+        content: true,
+
         author: {
           select: {
             id: true,
           },
         },
 
-        content: true,
-        createdAt: true,
-        draft: true,
-        featuredImage: true,
-        id: true,
-        metaDescription: true,
         metaTitle: true,
-        publishedAt: true,
+        metaDescription: true,
         slug: true,
-        title: true,
-        updatedAt: true,
+        draft: true,
+        publishedAt: true,
       },
     });
   }
@@ -91,23 +92,24 @@ export class PostControllerBase {
     return this.service.posts({
       ...args,
       select: {
+        id: true,
+        createdAt: true,
+        updatedAt: true,
+        title: true,
+        featuredImage: true,
+        content: true,
+
         author: {
           select: {
             id: true,
           },
         },
 
-        content: true,
-        createdAt: true,
-        draft: true,
-        featuredImage: true,
-        id: true,
-        metaDescription: true,
         metaTitle: true,
-        publishedAt: true,
+        metaDescription: true,
         slug: true,
-        title: true,
-        updatedAt: true,
+        draft: true,
+        publishedAt: true,
       },
     });
   }
@@ -125,23 +127,24 @@ export class PostControllerBase {
     const result = await this.service.post({
       where: params,
       select: {
+        id: true,
+        createdAt: true,
+        updatedAt: true,
+        title: true,
+        featuredImage: true,
+        content: true,
+
         author: {
           select: {
             id: true,
           },
         },
 
-        content: true,
-        createdAt: true,
-        draft: true,
-        featuredImage: true,
-        id: true,
-        metaDescription: true,
         metaTitle: true,
-        publishedAt: true,
+        metaDescription: true,
         slug: true,
-        title: true,
-        updatedAt: true,
+        draft: true,
+        publishedAt: true,
       },
     });
     if (result === null) {
@@ -179,23 +182,24 @@ export class PostControllerBase {
           },
         },
         select: {
+          id: true,
+          createdAt: true,
+          updatedAt: true,
+          title: true,
+          featuredImage: true,
+          content: true,
+
           author: {
             select: {
               id: true,
             },
           },
 
-          content: true,
-          createdAt: true,
-          draft: true,
-          featuredImage: true,
-          id: true,
-          metaDescription: true,
           metaTitle: true,
-          publishedAt: true,
+          metaDescription: true,
           slug: true,
-          title: true,
-          updatedAt: true,
+          draft: true,
+          publishedAt: true,
         },
       });
     } catch (error) {
@@ -226,23 +230,24 @@ export class PostControllerBase {
       return await this.service.deletePost({
         where: params,
         select: {
+          id: true,
+          createdAt: true,
+          updatedAt: true,
+          title: true,
+          featuredImage: true,
+          content: true,
+
           author: {
             select: {
               id: true,
             },
           },
 
-          content: true,
-          createdAt: true,
-          draft: true,
-          featuredImage: true,
-          id: true,
-          metaDescription: true,
           metaTitle: true,
-          publishedAt: true,
+          metaDescription: true,
           slug: true,
-          title: true,
-          updatedAt: true,
+          draft: true,
+          publishedAt: true,
         },
       });
     } catch (error) {
@@ -266,11 +271,11 @@ export class PostControllerBase {
     const results = await this.service.findTags(params.id, {
       ...query,
       select: {
-        createdAt: true,
         id: true,
+        createdAt: true,
+        updatedAt: true,
         name: true,
         slug: true,
-        updatedAt: true,
       },
     });
     if (results === null) {

@@ -11,19 +11,71 @@ https://docs.amplication.com/how-to/custom-code
   */
 import { ObjectType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
-import { Author } from "../../author/base/Author";
 import {
-  ValidateNested,
   IsString,
   IsDate,
-  IsBoolean,
+  MaxLength,
+  ValidateNested,
   IsOptional,
+  IsBoolean,
 } from "class-validator";
 import { Type } from "class-transformer";
+import { Author } from "../../author/base/Author";
 import { Tag } from "../../tag/base/Tag";
 
 @ObjectType()
 class Post {
+  @ApiProperty({
+    required: true,
+    type: String,
+  })
+  @IsString()
+  @Field(() => String)
+  id!: string;
+
+  @ApiProperty({
+    required: true,
+  })
+  @IsDate()
+  @Type(() => Date)
+  @Field(() => Date)
+  createdAt!: Date;
+
+  @ApiProperty({
+    required: true,
+  })
+  @IsDate()
+  @Type(() => Date)
+  @Field(() => Date)
+  updatedAt!: Date;
+
+  @ApiProperty({
+    required: true,
+    type: String,
+  })
+  @IsString()
+  @MaxLength(500)
+  @Field(() => String)
+  title!: string;
+
+  @ApiProperty({
+    required: true,
+    type: String,
+  })
+  @IsString()
+  @MaxLength(5000)
+  @Field(() => String)
+  featuredImage!: string;
+
+  @ApiProperty({
+    required: true,
+    type: String,
+  })
+  @IsString()
+  @MaxLength(99999999)
+  @Field(() => String)
+  content!: string;
+
   @ApiProperty({
     required: true,
     type: () => Author,
@@ -33,20 +85,49 @@ class Post {
   author?: Author;
 
   @ApiProperty({
-    required: true,
+    required: false,
+    type: () => [Tag],
+  })
+  @ValidateNested()
+  @Type(() => Tag)
+  @IsOptional()
+  tags?: Array<Tag>;
+
+  @ApiProperty({
+    required: false,
     type: String,
   })
   @IsString()
-  @Field(() => String)
-  content!: string;
+  @MaxLength(100)
+  @IsOptional()
+  @Field(() => String, {
+    nullable: true,
+  })
+  metaTitle!: string | null;
 
   @ApiProperty({
-    required: true,
+    required: false,
+    type: String,
   })
-  @IsDate()
-  @Type(() => Date)
-  @Field(() => Date)
-  createdAt!: Date;
+  @IsString()
+  @MaxLength(256)
+  @IsOptional()
+  @Field(() => String, {
+    nullable: true,
+  })
+  metaDescription!: string | null;
+
+  @ApiProperty({
+    required: false,
+    type: String,
+  })
+  @IsString()
+  @MaxLength(100)
+  @IsOptional()
+  @Field(() => String, {
+    nullable: true,
+  })
+  slug!: string | null;
 
   @ApiProperty({
     required: false,
@@ -60,44 +141,6 @@ class Post {
   draft!: boolean | null;
 
   @ApiProperty({
-    required: true,
-    type: String,
-  })
-  @IsString()
-  @Field(() => String)
-  featuredImage!: string;
-
-  @ApiProperty({
-    required: true,
-    type: String,
-  })
-  @IsString()
-  @Field(() => String)
-  id!: string;
-
-  @ApiProperty({
-    required: false,
-    type: String,
-  })
-  @IsString()
-  @IsOptional()
-  @Field(() => String, {
-    nullable: true,
-  })
-  metaDescription!: string | null;
-
-  @ApiProperty({
-    required: false,
-    type: String,
-  })
-  @IsString()
-  @IsOptional()
-  @Field(() => String, {
-    nullable: true,
-  })
-  metaTitle!: string | null;
-
-  @ApiProperty({
     required: false,
   })
   @IsDate()
@@ -107,42 +150,6 @@ class Post {
     nullable: true,
   })
   publishedAt!: Date | null;
-
-  @ApiProperty({
-    required: false,
-    type: String,
-  })
-  @IsString()
-  @IsOptional()
-  @Field(() => String, {
-    nullable: true,
-  })
-  slug!: string | null;
-
-  @ApiProperty({
-    required: false,
-    type: () => [Tag],
-  })
-  @ValidateNested()
-  @Type(() => Tag)
-  @IsOptional()
-  tags?: Array<Tag>;
-
-  @ApiProperty({
-    required: true,
-    type: String,
-  })
-  @IsString()
-  @Field(() => String)
-  title!: string;
-
-  @ApiProperty({
-    required: true,
-  })
-  @IsDate()
-  @Type(() => Date)
-  @Field(() => Date)
-  updatedAt!: Date;
 }
 
 export { Post as Post };

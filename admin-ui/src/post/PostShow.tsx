@@ -4,9 +4,9 @@ import {
   Show,
   SimpleShowLayout,
   ShowProps,
-  ReferenceField,
   TextField,
   DateField,
+  ReferenceField,
   BooleanField,
 } from "react-admin";
 
@@ -16,20 +16,20 @@ export const PostShow = (props: ShowProps): React.ReactElement => {
   return (
     <Show {...props}>
       <SimpleShowLayout>
+        <TextField label="ID" source="id" />
+        <DateField source="createdAt" label="Created At" />
+        <DateField source="updatedAt" label="Updated At" />
+        <TextField label="Title" source="title" />
+        <TextField label="Featured Image" source="featuredImage" />
+        <TextField label="Content" source="content" />
         <ReferenceField label="Author" source="author.id" reference="Author">
           <TextField source={AUTHOR_TITLE_FIELD} />
         </ReferenceField>
-        <TextField label="Content" source="content" />
-        <DateField source="createdAt" label="Created At" />
-        <BooleanField label="Draft" source="draft" />
-        <TextField label="Featured Image" source="featuredImage" />
-        <TextField label="ID" source="id" />
-        <TextField label="Meta Description" source="metaDescription" />
         <TextField label="Meta Title" source="metaTitle" />
-        <TextField label="Published At" source="publishedAt" />
+        <TextField label="Meta Description" source="metaDescription" />
         <TextField label="Slug" source="slug" />
-        <TextField label="Title" source="title" />
-        <DateField source="updatedAt" label="Updated At" />
+        <BooleanField label="Draft" source="draft" />
+        <TextField label="Published At" source="publishedAt" />
       </SimpleShowLayout>
     </Show>
   );

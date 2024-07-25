@@ -50,13 +50,13 @@ export class UserControllerBase {
     return await this.service.createUser({
       data: data,
       select: {
-        createdAt: true,
-        firstName: true,
         id: true,
-        lastName: true,
-        roles: true,
+        createdAt: true,
         updatedAt: true,
+        firstName: true,
+        lastName: true,
         username: true,
+        roles: true,
       },
     });
   }
@@ -78,13 +78,13 @@ export class UserControllerBase {
     return this.service.users({
       ...args,
       select: {
-        createdAt: true,
-        firstName: true,
         id: true,
-        lastName: true,
-        roles: true,
+        createdAt: true,
         updatedAt: true,
+        firstName: true,
+        lastName: true,
         username: true,
+        roles: true,
       },
     });
   }
@@ -107,13 +107,13 @@ export class UserControllerBase {
     const result = await this.service.user({
       where: params,
       select: {
-        createdAt: true,
-        firstName: true,
         id: true,
-        lastName: true,
-        roles: true,
+        createdAt: true,
         updatedAt: true,
+        firstName: true,
+        lastName: true,
         username: true,
+        roles: true,
       },
     });
     if (result === null) {
@@ -145,13 +145,13 @@ export class UserControllerBase {
         where: params,
         data: data,
         select: {
-          createdAt: true,
-          firstName: true,
           id: true,
-          lastName: true,
-          roles: true,
+          createdAt: true,
           updatedAt: true,
+          firstName: true,
+          lastName: true,
           username: true,
+          roles: true,
         },
       });
     } catch (error) {
@@ -182,13 +182,13 @@ export class UserControllerBase {
       return await this.service.deleteUser({
         where: params,
         select: {
-          createdAt: true,
-          firstName: true,
           id: true,
-          lastName: true,
-          roles: true,
+          createdAt: true,
           updatedAt: true,
+          firstName: true,
+          lastName: true,
           username: true,
+          roles: true,
         },
       });
     } catch (error) {

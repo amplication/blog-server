@@ -10,52 +10,41 @@ https://docs.amplication.com/how-to/custom-code
 ------------------------------------------------------------------------------
   */
 import { PrismaService } from "../../prisma/prisma.service";
-
 import {
   Prisma,
-  Author, // @ts-ignore
-  Post,
+  Author as PrismaAuthor,
+  Post as PrismaPost,
 } from "@prisma/client";
 
 export class AuthorServiceBase {
   constructor(protected readonly prisma: PrismaService) {}
 
-  async count<T extends Prisma.AuthorCountArgs>(
-    args: Prisma.SelectSubset<T, Prisma.AuthorCountArgs>
-  ): Promise<number> {
+  async count(args: Omit<Prisma.AuthorCountArgs, "select">): Promise<number> {
     return this.prisma.author.count(args);
   }
 
-  async authors<T extends Prisma.AuthorFindManyArgs>(
-    args: Prisma.SelectSubset<T, Prisma.AuthorFindManyArgs>
-  ): Promise<Author[]> {
+  async authors(args: Prisma.AuthorFindManyArgs): Promise<PrismaAuthor[]> {
     return this.prisma.author.findMany(args);
   }
-  async author<T extends Prisma.AuthorFindUniqueArgs>(
-    args: Prisma.SelectSubset<T, Prisma.AuthorFindUniqueArgs>
-  ): Promise<Author | null> {
+  async author(
+    args: Prisma.AuthorFindUniqueArgs
+  ): Promise<PrismaAuthor | null> {
     return this.prisma.author.findUnique(args);
   }
-  async createAuthor<T extends Prisma.AuthorCreateArgs>(
-    args: Prisma.SelectSubset<T, Prisma.AuthorCreateArgs>
-  ): Promise<Author> {
-    return this.prisma.author.create<T>(args);
+  async createAuthor(args: Prisma.AuthorCreateArgs): Promise<PrismaAuthor> {
+    return this.prisma.author.create(args);
   }
-  async updateAuthor<T extends Prisma.AuthorUpdateArgs>(
-    args: Prisma.SelectSubset<T, Prisma.AuthorUpdateArgs>
-  ): Promise<Author> {
-    return this.prisma.author.update<T>(args);
+  async updateAuthor(args: Prisma.AuthorUpdateArgs): Promise<PrismaAuthor> {
+    return this.prisma.author.update(args);
   }
-  async deleteAuthor<T extends Prisma.AuthorDeleteArgs>(
-    args: Prisma.SelectSubset<T, Prisma.AuthorDeleteArgs>
-  ): Promise<Author> {
+  async deleteAuthor(args: Prisma.AuthorDeleteArgs): Promise<PrismaAuthor> {
     return this.prisma.author.delete(args);
   }
 
   async findPosts(
     parentId: string,
     args: Prisma.PostFindManyArgs
-  ): Promise<Post[]> {
+  ): Promise<PrismaPost[]> {
     return this.prisma.author
       .findUniqueOrThrow({
         where: { id: parentId },

@@ -1,13 +1,13 @@
 import { Post } from "../post/Post";
 
 export type Author = {
-  createdAt: Date;
-  firstName: string;
   id: string;
+  createdAt: Date;
+  updatedAt: Date;
+  firstName: string;
   lastName: string | null;
-  posts?: Array<Post>;
   profileImage: string | null;
+  posts?: Array<Post>;
   slug: string | null;
   twitter: string | null;
-  updatedAt: Date;
 };

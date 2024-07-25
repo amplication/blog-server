@@ -4,8 +4,8 @@ import {
   Show,
   SimpleShowLayout,
   ShowProps,
-  DateField,
   TextField,
+  DateField,
   ReferenceManyField,
   Datagrid,
   ReferenceField,
@@ -18,16 +18,22 @@ export const AuthorShow = (props: ShowProps): React.ReactElement => {
   return (
     <Show {...props}>
       <SimpleShowLayout>
-        <DateField source="createdAt" label="Created At" />
-        <TextField label="First Name" source="firstName" />
         <TextField label="ID" source="id" />
+        <DateField source="createdAt" label="Created At" />
+        <DateField source="updatedAt" label="Updated At" />
+        <TextField label="First Name" source="firstName" />
         <TextField label="Last Name" source="lastName" />
         <TextField label="Profile Image" source="profileImage" />
         <TextField label="Slug" source="slug" />
         <TextField label="Twitter" source="twitter" />
-        <DateField source="updatedAt" label="Updated At" />
         <ReferenceManyField reference="Post" target="authorId" label="Posts">
           <Datagrid rowClick="show">
+            <TextField label="ID" source="id" />
+            <DateField source="createdAt" label="Created At" />
+            <DateField source="updatedAt" label="Updated At" />
+            <TextField label="Title" source="title" />
+            <TextField label="Featured Image" source="featuredImage" />
+            <TextField label="Content" source="content" />
             <ReferenceField
               label="Author"
               source="author.id"
@@ -35,17 +41,11 @@ export const AuthorShow = (props: ShowProps): React.ReactElement => {
             >
               <TextField source={AUTHOR_TITLE_FIELD} />
             </ReferenceField>
-            <TextField label="Content" source="content" />
-            <DateField source="createdAt" label="Created At" />
-            <BooleanField label="Draft" source="draft" />
-            <TextField label="Featured Image" source="featuredImage" />
-            <TextField label="ID" source="id" />
-            <TextField label="Meta Description" source="metaDescription" />
             <TextField label="Meta Title" source="metaTitle" />
-            <TextField label="Published At" source="publishedAt" />
+            <TextField label="Meta Description" source="metaDescription" />
             <TextField label="Slug" source="slug" />
-            <TextField label="Title" source="title" />
-            <DateField source="updatedAt" label="Updated At" />
+            <BooleanField label="Draft" source="draft" />
+            <TextField label="Published At" source="publishedAt" />
           </Datagrid>
         </ReferenceManyField>
       </SimpleShowLayout>

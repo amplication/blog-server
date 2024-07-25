@@ -18,58 +18,58 @@ import { PostService } from "../post.service";
 const nonExistingId = "nonExistingId";
 const existingId = "existingId";
 const CREATE_INPUT = {
-  content: "exampleContent",
-  createdAt: new Date(),
-  draft: "true",
-  featuredImage: "exampleFeaturedImage",
   id: "exampleId",
-  metaDescription: "exampleMetaDescription",
-  metaTitle: "exampleMetaTitle",
-  publishedAt: new Date(),
-  slug: "exampleSlug",
-  title: "exampleTitle",
+  createdAt: new Date(),
   updatedAt: new Date(),
+  title: "exampleTitle",
+  featuredImage: "exampleFeaturedImage",
+  content: "exampleContent",
+  metaTitle: "exampleMetaTitle",
+  metaDescription: "exampleMetaDescription",
+  slug: "exampleSlug",
+  draft: "true",
+  publishedAt: new Date(),
 };
 const CREATE_RESULT = {
-  content: "exampleContent",
-  createdAt: new Date(),
-  draft: "true",
-  featuredImage: "exampleFeaturedImage",
   id: "exampleId",
-  metaDescription: "exampleMetaDescription",
-  metaTitle: "exampleMetaTitle",
-  publishedAt: new Date(),
-  slug: "exampleSlug",
-  title: "exampleTitle",
+  createdAt: new Date(),
   updatedAt: new Date(),
+  title: "exampleTitle",
+  featuredImage: "exampleFeaturedImage",
+  content: "exampleContent",
+  metaTitle: "exampleMetaTitle",
+  metaDescription: "exampleMetaDescription",
+  slug: "exampleSlug",
+  draft: "true",
+  publishedAt: new Date(),
 };
 const FIND_MANY_RESULT = [
   {
-    content: "exampleContent",
-    createdAt: new Date(),
-    draft: "true",
-    featuredImage: "exampleFeaturedImage",
     id: "exampleId",
-    metaDescription: "exampleMetaDescription",
-    metaTitle: "exampleMetaTitle",
-    publishedAt: new Date(),
-    slug: "exampleSlug",
-    title: "exampleTitle",
+    createdAt: new Date(),
     updatedAt: new Date(),
+    title: "exampleTitle",
+    featuredImage: "exampleFeaturedImage",
+    content: "exampleContent",
+    metaTitle: "exampleMetaTitle",
+    metaDescription: "exampleMetaDescription",
+    slug: "exampleSlug",
+    draft: "true",
+    publishedAt: new Date(),
   },
 ];
 const FIND_ONE_RESULT = {
-  content: "exampleContent",
-  createdAt: new Date(),
-  draft: "true",
-  featuredImage: "exampleFeaturedImage",
   id: "exampleId",
-  metaDescription: "exampleMetaDescription",
-  metaTitle: "exampleMetaTitle",
-  publishedAt: new Date(),
-  slug: "exampleSlug",
-  title: "exampleTitle",
+  createdAt: new Date(),
   updatedAt: new Date(),
+  title: "exampleTitle",
+  featuredImage: "exampleFeaturedImage",
+  content: "exampleContent",
+  metaTitle: "exampleMetaTitle",
+  metaDescription: "exampleMetaDescription",
+  slug: "exampleSlug",
+  draft: "true",
+  publishedAt: new Date(),
 };
 
 const service = {
@@ -155,8 +155,8 @@ describe("Post", () => {
       .expect({
         ...CREATE_RESULT,
         createdAt: CREATE_RESULT.createdAt.toISOString(),
-        publishedAt: CREATE_RESULT.publishedAt.toISOString(),
         updatedAt: CREATE_RESULT.updatedAt.toISOString(),
+        publishedAt: CREATE_RESULT.publishedAt.toISOString(),
       });
   });
 
@@ -168,8 +168,8 @@ describe("Post", () => {
         {
           ...FIND_MANY_RESULT[0],
           createdAt: FIND_MANY_RESULT[0].createdAt.toISOString(),
-          publishedAt: FIND_MANY_RESULT[0].publishedAt.toISOString(),
           updatedAt: FIND_MANY_RESULT[0].updatedAt.toISOString(),
+          publishedAt: FIND_MANY_RESULT[0].publishedAt.toISOString(),
         },
       ]);
   });
@@ -192,8 +192,8 @@ describe("Post", () => {
       .expect({
         ...FIND_ONE_RESULT,
         createdAt: FIND_ONE_RESULT.createdAt.toISOString(),
-        publishedAt: FIND_ONE_RESULT.publishedAt.toISOString(),
         updatedAt: FIND_ONE_RESULT.updatedAt.toISOString(),
+        publishedAt: FIND_ONE_RESULT.publishedAt.toISOString(),
       });
   });
 
@@ -206,8 +206,8 @@ describe("Post", () => {
       .expect({
         ...CREATE_RESULT,
         createdAt: CREATE_RESULT.createdAt.toISOString(),
-        publishedAt: CREATE_RESULT.publishedAt.toISOString(),
         updatedAt: CREATE_RESULT.updatedAt.toISOString(),
+        publishedAt: CREATE_RESULT.publishedAt.toISOString(),
       })
       .then(function () {
         agent

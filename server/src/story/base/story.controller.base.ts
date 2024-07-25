@@ -52,7 +52,6 @@ export class StoryControllerBase {
       select: {
         content: true,
         createdAt: true,
-        customerName: true,
         draft: true,
         featuredImage: true,
         id: true,
@@ -60,9 +59,10 @@ export class StoryControllerBase {
         metaTitle: true,
         publishedAt: true,
         slug: true,
-        tag: true,
         title: true,
         updatedAt: true,
+        tag: true,
+        customerName: true,
       },
     });
   }
@@ -81,7 +81,6 @@ export class StoryControllerBase {
       select: {
         content: true,
         createdAt: true,
-        customerName: true,
         draft: true,
         featuredImage: true,
         id: true,
@@ -89,9 +88,10 @@ export class StoryControllerBase {
         metaTitle: true,
         publishedAt: true,
         slug: true,
-        tag: true,
         title: true,
         updatedAt: true,
+        tag: true,
+        customerName: true,
       },
     });
   }
@@ -111,7 +111,6 @@ export class StoryControllerBase {
       select: {
         content: true,
         createdAt: true,
-        customerName: true,
         draft: true,
         featuredImage: true,
         id: true,
@@ -119,9 +118,10 @@ export class StoryControllerBase {
         metaTitle: true,
         publishedAt: true,
         slug: true,
-        tag: true,
         title: true,
         updatedAt: true,
+        tag: true,
+        customerName: true,
       },
     });
     if (result === null) {
@@ -155,7 +155,6 @@ export class StoryControllerBase {
         select: {
           content: true,
           createdAt: true,
-          customerName: true,
           draft: true,
           featuredImage: true,
           id: true,
@@ -163,9 +162,10 @@ export class StoryControllerBase {
           metaTitle: true,
           publishedAt: true,
           slug: true,
-          tag: true,
           title: true,
           updatedAt: true,
+          tag: true,
+          customerName: true,
         },
       });
     } catch (error) {
@@ -198,7 +198,6 @@ export class StoryControllerBase {
         select: {
           content: true,
           createdAt: true,
-          customerName: true,
           draft: true,
           featuredImage: true,
           id: true,
@@ -206,9 +205,10 @@ export class StoryControllerBase {
           metaTitle: true,
           publishedAt: true,
           slug: true,
-          tag: true,
           title: true,
           updatedAt: true,
+          tag: true,
+          customerName: true,
         },
       });
     } catch (error) {

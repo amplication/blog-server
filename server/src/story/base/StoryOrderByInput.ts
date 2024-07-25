@@ -50,17 +50,6 @@ class StoryOrderByInput {
   @Field(() => SortOrder, {
     nullable: true,
   })
-  customerName?: SortOrder;
-
-  @ApiProperty({
-    required: false,
-    enum: ["asc", "desc"],
-  })
-  @IsOptional()
-  @IsEnum(SortOrder)
-  @Field(() => SortOrder, {
-    nullable: true,
-  })
   draft?: SortOrder;
 
   @ApiProperty({
@@ -138,17 +127,6 @@ class StoryOrderByInput {
   @Field(() => SortOrder, {
     nullable: true,
   })
-  tag?: SortOrder;
-
-  @ApiProperty({
-    required: false,
-    enum: ["asc", "desc"],
-  })
-  @IsOptional()
-  @IsEnum(SortOrder)
-  @Field(() => SortOrder, {
-    nullable: true,
-  })
   title?: SortOrder;
 
   @ApiProperty({
@@ -161,6 +139,28 @@ class StoryOrderByInput {
     nullable: true,
   })
   updatedAt?: SortOrder;
+
+  @ApiProperty({
+    required: false,
+    enum: ["asc", "desc"],
+  })
+  @IsOptional()
+  @IsEnum(SortOrder)
+  @Field(() => SortOrder, {
+    nullable: true,
+  })
+  tag?: SortOrder;
+
+  @ApiProperty({
+    required: false,
+    enum: ["asc", "desc"],
+  })
+  @IsOptional()
+  @IsEnum(SortOrder)
+  @Field(() => SortOrder, {
+    nullable: true,
+  })
+  customerName?: SortOrder;
 }
 
 export { StoryOrderByInput as StoryOrderByInput };

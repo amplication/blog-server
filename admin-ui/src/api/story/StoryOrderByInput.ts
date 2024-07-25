@@ -3,7 +3,6 @@ import { SortOrder } from "../../util/SortOrder";
 export type StoryOrderByInput = {
   content?: SortOrder;
   createdAt?: SortOrder;
-  customerName?: SortOrder;
   draft?: SortOrder;
   featuredImage?: SortOrder;
   id?: SortOrder;
@@ -11,7 +10,8 @@ export type StoryOrderByInput = {
   metaTitle?: SortOrder;
   publishedAt?: SortOrder;
   slug?: SortOrder;
-  tag?: SortOrder;
   title?: SortOrder;
   updatedAt?: SortOrder;
+  tag?: SortOrder;
+  customerName?: SortOrder;
 };
