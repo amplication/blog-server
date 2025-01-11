@@ -10,53 +10,40 @@ https://docs.amplication.com/how-to/custom-code
 ------------------------------------------------------------------------------
   */
 import { PrismaService } from "../../prisma/prisma.service";
-
 import {
   Prisma,
-  Post, // @ts-ignore
-  Tag, // @ts-ignore
-  Author,
+  Post as PrismaPost,
+  Tag as PrismaTag,
+  Author as PrismaAuthor,
 } from "@prisma/client";
 
 export class PostServiceBase {
   constructor(protected readonly prisma: PrismaService) {}
 
-  async count<T extends Prisma.PostCountArgs>(
-    args: Prisma.SelectSubset<T, Prisma.PostCountArgs>
-  ): Promise<number> {
+  async count(args: Omit<Prisma.PostCountArgs, "select">): Promise<number> {
     return this.prisma.post.count(args);
   }
 
-  async posts<T extends Prisma.PostFindManyArgs>(
-    args: Prisma.SelectSubset<T, Prisma.PostFindManyArgs>
-  ): Promise<Post[]> {
+  async posts(args: Prisma.PostFindManyArgs): Promise<PrismaPost[]> {
     return this.prisma.post.findMany(args);
   }
-  async post<T extends Prisma.PostFindUniqueArgs>(
-    args: Prisma.SelectSubset<T, Prisma.PostFindUniqueArgs>
-  ): Promise<Post | null> {
+  async post(args: Prisma.PostFindUniqueArgs): Promise<PrismaPost | null> {
     return this.prisma.post.findUnique(args);
   }
-  async createPost<T extends Prisma.PostCreateArgs>(
-    args: Prisma.SelectSubset<T, Prisma.PostCreateArgs>
-  ): Promise<Post> {
-    return this.prisma.post.create<T>(args);
+  async createPost(args: Prisma.PostCreateArgs): Promise<PrismaPost> {
+    return this.prisma.post.create(args);
   }
-  async updatePost<T extends Prisma.PostUpdateArgs>(
-    args: Prisma.SelectSubset<T, Prisma.PostUpdateArgs>
-  ): Promise<Post> {
-    return this.prisma.post.update<T>(args);
+  async updatePost(args: Prisma.PostUpdateArgs): Promise<PrismaPost> {
+    return this.prisma.post.update(args);
   }
-  async deletePost<T extends Prisma.PostDeleteArgs>(
-    args: Prisma.SelectSubset<T, Prisma.PostDeleteArgs>
-  ): Promise<Post> {
+  async deletePost(args: Prisma.PostDeleteArgs): Promise<PrismaPost> {
     return this.prisma.post.delete(args);
   }
 
   async findTags(
     parentId: string,
     args: Prisma.TagFindManyArgs
-  ): Promise<Tag[]> {
+  ): Promise<PrismaTag[]> {
     return this.prisma.post
       .findUniqueOrThrow({
         where: { id: parentId },
@@ -64,7 +51,7 @@ export class PostServiceBase {
       .tags(args);
   }
 
-  async getAuthor(parentId: string): Promise<Author | null> {
+  async getAuthor(parentId: string): Promise<PrismaAuthor | null> {
     return this.prisma.post
       .findUnique({
         where: { id: parentId },

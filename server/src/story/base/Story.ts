@@ -11,7 +11,13 @@ https://docs.amplication.com/how-to/custom-code
   */
 import { ObjectType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
-import { IsString, IsDate, IsOptional, IsBoolean } from "class-validator";
+import {
+  IsString,
+  MaxLength,
+  IsDate,
+  IsOptional,
+  IsBoolean,
+} from "class-validator";
 import { Type } from "class-transformer";
 
 @ObjectType()
@@ -21,6 +27,7 @@ class Story {
     type: String,
   })
   @IsString()
+  @MaxLength(256)
   @Field(() => String)
   content!: string;
 
@@ -37,6 +44,7 @@ class Story {
     type: String,
   })
   @IsString()
+  @MaxLength(1000)
   @IsOptional()
   @Field(() => String, {
     nullable: true,
@@ -59,6 +67,7 @@ class Story {
     type: String,
   })
   @IsString()
+  @MaxLength(256)
   @Field(() => String)
   featuredImage!: string;
 
@@ -75,6 +84,7 @@ class Story {
     type: String,
   })
   @IsString()
+  @MaxLength(256)
   @IsOptional()
   @Field(() => String, {
     nullable: true,
@@ -86,6 +96,7 @@ class Story {
     type: String,
   })
   @IsString()
+  @MaxLength(256)
   @IsOptional()
   @Field(() => String, {
     nullable: true,
@@ -108,6 +119,7 @@ class Story {
     type: String,
   })
   @IsString()
+  @MaxLength(256)
   @IsOptional()
   @Field(() => String, {
     nullable: true,
@@ -119,6 +131,7 @@ class Story {
     type: String,
   })
   @IsString()
+  @MaxLength(256)
   @Field(() => String)
   tag!: string;
 
@@ -127,6 +140,7 @@ class Story {
     type: String,
   })
   @IsString()
+  @MaxLength(256)
   @Field(() => String)
   title!: string;
 

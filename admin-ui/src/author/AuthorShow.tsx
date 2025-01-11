@@ -27,7 +27,7 @@ export const AuthorShow = (props: ShowProps): React.ReactElement => {
         <TextField label="Twitter" source="twitter" />
         <DateField source="updatedAt" label="Updated At" />
         <ReferenceManyField reference="Post" target="authorId" label="Posts">
-          <Datagrid rowClick="show">
+          <Datagrid rowClick="show" bulkActionButtons={false}>
             <ReferenceField
               label="Author"
               source="author.id"

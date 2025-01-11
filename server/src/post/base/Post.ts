@@ -15,6 +15,7 @@ import { Author } from "../../author/base/Author";
 import {
   ValidateNested,
   IsString,
+  MaxLength,
   IsDate,
   IsBoolean,
   IsOptional,
@@ -37,6 +38,7 @@ class Post {
     type: String,
   })
   @IsString()
+  @MaxLength(99999999)
   @Field(() => String)
   content!: string;
 
@@ -64,6 +66,7 @@ class Post {
     type: String,
   })
   @IsString()
+  @MaxLength(5000)
   @Field(() => String)
   featuredImage!: string;
 
@@ -80,6 +83,7 @@ class Post {
     type: String,
   })
   @IsString()
+  @MaxLength(256)
   @IsOptional()
   @Field(() => String, {
     nullable: true,
@@ -91,6 +95,7 @@ class Post {
     type: String,
   })
   @IsString()
+  @MaxLength(100)
   @IsOptional()
   @Field(() => String, {
     nullable: true,
@@ -113,6 +118,7 @@ class Post {
     type: String,
   })
   @IsString()
+  @MaxLength(100)
   @IsOptional()
   @Field(() => String, {
     nullable: true,
@@ -133,6 +139,7 @@ class Post {
     type: String,
   })
   @IsString()
+  @MaxLength(500)
   @Field(() => String)
   title!: string;
 

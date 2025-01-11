@@ -16,6 +16,7 @@ import {
   ValidateNested,
   IsOptional,
   IsString,
+  MaxLength,
   IsBoolean,
   IsDate,
 } from "class-validator";
@@ -41,6 +42,7 @@ class PostUpdateInput {
     type: String,
   })
   @IsString()
+  @MaxLength(99999999)
   @IsOptional()
   @Field(() => String, {
     nullable: true,
@@ -63,6 +65,7 @@ class PostUpdateInput {
     type: String,
   })
   @IsString()
+  @MaxLength(5000)
   @IsOptional()
   @Field(() => String, {
     nullable: true,
@@ -74,6 +77,7 @@ class PostUpdateInput {
     type: String,
   })
   @IsString()
+  @MaxLength(256)
   @IsOptional()
   @Field(() => String, {
     nullable: true,
@@ -85,6 +89,7 @@ class PostUpdateInput {
     type: String,
   })
   @IsString()
+  @MaxLength(100)
   @IsOptional()
   @Field(() => String, {
     nullable: true,
@@ -107,6 +112,7 @@ class PostUpdateInput {
     type: String,
   })
   @IsString()
+  @MaxLength(100)
   @IsOptional()
   @Field(() => String, {
     nullable: true,
@@ -130,6 +136,7 @@ class PostUpdateInput {
     type: String,
   })
   @IsString()
+  @MaxLength(500)
   @IsOptional()
   @Field(() => String, {
     nullable: true,

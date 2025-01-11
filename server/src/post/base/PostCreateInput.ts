@@ -15,6 +15,7 @@ import { AuthorWhereUniqueInput } from "../../author/base/AuthorWhereUniqueInput
 import {
   ValidateNested,
   IsString,
+  MaxLength,
   IsBoolean,
   IsOptional,
   IsDate,
@@ -38,6 +39,7 @@ class PostCreateInput {
     type: String,
   })
   @IsString()
+  @MaxLength(99999999)
   @Field(() => String)
   content!: string;
 
@@ -57,6 +59,7 @@ class PostCreateInput {
     type: String,
   })
   @IsString()
+  @MaxLength(5000)
   @Field(() => String)
   featuredImage!: string;
 
@@ -65,6 +68,7 @@ class PostCreateInput {
     type: String,
   })
   @IsString()
+  @MaxLength(256)
   @IsOptional()
   @Field(() => String, {
     nullable: true,
@@ -76,6 +80,7 @@ class PostCreateInput {
     type: String,
   })
   @IsString()
+  @MaxLength(100)
   @IsOptional()
   @Field(() => String, {
     nullable: true,
@@ -98,6 +103,7 @@ class PostCreateInput {
     type: String,
   })
   @IsString()
+  @MaxLength(100)
   @IsOptional()
   @Field(() => String, {
     nullable: true,
@@ -121,6 +127,7 @@ class PostCreateInput {
     type: String,
   })
   @IsString()
+  @MaxLength(500)
   @Field(() => String)
   title!: string;
 }

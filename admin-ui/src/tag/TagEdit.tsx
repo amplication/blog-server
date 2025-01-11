@@ -16,13 +16,12 @@ export const TagEdit = (props: EditProps): React.ReactElement => {
     <Edit {...props}>
       <SimpleForm>
         <TextInput label="Name" source="name" />
-        <ReferenceArrayInput
-          source="posts"
-          reference="Post"
-          parse={(value: any) => value && value.map((v: any) => ({ id: v }))}
-          format={(value: any) => value && value.map((v: any) => v.id)}
-        >
-          <SelectArrayInput optionText={PostTitle} />
+        <ReferenceArrayInput source="posts" reference="Post">
+          <SelectArrayInput
+            optionText={PostTitle}
+            parse={(value: any) => value && value.map((v: any) => ({ id: v }))}
+            format={(value: any) => value && value.map((v: any) => v.id)}
+          />
         </ReferenceArrayInput>
         <TextInput label="Slug" source="slug" />
       </SimpleForm>

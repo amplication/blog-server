@@ -11,14 +11,8 @@ import Pagination from "../Components/Pagination";
 
 export const StoryList = (props: ListProps): React.ReactElement => {
   return (
-    <List
-      {...props}
-      bulkActionButtons={false}
-      title={"Stories"}
-      perPage={50}
-      pagination={<Pagination />}
-    >
-      <Datagrid rowClick="show">
+    <List {...props} title={"Stories"} perPage={50} pagination={<Pagination />}>
+      <Datagrid rowClick="show" bulkActionButtons={false}>
         <TextField label="Content" source="content" />
         <DateField source="createdAt" label="Created At" />
         <TextField label="Customer Name" source="customerName" />
@@ -31,7 +25,7 @@ export const StoryList = (props: ListProps): React.ReactElement => {
         <TextField label="Slug" source="slug" />
         <TextField label="Tag" source="tag" />
         <TextField label="Title" source="title" />
-        <DateField source="updatedAt" label="Updated At" />
+        <DateField source="updatedAt" label="Updated At" />{" "}
       </Datagrid>
     </List>
   );

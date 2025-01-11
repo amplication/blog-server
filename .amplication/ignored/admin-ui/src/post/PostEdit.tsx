@@ -30,13 +30,12 @@ export const PostEdit = (props: EditProps): React.ReactElement => {
         <TextInput label="Meta Title" source="metaTitle" />
         <DateTimeInput label="Published At" source="publishedAt" />
         <TextInput label="Slug" source="slug" />
-        <ReferenceArrayInput
-          source="tags"
-          reference="Tag"
-          parse={(value: any) => value && value.map((v: any) => ({ id: v }))}
-          format={(value: any) => value && value.map((v: any) => v.id)}
-        >
-          <SelectArrayInput optionText={TagTitle} />
+        <ReferenceArrayInput source="tags" reference="Tag">
+          <SelectArrayInput
+            optionText={TagTitle}
+            parse={(value: any) => value && value.map((v: any) => ({ id: v }))}
+            format={(value: any) => value && value.map((v: any) => v.id)}
+          />
         </ReferenceArrayInput>
         <TextInput label="Title" multiline source="title" />
       </SimpleForm>
