@@ -37,21 +37,91 @@
     <img src="https://github.com/amplication/amplication/assets/73097785/c7ed2bbc-8954-46a1-a520-91a4711a9320.png" alt="dashboard"/>
 </p>
 
+# Table of Contents
+- [Introduction](#introduction)
+- [Repository Structure](#repository-structure)
+- [Getting Started](#getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Quick Start](#quick-start)
+  - [Detailed Instructions](#detailed-instructions)
+- [Deployment](#deployment)
+- [Learn More](#learn-more)
+
 ## Introduction
 
-`Amplication` is a robust, open-source development platform crafted to revolutionize the creation of scalable and secure Node.js applications. We eliminate repetitive coding tasks and deliver production-ready infrastructure code, meticulously tailored to your specifications and adhering to industry best practices.
+Amplication is a robust, open-source development platform crafted to revolutionize scalable and secure Node.js application creation. It eliminates repetitive coding tasks and delivers production-ready infrastructure code tailored to your specifications and industry best practices.
 
-Our user-friendly interface fosters seamless integration of APIs, data models, databases, authentication, and authorization. Built on a flexible, plugin-based architecture, Amplication allows effortless customization of the code and offers a diverse range of integrations.
+This project consists of two main components:
 
-With a strong focus on collaboration, Amplication streamlines team-oriented development, making it an ideal choice for groups of all sizes, from startups to large enterprises. Our platform enables you to concentrate on your business logic, while we handle the heavy lifting.
+- [`server`](./server/README.md): Node.js backend service (REST API, GraphQL, authentication, database access, etc.)
+- [`admin-ui`](./admin-ui/README.md): React admin dashboard (user-friendly UI, forms, permissions, and client features)
 
-Experience the fastest way to develop Node.js applications with Amplication.
+For detailed instructions of each component, refer to each subdirectory’s README.
 
+## Repository Structure
 
-This generated project consists of two components:
-- [server](./server/README.md)
-- [admin ui](./admin-ui/README.md)
+```
+blog-server/
+├── server/     # Backend Node.js application (NestJS, REST/GraphQL, Auth, etc.)
+├── admin-ui/   # Frontend admin dashboard (React + React-Admin)
+```
+
+## Getting Started
+
+### Prerequisites
+- [Node.js](https://nodejs.org/) (v16.x or higher recommended)
+- [npm](https://www.npmjs.com/) (comes with Node.js)
+- [Docker](https://www.docker.com/) (for running/initializing the database)
+
+### Quick Start
+
+#### 1. Clone the repository
+```sh
+git clone https://github.com/amplication/blog-server.git
+cd blog-server
+```
+
+#### 2. Start the backend server
+```sh
+cd server
+npm install
+npm run prisma:generate
+# Start the database for development
+npm run docker:dev
+# Initialize the database
+npm run db:init
+# Start the server
+npm run start
+```
+By default, you can log in with username `admin` and password `admin`.
+
+#### 3. Start the admin UI
+(Open a new terminal tab/window)
+```sh
+cd admin-ui
+npm install
+npm run start
+```
+The admin UI will be available by default at [http://localhost:3001](http://localhost:3001).
+
+#### 4. Environment Variables
+Both components are configured via their respective `.env` files. See their READMEs for full details and required variables.
+
+### Detailed Instructions
+- [server/README.md](./server/README.md): Configuration variables, local setup, and production/deployment options for backend.
+- [admin-ui/README.md](./admin-ui/README.md): Running, building, and configuring the frontend dashboard.
 
 ## Deployment
 
-Both the Amplication `website`, `blog server` and `blog admin-ui`, are hosted on the staging cluster aswell as the production cluster. The repository follows a similar approach to the main amplication repository, where the staging environment will be deployed by commits to `master` and the a release - i.e., a tag of a specific commit on master - will deploy to the production environment.
+Both the Amplication website, blog server, and admin UI are continuously deployed:
+- **Staging**: Automatically deployed on every commit to the `main` branch.
+- **Production**: Deployed on release/tag from `main`.
+
+This follows the deployment approach used in the main Amplication repository. Update the branch/tag as needed for your deployment strategy.
+
+---
+
+## Learn More
+- [Amplication Docs: Getting Started](https://docs.amplication.com/guides/getting-started)
+- [Amplication Website](https://amplication.com)
+- [Discord Support](https://amplication.com/discord)
