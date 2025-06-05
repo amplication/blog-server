@@ -48,10 +48,39 @@ With a strong focus on collaboration, Amplication streamlines team-oriented deve
 Experience the fastest way to develop Node.js applications with Amplication.
 
 
-This generated project consists of two components:
-- [server](./server/README.md)
-- [admin ui](./admin-ui/README.md)
+## Project Structure
+
+This generated project consists of two main components:
+- **[server](./server/README.md)**: The backend service, provides REST and GraphQL APIs, authentication, database integration, and more. See the [server/README.md](./server/README.md) for detailed local development, environment setup, and deployment instructions.
+- **[admin ui](./admin-ui/README.md)**: The React-based client-side admin interface for managing data. See the [admin-ui/README.md](./admin-ui/README.md) for configuration and usage details.
+
+## Getting Started
+
+### Backend (server)
+See [server/README.md](./server/README.md) for details. In short:
+```
+cd server
+npm install
+# Make sure .env has correct configuration
+npm run prisma:generate
+npm run docker:dev      # Start DB
+npm run db:init         # (Optional) Initialize DB
+npm run start           # Start the server
+```
+
+### Admin UI
+See [admin-ui/README.md](./admin-ui/README.md) for details. In short:
+```
+cd admin-ui
+npm install
+# Make sure .env has correct configuration
+npm run start           # Starts client at http://localhost:3001
+```
+
+Default credentials: `admin` / `admin`
 
 ## Deployment
 
-Both the Amplication `website`, `blog server` and `blog admin-ui`, are hosted on the staging cluster aswell as the production cluster. The repository follows a similar approach to the main amplication repository, where the staging environment will be deployed by commits to `master` and the a release - i.e., a tag of a specific commit on master - will deploy to the production environment.
+Both the Amplication `website`, `blog server`, and `blog admin-ui` are hosted on the staging and production clusters.
+- **Staging** is auto-deployed from commits to `master`.
+- **Production** is deployed from tagged releases on master.
