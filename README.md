@@ -1,57 +1,187 @@
-<h1 align="center">
-    <a href="https://amplication.com/#gh-light-mode-only">
-    <img src="https://github.com/amplication/amplication/blob/master/.github/assets/amplication-logo-light-mode.svg">
-    </a>
-    <a href="https://amplication.com/#gh-dark-mode-only">
-    <img src="https://github.com/amplication/amplication/blob/master/.github/assets/amplication-logo-dark-mode.svg">
-    </a>
-</h1>
+# Blog Server Monorepo
 
-<p align="center">
-  <i align="center">Instantly generate production-ready Node.js backend apps 🚀</i>
-</p>
+[![CI](https://img.shields.io/github/actions/workflow/status/amplication/blog-server/continuous-integration.yml?branch=main&style=flat-square)](https://github.com/amplication/blog-server/actions/workflows/continuous-integration.yml)
+[![Contributors](https://img.shields.io/github/contributors-anon/amplication/blog-server?color=yellow&style=flat-square)](https://github.com/amplication/blog-server/graphs/contributors)
+[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg?style=flat-square)](./LICENSE)
 
-<h4 align="center">
-  <a href="https://github.com/amplication/amplication/actions/workflows/ci.yml">
-    <img src="https://img.shields.io/github/actions/workflow/status/amplication/amplication/ci.yml?branch=master&label=pipeline&style=flat-square" alt="continuous integration">
-  </a>
-  <a href="https://github.com/amplication/amplication/graphs/contributors">
-    <img src="https://img.shields.io/github/contributors-anon/amplication/amplication?color=yellow&style=flat-square" alt="contributers">
-  </a>
-  <a href="https://opensource.org/licenses/Apache-2.0">
-    <img src="https://img.shields.io/badge/apache%202.0-blue.svg?style=flat-square&label=license" alt="license">
-  </a>
-  <br>
-  <a href="https://amplication.com/discord">
-    <img src="https://img.shields.io/badge/discord-7289da.svg?style=flat-square" alt="discord">
-  </a>
-  <a href="https://twitter.com/amplication">
-    <img src="https://img.shields.io/badge/twitter-18a1d6.svg?style=flat-square" alt="twitter">
-  </a>
-  <a href="https://www.youtube.com/c/Amplicationcom">
-    <img src="https://img.shields.io/badge/youtube-d95652.svg?style=flat-square&" alt="youtube">
-  </a>
-</h4>
+---
 
-<p align="center">
-    <img src="https://github.com/amplication/amplication/assets/73097785/c7ed2bbc-8954-46a1-a520-91a4711a9320.png" alt="dashboard"/>
-</p>
+## Table of Contents
+- [Project Overview](#project-overview)
+- [Architecture & Tech Stack](#architecture--tech-stack)
+- [Getting Started](#getting-started)
+- [Usage](#usage)
+- [Project Structure](#project-structure)
+- [Contributing](#contributing)
+- [License](#license)
+- [Contact](#contact)
 
-## Introduction
+---
 
-`Amplication` is a robust, open-source development platform crafted to revolutionize the creation of scalable and secure Node.js applications. We eliminate repetitive coding tasks and deliver production-ready infrastructure code, meticulously tailored to your specifications and adhering to industry best practices.
+## Project Overview
 
-Our user-friendly interface fosters seamless integration of APIs, data models, databases, authentication, and authorization. Built on a flexible, plugin-based architecture, Amplication allows effortless customization of the code and offers a diverse range of integrations.
+The **blog-server** project is a full-stack, production-ready open source blog platform generated with [Amplication](https://github.com/amplication/amplication). It aims to:
+- Rapidly generate secure and scalable Node.js backend and React-based admin UI.
+- Provide out-of-the-box REST & GraphQL endpoints, authentication, database, and role-based access control.
+- Offer a modern admin interface for CRUD operations.
 
-With a strong focus on collaboration, Amplication streamlines team-oriented development, making it an ideal choice for groups of all sizes, from startups to large enterprises. Our platform enables you to concentrate on your business logic, while we handle the heavy lifting.
+---
 
-Experience the fastest way to develop Node.js applications with Amplication.
+## Architecture & Tech Stack
 
+This repo is a monorepo containing:
+- **server**: Node.js backend built with [NestJS](https://nestjs.com/) and [Prisma](https://www.prisma.io/)
+- **admin-ui**: Frontend admin dashboard built with [React](https://react.dev/) and [react-admin](https://marmelab.com/react-admin/)
 
-This generated project consists of two components:
-- [server](./server/README.md)
-- [admin ui](./admin-ui/README.md)
+**Main Features:**
+- API: REST & GraphQL
+- JWT-based authentication & RBAC
+- Fully customizable, plugin-ready codebase
+- Docker support for local & production
+- Integrated continuous integration (CI) and deployment workflows
 
-## Deployment
+---
 
-Both the Amplication `website`, `blog server` and `blog admin-ui`, are hosted on the staging cluster aswell as the production cluster. The repository follows a similar approach to the main amplication repository, where the staging environment will be deployed by commits to `master` and the a release - i.e., a tag of a specific commit on master - will deploy to the production environment.
+## Getting Started
+
+### Prerequisites
+- **Node.js** v16+
+- **npm** v7+
+- **Docker** (for DB and containerized development)
+
+### Clone the Repository
+```bash
+git clone https://github.com/amplication/blog-server.git
+cd blog-server
+```
+
+### Setting Up Server
+1. **Configure environment:** Copy `.env` files for each subproject or fill with values (samples below).
+2. **Install dependencies and run server:**
+
+```bash
+cd server
+npm install
+npm run prisma:generate
+npm run docker:dev     # Start DB using Docker
+npm run db:init        # Initialize DB with schema
+npm run start          # Starts NestJS server
+```
+Server runs at http://localhost:3000
+
+#### Example `.env` for server
+```ini
+BCRYPT_SALT=10
+COMPOSE_PROJECT_NAME=amp_blog_server
+JWT_SECRET_KEY=Change_ME!!!
+JWT_EXPIRATION=2d
+PORT=3000
+DB_USER=admin
+DB_PASSWORD=admin
+DB_PORT=5432
+DB_NAME=my-db
+DB_URL=postgres://admin:admin@localhost:5432/my-db
+```
+*Change sensitive values in production!*
+
+### Setting Up Admin UI
+```bash
+cd ../admin-ui
+npm install
+npm run start
+```
+Admin UI runs at http://localhost:3001
+
+#### Example `.env` for admin-ui
+```ini
+PORT=3001
+REACT_APP_SERVER_URL=http://localhost:3000
+```
+
+---
+
+## Usage
+
+### API Endpoints (Server)
+- **REST:**
+    - `POST /api/login` (JWT Authentication)
+    - CRUD: `/api/post`, `/api/user`, `/api/story`, etc.
+- **GraphQL:**
+    - Playground at `http://localhost:3000/graphql`
+
+**Default user:**
+- Username: `admin`
+- Password: `admin`
+
+### Authentication
+- Login to get JWT (admin/admin by default)
+- Access secured endpoints with `Authorization: Bearer <token>`
+
+### CLI / npm scripts
+- In `/server`:
+    - `npm run start` – Start dev server
+    - `npm run test` – Run Jest tests
+    - `npm run db:init` – Run DB migration and seed
+    - `npm run docker:dev` – Spin up DB in Docker
+- In `/admin-ui`:
+    - `npm run start` – Start UI in dev mode
+    - `npm run build` – Production build
+    - `npm run test` – Run tests
+
+---
+
+## Project Structure
+
+```
+blog-server/
+├─ admin-ui/          # React admin client
+│  ├─ src/
+│  ├─ public/
+│  └─ ...
+├─ server/            # NestJS backend
+│  ├─ src/
+│  │   ├─ post/       # Post related features
+│  │   ├─ user/       # User features
+│  │   ├─ story/      # Story features
+│  │   ├─ tag/        # Tag features
+│  │   ├─ auth/       # Auth module & strategies
+│  │   └─ ...
+│  ├─ prisma/         # Prisma DB schema and migrations
+│  ├─ scripts/        # DB and seed scripts
+│  └─ ...
+├─ .github/           # Workflows & configs
+└─ README.md          # (this file)
+```
+
+---
+
+## Contributing
+
+We'd love your help! To contribute:
+
+- Clone and set up locally as above
+- Branch from `main` (feature/your-topic)
+- Add/fix code & tests
+- Ensure code style & lint (Prettier/NestJS/React standards)
+- Run tests:
+    - Backend (`/server`): `npm run test` (Jest)
+    - Frontend (`/admin-ui`): `npm run test` (React Testing Library)
+- [Open a pull request](https://github.com/amplication/blog-server/pulls) with a clear description
+- For issues, [open a ticket](https://github.com/amplication/blog-server/issues)
+
+---
+
+## License
+
+This project is licensed under the Apache 2.0 License. See [LICENSE](./LICENSE) for details.
+
+---
+
+## Contact
+
+- [Amplication Discord](https://amplication.com/discord)
+- [Project maintainers @amplication](https://github.com/amplication/blog-server/graphs/contributors)
+- For help/issues, please [open an issue](https://github.com/amplication/blog-server/issues)
+
+---
+*Generated with [Amplication](https://github.com/amplication/amplication)*
