@@ -37,21 +37,110 @@
     <img src="https://github.com/amplication/amplication/assets/73097785/c7ed2bbc-8954-46a1-a520-91a4711a9320.png" alt="dashboard"/>
 </p>
 
-## Introduction
+# Blog Server Monorepo
 
-`Amplication` is a robust, open-source development platform crafted to revolutionize the creation of scalable and secure Node.js applications. We eliminate repetitive coding tasks and deliver production-ready infrastructure code, meticulously tailored to your specifications and adhering to industry best practices.
+> **Instantly generate production-ready Node.js backend and admin UI with Amplication!**
 
-Our user-friendly interface fosters seamless integration of APIs, data models, databases, authentication, and authorization. Built on a flexible, plugin-based architecture, Amplication allows effortless customization of the code and offers a diverse range of integrations.
+## 🚀 Introduction
 
-With a strong focus on collaboration, Amplication streamlines team-oriented development, making it an ideal choice for groups of all sizes, from startups to large enterprises. Our platform enables you to concentrate on your business logic, while we handle the heavy lifting.
+This repository provides a scalable, full-stack solution for quickly building production-grade Node.js applications using [Amplication](https://amplication.com). It aims to reduce boilerplate, speed up onboarding, and enable robust patterns through modern best practices.
 
-Experience the fastest way to develop Node.js applications with Amplication.
+- **Zero-setup onboarding:** Built-in scripts and clear guidance for new developers
+- **Powerful, extensible monorepo:** Integrates server and admin UI projects for unified development
+- **Cloud-ready:** Structured for easy deployment and CI/CD out-of-the-box
 
+## 🗂️ Monorepo Structure
 
-This generated project consists of two components:
-- [server](./server/README.md)
-- [admin ui](./admin-ui/README.md)
+The repository uses a monorepo approach to centralize the backend server and admin UI code:
 
-## Deployment
+- [`/server`](./server/README.md) – Node.js backend/API ([see server README](./server/README.md))
+- [`/admin-ui`](./admin-ui/README.md) – React admin interface ([see admin-ui README](./admin-ui/README.md))
 
-Both the Amplication `website`, `blog server` and `blog admin-ui`, are hosted on the staging cluster aswell as the production cluster. The repository follows a similar approach to the main amplication repository, where the staging environment will be deployed by commits to `master` and the a release - i.e., a tag of a specific commit on master - will deploy to the production environment.
+Each package has its own README for detailed info, setup, and specific scripts. Please refer to those for component-level instructions.
+
+## ⚡ Quickstart (TL;DR)
+
+### 1. Clone the repo
+```sh
+git clone https://github.com/amplication/blog-server.git
+cd blog-server
+```
+
+### 2. Configure Environment Variables
+- Copy and edit `.env` files in [server](./server) and [admin-ui](./admin-ui) folders as needed. See below for a list of required environment variables.
+
+### 3. Install dependencies and run locally
+- To start all components for development:
+```sh
+# Install dependencies
+npm install --workspaces
+
+# Start server in one terminal
+cd server
+npm install
+npm run prisma:generate
+npm run docker:dev         # launches db and deps via Docker
+npm run db:init            # seeds/init DB
+npm run start              # launches API
+
+# Start admin-ui in another terminal
+cd ../admin-ui
+npm install
+npm run start              # starts React admin at http://localhost:3001
+```
+
+For more detailed instructions, see component READMEs: [server](./server/README.md), [admin-ui](./admin-ui/README.md).
+
+## 🧩 Configuration & Environment Variables
+
+**Server** (`/server`):
+| Variable             | Description                                  | Example/Default                                                     |
+| -------------------- | -------------------------------------------- | ------------------------------------------------------------------- |
+| BCRYPT_SALT          | String used for password hashing             | random-string                                                       |
+| COMPOSE_PROJECT_NAME | Compose project name prefix                  | amp_blog-server                                                     |
+| PORT                 | Port for API server                          | 3000                                                                |
+| DB_URL               | Database connection string                   | postgres://user:pw@localhost:5432/db                                |
+| DB_PORT              | DB port                                      | 5432                                                                |
+| DB_USER              | DB username                                  | user                                                                |
+| DB_PASSWORD          | DB password                                  | password                                                            |
+| DB_NAME              | Database name                                | blog-server                                                         |
+| JWT_SECRET_KEY       | JWT signing secret                           | secret                                                              |
+| JWT_EXPIRATION       | JWT expiration (e.g. 2d)                     | 2d                                                                  |
+
+**Admin UI** (`/admin-ui`):
+| Variable             | Description                                  | Example/Default                 |
+| -------------------- | -------------------------------------------- | ------------------------------- |
+| PORT                 | Port for React app                           | 3001                           |
+| REACT_APP_SERVER_URL | URL of backend API                           | http://localhost:3000           |
+
+> **Note:** Templates for environment files `.env.example` may be present. Sensitive values should come from secrets, not be checked into source!
+
+## 🚚 Deployment & CI/CD
+
+- **Branching:**
+  - `main` – Deploys automatically to staging on commit
+  - Tagged releases – Deploy to production on version tag (from `main`)
+- **CI/CD:**
+  - Automated testing and build workflows via GitHub Actions ([View workflow](https://github.com/amplication/amplication/actions/workflows/ci.yml))
+- **Environments:**
+  - Both the blog server and admin UI are hosted on staging and production clusters; configs differ by branch/tag.
+
+For full details or to update deployment settings, see your cloud provider's README or ops documentation (not included here).
+
+## 📚 Documentation & Community
+- [Amplication Docs](https://docs.amplication.com/)
+- [Main Project Site](https://amplication.com)
+- [Discord](https://amplication.com/discord)
+- [Twitter](https://twitter.com/amplication)
+- [YouTube](https://www.youtube.com/c/Amplicationcom)
+
+## 🤝 Contributing
+If you wish to contribute, please see the [contribution guidelines](CONTRIBUTING.md) if present. We welcome issues and PRs from the community!
+
+## 📄 License & Acknowledgments
+This project is licensed under the [Apache 2.0 License](https://opensource.org/licenses/Apache-2.0).<br>
+Icons, logos, and certain content &copy; Amplication.
+
+---
+
+_The README is designed for clarity and new contributor onboarding. Please open a pull request with feedback or requested changes._
