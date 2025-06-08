@@ -45,6 +45,8 @@ export class HttpExceptionFilter extends BaseExceptionFilter {
    */
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   catch(exception: Prisma.PrismaClientKnownRequestError, host: ArgumentsHost) {
+
+    //add comment
     const statusCode = this.errorCodesStatusMapping[exception.code];
     let message;
     if (host.getType() === "http") {
