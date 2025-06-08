@@ -25,7 +25,9 @@ export class HttpExceptionFilter extends BaseExceptionFilter {
    * @see https://www.prisma.io/docs/reference/api-reference/error-reference#prisma-client-query-engine
    */
   private errorCodesStatusMapping: ErrorCodesStatusMapping = {
-    P2000: HttpStatus.BAD_REQUEST,
+    P2000: HttpStatus.BAD_
+      
+      REQUEST,
     P2002: HttpStatus.CONFLICT,
     P2025: HttpStatus.NOT_FOUND,
   };
